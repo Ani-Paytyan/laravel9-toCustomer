@@ -1,0 +1,19 @@
+// Import the default variables and function
+@import "@webpixels/css/core/functions";
+
+// Theme variables
+@import "./variables";
+
+// Webpixels CSS
+@import "@webpixels/css/base";
+@import "@webpixels/css/forms";
+@import "@webpixels/css/components";
+@import "@webpixels/css/utilities";
+
+@import "select2/src/scss/core";
+@import "select2-bootstrap-5-theme/src/include-all";
+
+@import "bootstrap-icons";
+
+@import "components";
+

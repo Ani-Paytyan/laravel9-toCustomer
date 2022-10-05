@@ -1,0 +1,2 @@
+app/supervisor/supervisor.sock
+app/supervisor/supervisord.pid

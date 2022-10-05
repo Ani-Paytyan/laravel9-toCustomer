@@ -1,12 +1,3 @@
-@php
-    if ($fromSession) {
-        $message = Session::get('message')['content'] ?? '';
-        $type = Session::get('message')['type'] ?? $type;
-    } else {
-        $message = $slot;
-    }
-@endphp
-
 <div @class([
         'alert',
         "alert-$type",
@@ -16,7 +7,7 @@
     ])
     role="alert"
 >
-    {{ $message }}
+    {{ $slot }}
 
     @if($dismissible)
         <button type="button" class="btn-close text-xs text-success" data-bs-dismiss="alert" aria-label="Close"></button>

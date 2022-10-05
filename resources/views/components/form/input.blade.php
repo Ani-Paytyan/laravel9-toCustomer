@@ -10,6 +10,7 @@
 <input @class([
   'form-control',
   'is-invalid' => $controlErrors,
+  $attributes['class'] ?? null
 ]) {{ $attributes }}>
 
 @include('components.form._error')

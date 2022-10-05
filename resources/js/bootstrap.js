@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import $ from 'jquery';
+import jquery from 'jquery';
 
 window._ = _;
 

@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Services\Auth\UserProvider;
+use Illuminate\Contracts\Auth\UserProvider as UserProviderInterface;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -13,7 +15,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        $this->app->singleton(UserProviderInterface::class, UserProvider::class);
     }
 
     /**

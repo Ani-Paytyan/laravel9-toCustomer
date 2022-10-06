@@ -6,6 +6,8 @@ class IwmsApiCompanyDto
 {
     private string $id;
     private string $name;
+    private string $address;
+    private string $type;
 
     public function getId(): string
     {
@@ -18,6 +20,9 @@ class IwmsApiCompanyDto
         return $this;
     }
 
+    /**
+     * @return string
+     */
     public function getName(): string
     {
         return $this->name;
@@ -26,6 +31,40 @@ class IwmsApiCompanyDto
     public function setName(string $name): self
     {
         $this->name = $name;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getType(): string
+    {
+        return $this->type;
+    }
+
+    public function setType(string $type): self
+    {
+        $this->type = $type;
+
+        return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getAddress(): ?string
+    {
+        return $this->address;
+    }
+
+    /**
+     * @param string|null $address
+     * @return $this
+     */
+    public function setAddress(?string $address): self
+    {
+        $this->address = $address;
         return $this;
     }
 

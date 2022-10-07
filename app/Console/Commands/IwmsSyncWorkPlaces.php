@@ -2,9 +2,11 @@
 
 namespace App\Console\Commands;
 
-use App\Services\IwmsApi\IwmsApiService;
+use App\Services\IwmsApi\WorkPlace\IwmsApiWorkPlaceServiceInterface;
+use App\Services\WorkPlace\WorkPlaceServiceInterface;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Log;
 
 class IwmsSyncWorkPlaces extends Command
 {
@@ -22,16 +24,39 @@ class IwmsSyncWorkPlaces extends Command
      */
     protected $description = 'Command for sync workplaces from the IWMS';
 
-    /**
-     * Execute the console command.
-     *
-     * @return int
-     */
-    public function handle(IwmsApiService $apiService)
+
+    public function handle(IwmsApiWorkPlaceServiceInterface $apiService, WorkPlaceServiceInterface $workPlaceService)
     {
         // set token
         $apiService->setUserToken(Config::get('iwms.root_token'));
-        $this->info('start getting workplaces...');
-        // get all workplaces
+        // sync workplaces
+        try {
+            $this->info('start getting workplaces...');
+            $workPlaceService->sync($this->getWorkPlacesWithPagination($apiService));
+            $this->info('finish updating workplaces...');
+        }  catch (\Exception $e) {
+            Log::error('Sync workplaces : ' .  $e->getMessage());
+        }
+    }
+
+    /**
+     * @param IwmsApiWorkPlaceServiceInterface $apiService
+     * @return array
+     */
+    public function getWorkPlacesWithPagination(IwmsApiWorkPlaceServiceInterface $apiService): array
+    {
+        // get workPlaces
+        $result = $apiService->getWorkPlaces();
+        $pageCount = $result->getTotalPages();
+        $workPlaces[] = $result->getResults();
+
+        if ($pageCount > 1) {
+            for ($i = 2; $i <= $pageCount; $i++) {
+                $resultOtherPages = $apiService->getWorkPlaces($i);
+                $workPlaces[] = $resultOtherPages->getResults();
+            }
+        }
+
+        return array_merge([], ...$workPlaces);
     }
 }

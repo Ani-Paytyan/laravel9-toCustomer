@@ -2,6 +2,8 @@
 
 namespace App\Services\IwmsApi\Company;
 
+use App\Dto\IwmsApi\IwmsApiCompanyDto;
+use App\Dto\IwmsApi\IwmsApiPaginationResponseDto;
 use App\Services\IwmsApi\AbstractIwmsApi;
 
 class IwmsApiCompanyService extends AbstractIwmsApi implements IwmsApiCompanyServiceInterface
@@ -10,16 +12,23 @@ class IwmsApiCompanyService extends AbstractIwmsApi implements IwmsApiCompanySer
 
     /**
      * @param int|null $page
-     * @return mixed
+     * @return IwmsApiPaginationResponseDto
      */
-    public function getCompanies(?int $page = 1): mixed
+    public function getCompanies(?int $page = 1): IwmsApiPaginationResponseDto
     {
         $result = null;
+        $companies = [];
         $response = $this->getRequestBuilder()->get(self::COMPANIES_URL, ['currentPage' => $page]);
         if ($response && $response->status() === 200) {
             $result = json_decode($response->getBody()->getContents(), true);
+
+            foreach ($result['results'] as $company) {
+                $companies[] = IwmsApiCompanyDto::createFromApiResponse($company);
+            }
+
+            $result['results'] = $companies;
         }
 
-        return $result;
+        return IwmsApiPaginationResponseDto::createFromApiResponse($result);
     }
 }

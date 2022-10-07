@@ -4,5 +4,9 @@ namespace App\Services\Company;
 
 interface CompanyServiceInterface
 {
-    public function sync(array $companies);
+    /**
+     * @param array $companies
+     * @return void
+     */
+    public function sync(array $companies): void;
 }

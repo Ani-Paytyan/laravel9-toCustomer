@@ -10,18 +10,18 @@ class CompanyService implements CompanyServiceInterface
      * @param array $companies
      * @return void
      */
-    public function sync(array $companies)
+    public function sync(array $companies): void
     {
         $idCompanies = [];
         foreach ($companies as $company) {
-            $idCompanies[] = $company->id;
+            $idCompanies[] = $company->getId();
             // update or create company
             Company::withTrashed()->updateOrCreate([
-                'uuid' => $company->id
+                'uuid' => $company->getId()
             ], [
-                'name' => $company->name,
-                'type' => $company->type,
-                'address' => $company->address ?? '',
+                'name' => $company->getName(),
+                'type' => $company->getType(),
+                'address' => $company->getAddress() ?? '',
                 'deleted_at' => null
             ]);
         }

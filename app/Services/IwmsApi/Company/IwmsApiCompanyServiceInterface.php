@@ -2,9 +2,9 @@
 
 namespace App\Services\IwmsApi\Company;
 
-use App\Dto\IwmsApi\IwmsApiCompanyDto;
+use App\Dto\IwmsApi\IwmsApiPaginationResponseDto;
 
 interface IwmsApiCompanyServiceInterface
 {
-    public function getCompanies(?int $page);
+    public function getCompanies(?int $page): IwmsApiPaginationResponseDto;
 }

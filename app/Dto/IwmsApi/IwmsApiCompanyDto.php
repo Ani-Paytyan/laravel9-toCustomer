@@ -4,10 +4,10 @@ namespace App\Dto\IwmsApi;
 
 class IwmsApiCompanyDto
 {
-    public string $id;
-    public string $name;
-    public ?string $address;
-    public string $type;
+    private string $id;
+    private string $name;
+    private ?string $address;
+    private string $type;
 
     public function getId(): string
     {

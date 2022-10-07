@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Services\Company\CompanyService;
+use App\Services\Company\CompanyServiceInterface;
 use App\Services\IwmsApi\Auth\IwmsApiAuthService;
 use App\Services\IwmsApi\Auth\IwmsApiAuthServiceInterface;
 use App\Services\IwmsApi\Company\IwmsApiCompanyService;
@@ -19,6 +21,7 @@ class IwmsApiProvider extends ServiceProvider
     {
         $this->app->singleton(IwmsApiAuthServiceInterface::class, IwmsApiAuthService::class);
         $this->app->singleton(IwmsApiCompanyServiceInterface::class, IwmsApiCompanyService::class);
+        $this->app->singleton(CompanyServiceInterface::class, CompanyService::class);
     }
 
     /**

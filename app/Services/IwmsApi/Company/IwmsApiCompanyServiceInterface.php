@@ -2,7 +2,9 @@
 
 namespace App\Services\IwmsApi\Company;
 
+use App\Dto\IwmsApi\IwmsApiCompanyDto;
+
 interface IwmsApiCompanyServiceInterface
 {
-    public function sync(array $companies);
+    public function getCompanies(?int $page);
 }

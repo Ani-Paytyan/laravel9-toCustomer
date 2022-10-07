@@ -6,7 +6,7 @@ class IwmsApiCompanyDto
 {
     private string $id;
     private string $name;
-    private string $address;
+    private ?string $address;
     private string $type;
 
     public function getId(): string
@@ -72,6 +72,8 @@ class IwmsApiCompanyDto
     {
         return (new self())
             ->setId($data['id'])
-            ->setName($data['name']);
+            ->setName($data['name'])
+            ->setType($data['type'])
+            ->setAddress($data['address']);
     }
 }

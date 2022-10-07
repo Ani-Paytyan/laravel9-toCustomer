@@ -2,40 +2,33 @@
 
 namespace App\Services\IwmsApi\Company;
 
-use App\Models\Company;
-use Illuminate\Support\Facades\Log;
+use App\Dto\IwmsApi\IwmsApiCompanyDto;
+use App\Dto\IwmsApi\IwmsApiPaginationResponseDto;
+use App\Services\IwmsApi\AbstractIwmsApi;
 
-class IwmsApiCompanyService implements IwmsApiCompanyServiceInterface
+class IwmsApiCompanyService extends AbstractIwmsApi implements IwmsApiCompanyServiceInterface
 {
+    private const COMPANIES_URL =  'companies';
+
     /**
-     * @param array $companies
-     * @return void
+     * @param int|null $page
+     * @return IwmsApiPaginationResponseDto
      */
-    public function sync(array $companies)
+    public function getCompanies(?int $page = 1): IwmsApiPaginationResponseDto
     {
-        // if isset companies we checked
-        if (!empty($companies)) {
-            try {
-                $idCompanies = [];
-                foreach ($companies as $company) {
-                    $idCompanies[] = $company['id'];
-                    // update or create company
-                    Company::withTrashed()->updateOrCreate([
-                        'uuid' => $company['id']
-                    ], [
-                        'name' => $company['name'],
-                        'type' => $company['type'],
-                        'address' => $company['address'] ?? '',
-                        'deleted_at' => null
-                    ]);
-                }
-                // delete from db if not listed via API
-                if (!empty($idCompanies)) {
-                    Company::withTrashed()->whereNotIn('uuid', $idCompanies)->delete();
-                }
-            } catch (\Exception $e) {
-                Log::error('Save and Update companies : ' .  $e->getMessage());
+        $result = null;
+        $companies = [];
+        $response = $this->getRequestBuilder()->get(self::COMPANIES_URL, ['currentPage' => $page]);
+        if ($response && $response->status() === 200) {
+            $result = json_decode($response->getBody()->getContents(), true);
+
+            foreach ($result['results'] as $company) {
+                $companies[] = IwmsApiCompanyDto::createFromApiResponse($company);
             }
+
+            $result['results'] = $companies;
         }
+
+        return IwmsApiPaginationResponseDto::createFromApiResponse($result);
     }
 }

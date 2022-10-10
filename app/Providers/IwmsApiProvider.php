@@ -6,6 +6,8 @@ use App\Services\IwmsApi\Auth\IwmsApiAuthService;
 use App\Services\IwmsApi\Auth\IwmsApiAuthServiceInterface;
 use App\Services\IwmsApi\Company\IwmsApiCompanyService;
 use App\Services\IwmsApi\Company\IwmsApiCompanyServiceInterface;
+use App\Services\IwmsApi\WorkPlace\IwmsApiWorkPlaceService;
+use App\Services\IwmsApi\WorkPlace\IwmsApiWorkPlaceServiceInterface;
 use Illuminate\Support\ServiceProvider;
 
 class IwmsApiProvider extends ServiceProvider
@@ -19,6 +21,7 @@ class IwmsApiProvider extends ServiceProvider
     {
         $this->app->singleton(IwmsApiAuthServiceInterface::class, IwmsApiAuthService::class);
         $this->app->singleton(IwmsApiCompanyServiceInterface::class, IwmsApiCompanyService::class);
+        $this->app->singleton(IwmsApiWorkPlaceServiceInterface::class, IwmsApiWorkPlaceService::class);
     }
 
     /**

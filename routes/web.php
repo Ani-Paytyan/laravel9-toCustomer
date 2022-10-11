@@ -23,6 +23,6 @@ Route::get('/', [DashboardController::class, 'index'])
 
 Route::prefix('auth')->name('auth.')->group($basePath . '/auth.php');
 
-Route::group(['middleware' => ['auth', 'IwmsAuth']], static function () {
+Route::group(['middleware' => ['auth', 'SetIwmsApiToken']], static function () {
     Route::resource('employees', EmployeeController::class);
 });

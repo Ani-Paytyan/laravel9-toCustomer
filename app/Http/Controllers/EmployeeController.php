@@ -2,24 +2,43 @@
 
 namespace App\Http\Controllers;
 
-use App\Services\Contact\ContactServiceInterface;
+use App\Services\Auth\AuthServiceInterface;
 use App\Services\IwmsApi\Contact\IwmsApiContactServiceInterface;
+use App\Traits\PaginatorTrait;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\Request;
+
 
 class EmployeeController extends Controller
 {
-    protected IwmsApiContactServiceInterface $apiContactService;
-    protected ContactServiceInterface $contactService;
+    use PaginatorTrait;
 
-    public function __construct(IwmsApiContactServiceInterface $apiContactService, ContactServiceInterface $contactService)
+    protected IwmsApiContactServiceInterface $apiContactService;
+    protected AuthServiceInterface $authService;
+
+    public function __construct(IwmsApiContactServiceInterface $apiContactService, AuthServiceInterface $authService)
     {
         $this->apiContactService = $apiContactService;
-        $this->contactService = $contactService;
+        $this->authService = $authService;
     }
 
-    public function index()
+    /**
+     * @param Request $request
+     * @return Application|Factory|View
+     */
+    public function index(Request $request)
     {
-       $employees = $this->contactService->getContactsWithPagination($this->apiContactService);
+        $currentUser = $this->authService->getCurrentUser();
+        if ($currentUser) {
+            $companyId = $currentUser->getCompany()->getId() ?? '';
+        }
 
-        return view('employees.index', compact('employees'));
+        $employees = $this->apiContactService->getContacts($companyId ?? '', $request->page ?? 1);
+
+        $paginator = $this->getPaginator($request, $employees);
+
+        return view('employees.index', compact('employees', 'paginator'));
     }
 }

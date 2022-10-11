@@ -18,7 +18,7 @@
                         </tr>
                         </thead>
                         <tbody>
-                        @foreach($employees as $employee)
+                        @foreach($paginator as $employee)
                             <tr>
                                 <td>{{ $employee->getFullName() }}</td>
                                 <td>{{ $employee->getEmail() }}</td>
@@ -35,6 +35,7 @@
                     </table>
                 </div>
             </div>
+            {{ $paginator->links() }}
         </div>
     </main>
 @endsection

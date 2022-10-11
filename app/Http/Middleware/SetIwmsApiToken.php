@@ -8,17 +8,19 @@ use Closure;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Routing\Redirector;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Config;
 
-class IwmsAuth extends AuthService
+class SetIwmsApiToken extends AuthService
 {
     /**
      * @return Application|RedirectResponse|Redirector|void
      */
     public function handle($request, Closure $next)
     {
-        $currentUser = $this->getCurrentUser();
+        if (Auth::check()) {
+            Config::set('iwms.current_user_token', $this->getCurrentUser()->getToken());
 
-        if ($currentUser && $currentUser->getToken()){
             return $next($request);
         }
 

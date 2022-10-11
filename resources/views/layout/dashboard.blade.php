@@ -45,6 +45,12 @@
                                 <i class="bi bi-people"></i> Users
                             </a>
                         </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('employees.index') }}">
+                                <i class="bi bi-people"></i> {{ __('employees.employees')}}
+                            </a>
+                        </li>
                     </ul>
                 </div>
             </div>

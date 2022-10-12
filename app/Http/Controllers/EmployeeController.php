@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Dto\IwmsApi\Contact\IwmsApiContactDto;
 use App\Dto\IwmsApi\Contact\IwmsApiContactEditDto;
 use App\Http\Requests\Employee\EmployeeEditRequest;
 use App\Models\User;
@@ -46,6 +47,22 @@ class EmployeeController extends Controller
     }
 
     /**
+     *
+     * Invite a contact view
+     * @return Application|Factory|View
+     */
+    public function create()
+    {
+        $roles = [
+            User::ROLE_ADMIN,
+            User::ROLE_MANAGER,
+            User::ROLE_WORKER,
+        ];
+
+        return view('employees.invite', compact('roles'));
+    }
+
+    /**
      * @param $id
      * @return Application|Factory|View
      */
@@ -55,28 +72,51 @@ class EmployeeController extends Controller
     }
 
     /**
+     * @param Request $request
+     * @return RedirectResponse
+     */
+    public function store(Request $request): RedirectResponse
+    {
+        $currentUser = Auth::user();
+        $result = $this->apiContactService->invite(
+            IwmsApiContactDto::createForApiInvite($request->only(['email', 'role']), $currentUser->getCompany()->getId())
+        );
+
+        if ($result) {
+            return redirect()->route('employees.index')->with('toast_success', __('employees.invite_successfully'));
+        }
+
+        return redirect()->route('employees.index')->with('toast_error', __('employees.invite_error'));
+    }
+
+    /**
      * @param EmployeeEditRequest $request
      * @param $id
      * @return RedirectResponse
      */
     public function update(EmployeeEditRequest $request, $id): RedirectResponse
     {
-        $data = IwmsApiContactEditDto::createFromFormRequest($request->only([
-            'first_name',
-            'last_name',
-            'email',
-            'phone',
-            'address',
-            'city',
-            'zip'
-        ]), $id);
+        $data = IwmsApiContactEditDto::createFromFormRequest(
+            $request->only(['first_name', 'last_name', 'email', 'phone', 'address', 'city', 'zip']), $id
+        );
 
-        $result = $this->apiContactService->update($data);
-
-        if ($result) {
-            return redirect()->route('employees.index')->with('success', __('employees.update_successfully'));
+        if ($this->apiContactService->update($data)) {
+            return redirect()->route('employees.index')->with('toast_success', __('employees.update_successfully'));
         }
 
-        return redirect()->route('employees.index')->with('error', __('employees.update_error'));
+        return redirect()->route('employees.index')->with('toast_error', __('employees.update_error'));
+    }
+
+    /**
+     * @param string $id
+     * @return RedirectResponse
+     */
+    public function destroy(string $id): RedirectResponse
+    {
+        if ($this->apiContactService->destroy($id)) {
+            return redirect()->route('employees.index')->with('toast_success', __('employees.delete_successfully'));
+        }
+
+        return redirect()->route('employees.index')->with('toast_error', __('employees.delete_error'));
     }
 }

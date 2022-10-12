@@ -11,6 +11,8 @@ class IwmsApiContactService extends AbstractIwmsApi implements IwmsApiContactSer
 {
     private const CONTACTS_GET_URL =  'contacts';
     private const CONTACTS_UPDATE_URL =  'contacts/update';
+    private const CONTACTS_DELETE_URL =  'contacts/delete';
+    private const CONTACTS_INVITE_URL =  'contacts/invite';
 
     public function getContacts(string $companyId, ?int $page = 1): IwmsApiPaginationResponseDto
     {
@@ -47,6 +49,32 @@ class IwmsApiContactService extends AbstractIwmsApi implements IwmsApiContactSer
             'address' => $iwmsApiContactEditDto->getAddress(),
             'city' => $iwmsApiContactEditDto->getCity(),
             'zip' => $iwmsApiContactEditDto->getZip(),
+        ]);
+
+        return $response && $response->status() === 200;
+    }
+
+    /**
+     * @param string $id
+     * @return bool
+     */
+    public function destroy(string $id): bool
+    {
+        $response = $this->getRequestBuilder()->delete(self::CONTACTS_DELETE_URL, ['id' => $id]);
+
+        return $response && $response->status() === 200;
+    }
+
+    /**
+     * @param IwmsApiContactDto $iwmsApiContactDto
+     * @return bool
+     */
+    public function invite(IwmsApiContactDto $iwmsApiContactDto): bool
+    {
+        $response = $this->getRequestBuilder()->post(self::CONTACTS_INVITE_URL, [
+            'company_id' => $iwmsApiContactDto->getCompanyId(),
+            'email' => $iwmsApiContactDto->getEmail(),
+            'role' => $iwmsApiContactDto->getRole()
         ]);
 
         return $response && $response->status() === 200;

@@ -17,6 +17,7 @@
                                        type="text"
                                        class="form-control"
                                        id="first_name"
+                                       required
                                        placeholder="{{ __('employees.first_name') }}">
                                 <label for="first_name">{{ __('employees.first_name') }} <span class="req">*</span></label>
                             </div>
@@ -27,6 +28,7 @@
                                        type="text"
                                        class="form-control"
                                        id="last_name"
+                                       required
                                        placeholder="{{ __('employees.last_name') }}">
                                 <label for="last_name">{{ __('employees.last_name') }} <span class="req">*</span></label>
                             </div>

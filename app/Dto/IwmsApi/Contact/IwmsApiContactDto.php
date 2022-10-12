@@ -13,6 +13,7 @@ class IwmsApiContactDto
     private ?string $full_name;
     private string $status;
     private ?string $portal_access;
+    private ?string $company_id;
 
     /**
      * @return string
@@ -176,6 +177,24 @@ class IwmsApiContactDto
         return $this;
     }
 
+    /**
+     * @return string|null
+     */
+    public function getCompanyId(): ?string
+    {
+        return $this->company_id;
+    }
+
+    /**
+     * @param string|null $company_id
+     * @return $this
+     */
+    public function setCompanyId(?string $company_id): self
+    {
+        $this->company_id = $company_id;
+        return $this;
+    }
+
     public static function createFromApiResponse(array $data): self
     {
         return (new self())
@@ -187,5 +206,13 @@ class IwmsApiContactDto
             ->setFullName($data['full_name'])
             ->setStatus($data['status'])
             ->setPortalAccess($data['portal_access']);
+    }
+
+    public static function createForApiInvite(array $data, $id): self
+    {
+        return (new self())
+            ->setCompanyId($id)
+            ->setRole($data['role'])
+            ->setEmail($data['email']);
     }
 }

@@ -8,8 +8,10 @@
     @stack('headEnd')
 </head>
 <body class="background-light">
+@include('sweetalert::alert')
 @stack('bodyStart')
 @yield('page')
+
 
 <script src="{{ mix('build/js/app.js')  }}"></script>
 @stack('bodyEnd')

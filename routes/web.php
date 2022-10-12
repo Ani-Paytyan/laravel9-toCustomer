@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\EmployeeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,3 +22,7 @@ Route::get('/', [DashboardController::class, 'index'])
     ->middleware('auth');
 
 Route::prefix('auth')->name('auth.')->group($basePath . '/auth.php');
+
+Route::group(['middleware' => ['auth', 'SetIwmsApiToken']], static function () {
+    Route::resource('employees', EmployeeController::class);
+});

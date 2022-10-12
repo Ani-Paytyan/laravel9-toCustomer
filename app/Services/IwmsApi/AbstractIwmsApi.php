@@ -8,6 +8,7 @@ use Illuminate\Http\Client\PendingRequest;
 use Illuminate\Http\Client\Response;
 use Illuminate\Support\Facades\Http;
 use Psr\Http\Message\ResponseInterface;
+use Illuminate\Support\Facades\Config;
 
 abstract class AbstractIwmsApi
 {
@@ -21,6 +22,10 @@ abstract class AbstractIwmsApi
 
     protected function getUserToken(): ?string
     {
+        if (empty($this->userToken)) {
+            $this->setUserToken(Config::get('iwms.current_user_token'));
+        }
+
         return $this->userToken;
     }
 

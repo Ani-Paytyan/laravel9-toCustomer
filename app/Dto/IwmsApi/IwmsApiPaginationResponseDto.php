@@ -6,6 +6,7 @@ class IwmsApiPaginationResponseDto
 {
     private int $currentPage;
     private int $totalPages;
+    private int $perPage;
     private array $results = [];
 
     /**
@@ -45,6 +46,24 @@ class IwmsApiPaginationResponseDto
     }
 
     /**
+     * @return int
+     */
+    public function getPerPage(): int
+    {
+        return $this->perPage;
+    }
+
+    /**
+     * @param int $perPage
+     * @return $this
+     */
+    public function setPerPage(int $perPage): self
+    {
+        $this->perPage = $perPage;
+        return $this;
+    }
+
+    /**
      * @return array
      */
     public function getResults(): array
@@ -67,6 +86,7 @@ class IwmsApiPaginationResponseDto
         return (new self())
             ->setCurrentPage($data['_meta']['currentPage'])
             ->setTotalPages($data['_meta']['pageCount'])
+            ->setPerPage($data['_meta']['perPage'])
             ->setResults($data['results']);
     }
 }

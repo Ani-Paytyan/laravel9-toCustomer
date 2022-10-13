@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Dto\IwmsApi\Contact\IwmsApiContactDto;
 use App\Dto\IwmsApi\Contact\IwmsApiContactEditDto;
 use App\Http\Requests\Employee\EmployeeEditRequest;
-use App\Models\User;
 use App\Services\IwmsApi\Contact\IwmsApiContactServiceInterface;
 use App\Traits\PaginatorTrait;
 use Illuminate\Contracts\Foundation\Application;
@@ -14,6 +13,7 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 
 
 class EmployeeController extends Controller
@@ -32,18 +32,16 @@ class EmployeeController extends Controller
      */
     public function index(Request $request)
     {
-        $superAdmin = false;
         $currentUser = Auth::user();
         if ($currentUser) {
             $companyId = $currentUser->getCompany()->getId() ?? '';
-            $superAdmin = $currentUser->getRole() == User::ROLE_SUPER_ADMIN;
         }
 
         $employees = $this->apiContactService->getContacts($companyId ?? '', $request->page ?? 1);
 
         $paginator = $this->getPaginator($request, $employees);
 
-        return view('employees.index', compact('employees', 'paginator', 'superAdmin'));
+        return view('employees.index', compact('employees', 'paginator'));
     }
 
     /**
@@ -68,6 +66,8 @@ class EmployeeController extends Controller
      */
     public function edit($id)
     {
+        Gate::authorize('edit-employees');
+
         return view('employees.edit', compact('id'));
     }
 
@@ -96,14 +96,17 @@ class EmployeeController extends Controller
      */
     public function update(EmployeeEditRequest $request, $id): RedirectResponse
     {
+        Gate::authorize('edit-employees');
+
         $data = IwmsApiContactEditDto::createFromFormRequest(
             $request->only(['first_name', 'last_name', 'email', 'phone', 'address', 'city', 'zip']), $id
         );
 
-        if ($this->apiContactService->update($data)) {
-            return redirect()->route('employees.index')->with('toast_success', __('employees.update_successfully'));
-        }
+        $result = $this->apiContactService->update($data);
 
+        if ($result) {
+            return redirect()->route('employees.index')->with('toast_success', __('page.employees.update_successfully'));
+        }
         return redirect()->route('employees.index')->with('toast_error', __('employees.update_error'));
     }
 

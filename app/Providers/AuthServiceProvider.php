@@ -3,11 +3,13 @@
 namespace App\Providers;
 
 // use Illuminate\Support\Facades\Gate;
+use App\Dto\IwmsApi\IwmsApiUserDto;
 use App\Services\Auth\AuthService;
 use App\Services\Auth\AuthServiceInterface;
 use App\Services\Auth\UserProvider;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -36,6 +38,10 @@ class AuthServiceProvider extends ServiceProvider
 
         Auth::provider('iwms', function ($app, array $config) {
             return $app->make(\Illuminate\Contracts\Auth\UserProvider::class);
+        });
+
+        Gate::define('edit-employees', function (IwmsApiUserDto $user) {
+            return $user->getRole() === 'Super admin';
         });
     }
 }

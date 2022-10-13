@@ -1,6 +1,6 @@
 @extends('layout.dashboard')
 @section('title')
-    {{ __('employees.employees')}}
+    {{ __('page.employees.title')}}
 @endsection
 @section('content')
     <main class="py-6 bg-surface-secondary">
@@ -11,14 +11,12 @@
                     <table class="table table-hover table-nowrap">
                         <thead class="table-light">
                         <tr>
-                            <th scope="col">{{ __('employees.name')}}</th>
-                            <th scope="col">{{ __('employees.email')}}</th>
-                            <th scope="col">{{ __('employees.role')}}</th>
-                            <th scope="col">{{ __('employees.status')}}</th>
-                            <th scope="col">{{ __('employees.portal_access')}}</th>
-                            @if($superAdmin)
-                                <th class="text-end" scope="col">{{ __('employees.actions')}}</th>
-                            @endif
+                            <th scope="col">{{ __('attributes.user.name')}}</th>
+                            <th scope="col">{{ __('attributes.user.email')}}</th>
+                            <th scope="col">{{ __('attributes.user.role')}}</th>
+                            <th scope="col">{{ __('attributes.user.status')}}</th>
+                            <th scope="col">{{ __('attributes.employees.portal_access')}}</th>
+                            <th class="text-end" scope="col">{{ __('common.actions')}}</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -33,10 +31,10 @@
                                         <i class="bi bi-plus"></i>
                                     @endif
                                 </td>
-                                @if($superAdmin)
+                                @if(Gate::allows('edit-employees'))
                                     <td>
                                         @if ($employee->getId())
-                                            <a href="{{route('employees.edit', $employee->getId())}}" class="btn btn-sm btn-neutral"><i class="bi bi-pencil"></i>  {{ __('employees.edit')}}</a>
+                                            <a href="{{route('employees.edit', $employee->getId())}}" class="btn btn-sm btn-neutral"><i class="bi bi-pencil"></i>  {{ __('common.edit')}}</a>
                                         @endif
                                     </td>
                                 @endif

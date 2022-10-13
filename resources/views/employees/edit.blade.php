@@ -1,6 +1,6 @@
 @extends('layout.dashboard')
 @section('title')
-    {{ __('employees.edit_employee')}}
+    {{ __('page.employees.edit_employee')}}
 @endsection
 @section('content')
     <div class="container-fluid">
@@ -12,87 +12,94 @@
                     @method('PUT')
                     <div class="row mb-3 g-2">
                         <div class="col-md">
-                            <div class="form-floating">
-                                <input name="first_name"
-                                       type="text"
-                                       class="form-control"
-                                       id="first_name"
-                                       placeholder="{{ __('employees.first_name') }}">
-                                <label for="first_name">{{ __('employees.first_name') }} <span class="req">*</span></label>
-                            </div>
+                            <x-form.input
+                                name="first_name"
+                                type="text"
+                                id="first_name"
+                                required
+                                label="{{ __('attributes.user.first_name') }}"
+                                placeholder="{{ __('attributes.user.first_name') }}"
+                                class="form-control-muted"
+                            />
                         </div>
                         <div class="col-md">
-                            <div class="form-floating">
-                                <input name="last_name"
-                                       type="text"
-                                       class="form-control"
-                                       id="last_name"
-                                       placeholder="{{ __('employees.last_name') }}">
-                                <label for="last_name">{{ __('employees.last_name') }} <span class="req">*</span></label>
-                            </div>
+                            <x-form.input
+                                name="last_name"
+                                type="text"
+                                id="last_name"
+                                required
+                                label="{{ __('attributes.user.last_name') }}"
+                                placeholder="{{ __('attributes.user.last_name') }}"
+                                class="form-control-muted"
+                            />
                         </div>
                     </div>
                     <div class="row mb-3 g-2">
                         <div class="col-md">
-                            <div class="form-floating">
-                                <input name="email"
-                                       type="email"
-                                       class="form-control"
-                                       id="email"
-                                       placeholder="{{ __('employees.email') }}">
-                                <label for="email">{{ __('employees.email') }}</label>
-                            </div>
+                            <x-form.input
+                                name="email"
+                                type="email"
+                                id="email"
+                                required
+                                label="{{ __('attributes.user.email') }}"
+                                placeholder="{{ __('attributes.user.email') }}"
+                                class="form-control-muted"
+                            />
                         </div>
                     </div>
                     <div class="row mb-3 g-2">
                         <div class="col-md">
-                            <div class="form-floating">
-                                <input name="phone"
-                                       type="text"
-                                       class="form-control"
-                                       id="phone"
-                                       placeholder="{{ __('employees.phone') }}">
-                                <label for="phone">{{ __('employees.phone') }}</label>
-                            </div>
+                            <x-form.input
+                                name="phone"
+                                type="text"
+                                id="phone"
+                                required
+                                label="{{ __('attributes.user.phone') }}"
+                                placeholder="{{ __('attributes.user.phone') }}"
+                                class="form-control-muted"
+                            />
                         </div>
                     </div>
                     <div class="row mb-3 g-2">
                         <div class="col-md">
-                            <div class="form-floating">
-                                <input name="address"
-                                       type="text"
-                                       class="form-control"
-                                       id="address"
-                                       placeholder="{{ __('employees.address') }}">
-                                <label for="address">{{ __('employees.address') }}</label>
-                            </div>
+                            <x-form.input
+                                name="address"
+                                type="text"
+                                id="address"
+                                required
+                                label="{{ __('attributes.user.address') }}"
+                                placeholder="{{ __('attributes.user.address') }}"
+                                class="form-control-muted"
+                            />
                         </div>
                     </div>
                     <div class="row mb-3 g-2">
                         <div class="col-md">
-                            <div class="form-floating">
-                                <input name="city"
-                                       type="text"
-                                       class="form-control"
-                                       id="city"
-                                       placeholder="{{ __('employees.city') }}">
-                                <label for="city">{{ __('employees.city') }}</label>
-                            </div>
+                            <x-form.input
+                                name="city"
+                                type="text"
+                                id="city"
+                                required
+                                label="{{ __('attributes.user.city') }}"
+                                placeholder="{{ __('attributes.user.city') }}"
+                                class="form-control-muted"
+                            />
                         </div>
                     </div>
                     <div class="row mb-3 g-2">
                         <div class="col-md">
-                            <div class="form-floating">
-                                <input name="zip"
-                                       type="text"
-                                       class="form-control"
-                                       id="zip"
-                                       placeholder="{{ __('employees.zip') }}">
-                                <label for="zip">{{ __('employees.zip') }}</label>
-                            </div>
+                            <x-form.input
+                                name="zip"
+                                type="text"
+                                id="zip"
+                                required
+                                label="{{ __('attributes.user.zip') }}"
+                                placeholder="{{ __('attributes.user.zip') }}"
+                                class="form-control-muted"
+                            />
                         </div>
                     </div>
-                    <button type="submit" class="btn btn-success">{{ trans('employees.update') }}</button>
+                    <button type="submit" class="btn btn-success">{{ trans('common.update') }}</button>
                 </form>
             </div>
         </div>

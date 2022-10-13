@@ -1,0 +1,27 @@
+cache:
+    key: ${CI_COMMIT_REF_SLUG}
+    paths:
+        - vendor/
+
+deploy-dev:
+    stage: deploy
+    script:
+        - cd /var/www/tm/tool-metrica-customer
+        - unset USERID
+        - unset USERNAME
+        - unset USERGROUPID
+        - unset USERGROUPNAME
+        - sudo git reset --hard
+        - sudo git pull origin develop
+        - sudo chown -R tm:tm .
+        - docker-compose run --rm app composer install
+        - docker-compose run --rm app php artisan migrate
+        - docker-compose run --rm app php artisan db:seed
+        - docker-compose run --rm app php artisan storage:link
+        - docker-compose run --rm node npm install --save
+        - docker-compose run --rm node npm run dev
+        - sudo chown -R tm:tm .
+    only:
+        - develop
+    tags:
+        - dev2

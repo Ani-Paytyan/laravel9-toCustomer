@@ -40,7 +40,6 @@
                                 name="email"
                                 type="email"
                                 id="email"
-                                required
                                 label="{{ __('attributes.user.email') }}"
                                 placeholder="{{ __('attributes.user.email') }}"
                                 class="form-control-muted"
@@ -53,7 +52,6 @@
                                 name="phone"
                                 type="text"
                                 id="phone"
-                                required
                                 label="{{ __('attributes.user.phone') }}"
                                 placeholder="{{ __('attributes.user.phone') }}"
                                 class="form-control-muted"
@@ -66,7 +64,6 @@
                                 name="address"
                                 type="text"
                                 id="address"
-                                required
                                 label="{{ __('attributes.user.address') }}"
                                 placeholder="{{ __('attributes.user.address') }}"
                                 class="form-control-muted"
@@ -79,7 +76,6 @@
                                 name="city"
                                 type="text"
                                 id="city"
-                                required
                                 label="{{ __('attributes.user.city') }}"
                                 placeholder="{{ __('attributes.user.city') }}"
                                 class="form-control-muted"
@@ -92,7 +88,6 @@
                                 name="zip"
                                 type="text"
                                 id="zip"
-                                required
                                 label="{{ __('attributes.user.zip') }}"
                                 placeholder="{{ __('attributes.user.zip') }}"
                                 class="form-control-muted"

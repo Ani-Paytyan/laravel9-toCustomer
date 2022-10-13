@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Dto\IwmsApi\Contact\IwmsApiContactDto;
 use App\Dto\IwmsApi\Contact\IwmsApiContactEditDto;
+use App\Dto\IwmsApi\IwmsApiUserDto;
 use App\Http\Requests\Employee\EmployeeEditRequest;
 use App\Services\IwmsApi\Contact\IwmsApiContactServiceInterface;
 use App\Traits\PaginatorTrait;
@@ -51,10 +52,12 @@ class EmployeeController extends Controller
      */
     public function create()
     {
+        Gate::authorize('invite-employee');
+
         $roles = [
-            User::ROLE_ADMIN,
-            User::ROLE_MANAGER,
-            User::ROLE_WORKER,
+            IwmsApiUserDto::ROLE_ADMIN => IwmsApiUserDto::ROLE_ADMIN,
+            IwmsApiUserDto::ROLE_MANAGER => IwmsApiUserDto::ROLE_MANAGER,
+            IwmsApiUserDto::ROLE_WORKER => IwmsApiUserDto::ROLE_WORKER,
         ];
 
         return view('employees.invite', compact('roles'));
@@ -66,7 +69,7 @@ class EmployeeController extends Controller
      */
     public function edit($id)
     {
-        Gate::authorize('edit-employees');
+        Gate::authorize('edit-employee');
 
         return view('employees.edit', compact('id'));
     }
@@ -77,16 +80,18 @@ class EmployeeController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
+        Gate::authorize('invite-employee');
+
         $currentUser = Auth::user();
         $result = $this->apiContactService->invite(
             IwmsApiContactDto::createForApiInvite($request->only(['email', 'role']), $currentUser->getCompany()->getId())
         );
 
         if ($result) {
-            return redirect()->route('employees.index')->with('toast_success', __('employees.invite_successfully'));
+            return redirect()->route('employees.index')->with('toast_success', __('page.employees.invite_successfully'));
         }
 
-        return redirect()->route('employees.index')->with('toast_error', __('employees.invite_error'));
+        return redirect()->route('employees.index')->with('toast_error', __('page.employees.invite_error'));
     }
 
     /**
@@ -96,7 +101,7 @@ class EmployeeController extends Controller
      */
     public function update(EmployeeEditRequest $request, $id): RedirectResponse
     {
-        Gate::authorize('edit-employees');
+        Gate::authorize('edit-employee');
 
         $data = IwmsApiContactEditDto::createFromFormRequest(
             $request->only(['first_name', 'last_name', 'email', 'phone', 'address', 'city', 'zip']), $id
@@ -107,7 +112,8 @@ class EmployeeController extends Controller
         if ($result) {
             return redirect()->route('employees.index')->with('toast_success', __('page.employees.update_successfully'));
         }
-        return redirect()->route('employees.index')->with('toast_error', __('employees.update_error'));
+
+        return redirect()->route('employees.index')->with('toast_error', __('page.employees.update_error'));
     }
 
     /**
@@ -116,10 +122,12 @@ class EmployeeController extends Controller
      */
     public function destroy(string $id): RedirectResponse
     {
+        Gate::authorize('destroy-employee');
+
         if ($this->apiContactService->destroy($id)) {
-            return redirect()->route('employees.index')->with('toast_success', __('employees.delete_successfully'));
+            return redirect()->route('employees.index')->with('toast_success', __('page.employees.delete_successfully'));
         }
 
-        return redirect()->route('employees.index')->with('toast_error', __('employees.delete_error'));
+        return redirect()->route('employees.index')->with('toast_error', __('page.employees.delete_error'));
     }
 }

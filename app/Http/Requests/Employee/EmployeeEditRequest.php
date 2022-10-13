@@ -23,8 +23,8 @@ class EmployeeEditRequest extends FormRequest
     public function attributes()
     {
         return [
-            'first_name' => trans('employees.first_name'),
-            'last_name' => trans('employees.last_name'),
+            'first_name' => trans('attributes.user.first_name'),
+            'last_name' => trans('attributes.user.last_name'),
         ];
     }
 }

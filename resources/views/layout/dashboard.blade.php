@@ -52,7 +52,7 @@
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('employees.index') }}">
-                                <i class="bi bi-people"></i> {{ __('employees.employees')}}
+                                <i class="bi bi-people"></i> {{ __('page.employees.title')}}
                             </a>
                         </li>
                     </ul>

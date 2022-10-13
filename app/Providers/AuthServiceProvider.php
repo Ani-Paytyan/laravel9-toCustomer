@@ -3,11 +3,13 @@
 namespace App\Providers;
 
 // use Illuminate\Support\Facades\Gate;
+use App\Dto\IwmsApi\IwmsApiUserDto;
 use App\Services\Auth\AuthService;
 use App\Services\Auth\AuthServiceInterface;
 use App\Services\Auth\UserProvider;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -36,6 +38,21 @@ class AuthServiceProvider extends ServiceProvider
 
         Auth::provider('iwms', function ($app, array $config) {
             return $app->make(\Illuminate\Contracts\Auth\UserProvider::class);
+        });
+
+        Gate::define('invite-employee', function (IwmsApiUserDto $user) {
+            return $user->getRole() === IwmsApiUserDto::ROLE_SUPER_ADMIN
+                || $user->getRole() === IwmsApiUserDto::ROLE_ADMIN;
+        });
+
+        Gate::define('edit-employee', function (IwmsApiUserDto $user) {
+            return $user->getRole() === IwmsApiUserDto::ROLE_SUPER_ADMIN
+                || $user->getRole() === IwmsApiUserDto::ROLE_ADMIN;
+        });
+
+        Gate::define('destroy-employee', function (IwmsApiUserDto $user) {
+            return $user->getRole() === IwmsApiUserDto::ROLE_SUPER_ADMIN
+                || $user->getRole() === IwmsApiUserDto::ROLE_ADMIN;
         });
     }
 }

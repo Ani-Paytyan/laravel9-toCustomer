@@ -6,6 +6,11 @@ use Illuminate\Contracts\Auth\Authenticatable;
 
 class IwmsApiUserDto implements Authenticatable
 {
+    const ROLE_SUPER_ADMIN = "Super admin";
+    const ROLE_ADMIN = "Admin";
+    const ROLE_MANAGER = "Manager";
+    const ROLE_WORKER = "Worker";
+
     private string $id;
     private string $email;
     private string $role;
@@ -117,7 +122,6 @@ class IwmsApiUserDto implements Authenticatable
     public function getRememberTokenName()
     {
     }
-
 
     public static function createFromApiResponse(array $data): self
     {

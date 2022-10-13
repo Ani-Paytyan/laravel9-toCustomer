@@ -118,7 +118,6 @@ class IwmsApiUserDto implements Authenticatable
     {
     }
 
-
     public static function createFromApiResponse(array $data): self
     {
         return (new self())

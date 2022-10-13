@@ -1,12 +1,13 @@
 <?php
 
-namespace App\Dto\IwmsApi;
+namespace App\Dto\IwmsApi\Contact;
 
 class IwmsApiContactDto
 {
     private string $id;
     private string $role;
     private string $email;
+    private ?string $phone;
     private ?string $first_name;
     private ?string $last_name;
     private ?string $full_name;
@@ -64,6 +65,24 @@ class IwmsApiContactDto
     public function setEmail(string $email): self
     {
         $this->email = $email;
+        return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getPhone(): ?string
+    {
+        return $this->phone;
+    }
+
+    /**
+     * @param string|null $phone
+     * @return $this
+     */
+    public function setPhone(?string $phone): self
+    {
+        $this->phone = $phone;
         return $this;
     }
 

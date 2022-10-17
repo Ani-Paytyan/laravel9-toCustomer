@@ -10,6 +10,9 @@ class IwmsApiWorkPlaceEditDto
     private ?string $zip;
     private ?string $city;
     private ?string $number;
+    private ?string $companyId;
+    private ?string $status;
+    private ?string $sum_price;
 
     /**
      * @return string
@@ -120,4 +123,82 @@ class IwmsApiWorkPlaceEditDto
         return $this;
     }
 
+    /**
+     * @return string|null
+     */
+    public function getCompanyId(): ?string
+    {
+        return $this->companyId;
+    }
+
+    /**
+     * @param string|null $companyId
+     * @return $this
+     */
+    public function setCompanyId(?string $companyId): self
+    {
+        $this->companyId = $companyId;
+
+        return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getStatus(): ?string
+    {
+        return $this->status;
+    }
+
+    /**
+     * @param string|null $status
+     * @return $this
+     */
+    public function setStatus(?string $status): self
+    {
+        $this->status = $status;
+        return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getSumPrice(): ?string
+    {
+        return $this->sum_price;
+    }
+
+    /**
+     * @param string|null $sum_price
+     * @return $this
+     */
+    public function setSumPrice(?string $sum_price): self
+    {
+        $this->sum_price = $sum_price;
+        return $this;
+    }
+
+    public static function createFromApiResponse(array $data): self
+    {
+        return (new self())
+            ->setId($data['id'])
+            ->setName($data['name'])
+            ->setSumPrice($data['sum_price'])
+            ->setAddress($data['address'])
+            ->setZip($data['zip'])
+            ->setCity($data['city'])
+            ->setNumber($data['number'])
+            ->setStatus($data['status']);
+    }
+
+    public static function createForApi(array $data, string $id): self
+    {
+        return (new self())
+            ->setName($data['name'])
+            ->setId($id)
+            ->setAddress($data['address'])
+            ->setZip($data['zip'])
+            ->setCity($data['city'])
+            ->setNumber($data['number']);
+    }
 }

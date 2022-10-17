@@ -16,15 +16,15 @@ interface IwmsApiWorkPlaceServiceInterface
 
     /**
      * @param IwmsApiWorkPlaceDto $apiWorkPlaceDto
-     * @return bool
+     * @return IwmsApiWorkPlaceDto|null
      */
-    public function create(IwmsApiWorkPlaceDto $apiWorkPlaceDto): bool;
+    public function create(IwmsApiWorkPlaceDto $apiWorkPlaceDto): ?IwmsApiWorkPlaceDto;
 
     /**
      * @param IwmsApiWorkPlaceEditDto $apiWorkPlaceEditDto
-     * @return bool
+     * @return IwmsApiWorkPlaceEditDto|null
      */
-    public function update(IwmsApiWorkPlaceEditDto $apiWorkPlaceEditDto): bool;
+    public function update(IwmsApiWorkPlaceEditDto $apiWorkPlaceEditDto): ?IwmsApiWorkPlaceEditDto;
 
     /**
      * @param string $id

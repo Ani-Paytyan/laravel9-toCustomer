@@ -11,6 +11,8 @@ class IwmsApiWorkPlaceDto
     private ?string $zip;
     private ?string $city;
     private ?string $number;
+    private ?string $status;
+    private ?string $sum_price;
 
     public function getId(): string
     {
@@ -129,12 +131,64 @@ class IwmsApiWorkPlaceDto
         return $this;
     }
 
+    /**
+     * @return string|null
+     */
+    public function getStatus(): ?string
+    {
+        return $this->status;
+    }
+
+    /**
+     * @param string|null $status
+     * @return $this
+     */
+    public function setStatus(?string $status): self
+    {
+        $this->status = $status;
+        return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getSumPrice(): ?string
+    {
+        return $this->sum_price;
+    }
+
+    /**
+     * @param string|null $sum_price
+     * @return $this
+     */
+    public function setSumPrice(?string $sum_price): self
+    {
+        $this->sum_price = $sum_price;
+        return $this;
+    }
+
     public static function createFromApiResponse(array $data, string $companyId): self
     {
         return (new self())
             ->setId($data['id'])
+            ->setCompanyId($companyId)
+            ->setName($data['name'])
+            ->setAddress($data['address'])
+            ->setZip($data['zip'])
+            ->setNumber($data['number'])
+            ->setCity($data['city'])
+            ->setStatus($data['status'])
+            ->setSumPrice($data['sum_price']);
+    }
+
+    public static function createForApi(array $data, string $companyId): self
+    {
+        return (new self())
             ->setName($data['name'])
             ->setCompanyId($companyId)
-            ->setAddress($data['address']);
+            ->setAddress($data['address'])
+            ->setZip($data['zip'])
+            ->setCity($data['city'])
+            ->setNumber($data['number']);
     }
 }

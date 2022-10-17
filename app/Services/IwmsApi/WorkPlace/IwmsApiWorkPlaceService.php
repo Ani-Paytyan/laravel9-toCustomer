@@ -45,9 +45,9 @@ class IwmsApiWorkPlaceService extends AbstractIwmsApi implements IwmsApiWorkPlac
 
     /**
      * @param IwmsApiWorkPlaceDto $apiWorkPlaceDto
-     * @return bool
+     * @return IwmsApiWorkPlaceDto|null
      */
-    public function create(IwmsApiWorkPlaceDto $apiWorkPlaceDto): bool
+    public function create(IwmsApiWorkPlaceDto $apiWorkPlaceDto): ?IwmsApiWorkPlaceDto
     {
         $response = $this->getRequestBuilder()->post(self::WORK_PLACE_CREATE_URL, [
             'company_id' => $apiWorkPlaceDto->getCompanyId(),
@@ -58,25 +58,37 @@ class IwmsApiWorkPlaceService extends AbstractIwmsApi implements IwmsApiWorkPlac
             'number' => $apiWorkPlaceDto->getNumber()
         ]);
 
-        return $response && $response->status() === 200;
+        if ($response && $response->status() === 200) {
+            $result = json_decode($response->getBody()->getContents(), true);
+
+            return IwmsApiWorkPlaceDto::createFromApiResponse($result['results'], $apiWorkPlaceDto->getCompanyId());
+        }
+
+        return null;
     }
 
     /**
      * @param IwmsApiWorkPlaceEditDto $apiWorkPlaceEditDto
-     * @return bool
+     * @return IwmsApiWorkPlaceEditDto|null
      */
-    public function update(IwmsApiWorkPlaceEditDto $apiWorkPlaceEditDto): bool
+    public function update(IwmsApiWorkPlaceEditDto $apiWorkPlaceEditDto): ?IwmsApiWorkPlaceEditDto
     {
         $response = $this->getRequestBuilder()->put(self::WORK_PLACE_UPDATE_URL, [
             'id' => $apiWorkPlaceEditDto->getId(),
             'name' => $apiWorkPlaceEditDto->getName(),
             'address' => $apiWorkPlaceEditDto->getAddress(),
             'zip' => $apiWorkPlaceEditDto->getZip(),
-            'city' => $apiWorkPlaceEditDto->getAddress(),
-            'number' => $apiWorkPlaceEditDto->getCity()
+            'city' => $apiWorkPlaceEditDto->getCity(),
+            'number' => $apiWorkPlaceEditDto->getNumber()
         ]);
 
-        return $response && $response->status() === 200;
+        if ($response && $response->status() === 200) {
+            $result = json_decode($response->getBody()->getContents(), true);
+
+            return IwmsApiWorkPlaceEditDto::createFromApiResponse($result['results']);
+        }
+
+        return null;
     }
 
     /**

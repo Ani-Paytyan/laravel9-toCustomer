@@ -24,6 +24,13 @@ return [
     'workplaces' => [
         'title' => 'Work Places',
         'create' => 'Create Work Place',
+        'created_successfully' => 'Work Places created successfully',
+        'created_error' => 'Work Places not created',
+        'updated_successfully' => 'Work Places updated successfully',
+        'updated_error' => 'Work Places not updated',
+        'deleted_successfully' => 'Work Places deleted successfully',
+        'deleted_error' => 'Work Places not deleted',
+        'edit' => 'Edit Work Places',
     ]
 
 ];

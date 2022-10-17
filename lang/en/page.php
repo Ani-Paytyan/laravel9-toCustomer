@@ -21,5 +21,9 @@ return [
         'delete_successfully' => 'Contact deleted successfully',
         'delete_error' => 'Contact not deleted',
     ],
+    'workplaces' => [
+        'title' => 'Work Places',
+        'create' => 'Create Work Place',
+    ]
 
 ];

@@ -47,7 +47,7 @@
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('workplaces.index') }}">
-                                <i class="bi bi-people"></i> {{ __('workplaces.workplaces')}}
+                                <i class="bi bi-person-workspace"></i> {{ __('page.workplaces.title')}}
                             </a>
                         </li>
                         <li class="nav-item">

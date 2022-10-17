@@ -8,23 +8,26 @@
             @include('layout.partials.messages')
             @if (Gate::allows('invite-employee'))
                 <div>
-                    <a href="{{ route('employees.create') }}" class="btn btn-sm btn-success">
-                        <i class="bi bi-person"></i> {{ __('page.employees.invite_employee')}}
-                    </a>
+                    <h4>{{ __('page.employees.title')}}</h4>
+                    <div class="create-button">
+                        <a href="{{ route('employees.create') }}" class="btn btn-sm btn-success">
+                            <i class="bi bi-person"></i> {{ __('page.employees.invite_employee')}}
+                        </a>
+                    </div>
                 </div>
             @endif
             <div class="card mb-8">
                 <div class="table-responsive">
                     <table class="table table-hover table-nowrap">
-                        <thead class="table-light">
-                        <tr>
-                            <th scope="col">{{ __('attributes.user.name')}}</th>
-                            <th scope="col">{{ __('attributes.user.email')}}</th>
-                            <th scope="col">{{ __('attributes.user.role')}}</th>
-                            <th scope="col">{{ __('attributes.user.status')}}</th>
-                            <th scope="col">{{ __('attributes.employees.portal_access')}}</th>
-                            <th scope="col">{{ __('common.actions')}}</th>
-                        </tr>
+                        <thead>
+                            <tr>
+                                <th scope="col">{{ __('attributes.user.name')}}</th>
+                                <th scope="col">{{ __('attributes.user.email')}}</th>
+                                <th scope="col">{{ __('attributes.user.role')}}</th>
+                                <th scope="col">{{ __('attributes.user.status')}}</th>
+                                <th scope="col">{{ __('attributes.employees.portal_access')}}</th>
+                                <th scope="col">{{ __('common.actions')}}</th>
+                            </tr>
                         </thead>
                         <tbody>
                         @foreach($paginator as $employee)

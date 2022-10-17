@@ -40,8 +40,19 @@ class AuthServiceProvider extends ServiceProvider
             return $app->make(\Illuminate\Contracts\Auth\UserProvider::class);
         });
 
-        Gate::define('edit-employees', function (IwmsApiUserDto $user) {
-            return $user->getRole() === 'Super admin';
+        Gate::define('invite-employee', function (IwmsApiUserDto $user) {
+            return $user->getRole() === IwmsApiUserDto::ROLE_SUPER_ADMIN
+                || $user->getRole() === IwmsApiUserDto::ROLE_ADMIN;
+        });
+
+        Gate::define('edit-employee', function (IwmsApiUserDto $user) {
+            return $user->getRole() === IwmsApiUserDto::ROLE_SUPER_ADMIN
+                || $user->getRole() === IwmsApiUserDto::ROLE_ADMIN;
+        });
+
+        Gate::define('destroy-employee', function (IwmsApiUserDto $user) {
+            return $user->getRole() === IwmsApiUserDto::ROLE_SUPER_ADMIN
+                || $user->getRole() === IwmsApiUserDto::ROLE_ADMIN;
         });
     }
 }

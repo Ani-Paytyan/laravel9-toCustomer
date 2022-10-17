@@ -6,6 +6,13 @@
     <main class="py-6 bg-surface-secondary">
         <div class="container-fluid">
             @include('layout.partials.messages')
+            @if (Gate::allows('invite-employee'))
+                <div>
+                    <a href="{{ route('employees.create') }}" class="btn btn-sm btn-success">
+                        <i class="bi bi-person"></i> {{ __('page.employees.invite_employee')}}
+                    </a>
+                </div>
+            @endif
             <div class="card mb-8">
                 <div class="table-responsive">
                     <table class="table table-hover table-nowrap">
@@ -16,7 +23,7 @@
                             <th scope="col">{{ __('attributes.user.role')}}</th>
                             <th scope="col">{{ __('attributes.user.status')}}</th>
                             <th scope="col">{{ __('attributes.employees.portal_access')}}</th>
-                            <th class="text-end" scope="col">{{ __('common.actions')}}</th>
+                            <th scope="col">{{ __('common.actions')}}</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -31,13 +38,28 @@
                                         <i class="bi bi-plus"></i>
                                     @endif
                                 </td>
-                                @if(Gate::allows('edit-employees'))
-                                    <td>
-                                        @if ($employee->getId())
-                                            <a href="{{route('employees.edit', $employee->getId())}}" class="btn btn-sm btn-neutral"><i class="bi bi-pencil"></i>  {{ __('common.edit')}}</a>
+                                <td>
+                                    @if($employee->getStatus() != $employee->getStatusDeleted())
+                                        @if (Gate::allows('edit-employee'))
+                                            @if ($employee->getId())
+                                                <a href="{{ route('employees.edit', $employee->getId()) }}"
+                                                   class="btn btn-sm btn-neutral">
+                                                    <i class="bi bi-pencil"></i>
+                                                </a>
+                                            @endif
                                         @endif
-                                    </td>
-                                @endif
+                                        @if (Gate::allows('destroy-employee'))
+                                                <form method="POST"
+                                                      action="{{ route('employees.destroy', $employee->getId()) }}">
+                                                    {{ csrf_field() }}
+                                                    {{ method_field('DELETE') }}
+                                                    <button class="btn btn-sm btn-danger delete-employee">
+                                                        <i class="bi bi-trash"></i>
+                                                    </button>
+                                                </form>
+                                        @endif
+                                    @endif
+                                </td>
                             </tr>
                         @endforeach
                         </tbody>

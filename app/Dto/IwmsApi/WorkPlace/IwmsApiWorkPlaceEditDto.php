@@ -190,15 +190,4 @@ class IwmsApiWorkPlaceEditDto
             ->setNumber($data['number'])
             ->setStatus($data['status']);
     }
-
-    public static function createForApi(array $data, string $id): self
-    {
-        return (new self())
-            ->setName($data['name'])
-            ->setId($id)
-            ->setAddress($data['address'])
-            ->setZip($data['zip'])
-            ->setCity($data['city'])
-            ->setNumber($data['number']);
-    }
 }

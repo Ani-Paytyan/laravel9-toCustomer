@@ -2,18 +2,11 @@
 
 namespace App\Services\Facades;
 
-use App\Dto\IwmsApi\WorkPlace\IwmsApiWorkPlaceDto;
-use App\Dto\IwmsApi\WorkPlace\IwmsApiWorkPlaceEditDto;
-use App\Http\Requests\WorkPlace\WorkPlaceCreateRequest;
-use App\Http\Requests\WorkPlace\WorkPlaceEditRequest;
+use App\Dto\WorkPlace\WorkPlaceDto;
+use App\Dto\WorkPlace\WorkPlaceEditDto;
 use App\Models\WorkPlace;
 use App\Services\IwmsApi\WorkPlace\IwmsApiWorkPlaceServiceInterface;
 use App\Services\WorkPlace\WorkPlaceServiceInterface;
-use Illuminate\Contracts\Foundation\Application;
-use Illuminate\Contracts\View\Factory;
-use Illuminate\Contracts\View\View;
-use Illuminate\Http\RedirectResponse;
-use Illuminate\Support\Facades\Auth;
 
 class IwmsWorkPlaceFacade
 {
@@ -25,82 +18,49 @@ class IwmsWorkPlaceFacade
     }
 
     /**
-     * @return Factory|View|Application
+     * @param WorkPlaceDto $workPlaceDto
+     * @return WorkPlace|bool
      */
-    public function index(): Factory|View|Application
+    public function create(WorkPlaceDto $workPlaceDto): WorkPlace|bool
     {
-        $companyId = Auth::user()->getCompany()->getId() ?? '';
-
-        $workPlaces = WorkPlace::where('company_id', $companyId)->paginate(20);
-
-        return view('workplaces.index', compact('workPlaces'));
-    }
-
-    /**
-     * @return Factory|View|Application
-     */
-    public function create(): Factory|View|Application
-    {
-        return view('workplaces.create');
-    }
-
-    /**
-     * @param WorkPlaceCreateRequest $request
-     * @return RedirectResponse
-     */
-    public function store(WorkPlaceCreateRequest $request): RedirectResponse
-    {
-        $companyId = Auth::user()->getCompany()->getId() ?? '';
-        // send data from form to api
-        $res = $this->apiWorkPlaceService->create(IwmsApiWorkPlaceDto::createForApi($request->all(), $companyId));
+        // send data to api
+        $res = $this->apiWorkPlaceService->create($workPlaceDto);
         // if success from api we save data in DB
-        if ($res && $this->workPlaceService->create($res)) {
-            return redirect()->route('workplaces.index')->with('toast_success', __('page.workplaces.created_successfully'));
+        if ($res) {
+            return $this->workPlaceService->create($res);
         }
 
-        return redirect()->route('workplaces.index')->with('toast_error', __('page.workplaces.created_error'));
+        return false;
     }
 
     /**
-     * @param $id
-     * @return Application|Factory|View
+     * @param WorkPlaceEditDto $workPlaceEditDto
+     * @return WorkPlace|bool
      */
-    public function edit($id): View|Factory|Application
+    public function update(WorkPlaceEditDto $workPlaceEditDto): WorkPlace|bool
     {
-        $workplace = WorkPlace::where('uuid',$id)->firstOrFail();
-
-        return view('workplaces.edit', compact('workplace'));
-    }
-
-    /**
-     * @param WorkPlaceEditRequest $request
-     * @param $id
-     * @return RedirectResponse
-     */
-    public function update(WorkPlaceEditRequest $request, $id): RedirectResponse
-    {
-        // send data from form to api
-        $res = $this->apiWorkPlaceService->update(IwmsApiWorkPlaceEditDto::createForApi(
-            $request->only(['name', 'address', 'zip', 'city', 'number']), $id
-        ));
+        // send data to api
+        $res = $this->apiWorkPlaceService->update($workPlaceEditDto);
         // if success from api we update data in DB
-        if ($res && $this->workPlaceService->update($res)) {
-            return redirect()->route('workplaces.index')->with('toast_success', __('page.workplaces.updated_successfully'));
+        if ($res) {
+            return $this->workPlaceService->update($res);
         }
 
-        return redirect()->route('workplaces.index')->with('toast_error', __('page.workplaces.updated_error'));
+        return false;
     }
 
     /**
      * @param string $id
-     * @return RedirectResponse
+     * @return bool
      */
-    public function destroy(string $id): RedirectResponse
+    public function destroy(string $id): bool
     {
-        if ($this->apiWorkPlaceService->destroy($id) && $this->workPlaceService->destroy($id)) {
-            return redirect()->route('workplaces.index')->with('toast_success', __('page.workplaces.deleted_successfully'));
+        $res = $this->apiWorkPlaceService->destroy($id);
+
+        if ($res) {
+            return $this->workPlaceService->destroy($id);
         }
 
-        return redirect()->route('workplaces.index')->with('toast_error', __('page.workplaces.deleted_error'));
+        return false;
     }
 }

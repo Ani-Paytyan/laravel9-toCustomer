@@ -5,8 +5,6 @@ namespace App\Services\WorkPlace;
 use App\Dto\IwmsApi\WorkPlace\IwmsApiWorkPlaceDto;
 use App\Dto\IwmsApi\WorkPlace\IwmsApiWorkPlaceEditDto;
 use App\Models\WorkPlace;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Model;
 
 class WorkPlaceService implements WorkPlaceServiceInterface
 {
@@ -61,9 +59,9 @@ class WorkPlaceService implements WorkPlaceServiceInterface
 
     /**
      * @param IwmsApiWorkPlaceEditDto $apiWorkPlaceEditDto
-     * @return Workplace|Builder|Model|\Illuminate\Database\Query\Builder
+     * @return WorkPlace
      */
-    public function update(IwmsApiWorkPlaceEditDto $apiWorkPlaceEditDto)
+    public function update(IwmsApiWorkPlaceEditDto $apiWorkPlaceEditDto): WorkPlace
     {
         // update or create workPlace
         return WorkPlace::withTrashed()->updateOrCreate([

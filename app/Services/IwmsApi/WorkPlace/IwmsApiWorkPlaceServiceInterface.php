@@ -5,6 +5,8 @@ namespace App\Services\IwmsApi\WorkPlace;
 use App\Dto\IwmsApi\IwmsApiPaginationResponseDto;
 use App\Dto\IwmsApi\WorkPlace\IwmsApiWorkPlaceDto;
 use App\Dto\IwmsApi\WorkPlace\IwmsApiWorkPlaceEditDto;
+use App\Dto\WorkPlace\WorkPlaceDto;
+use App\Dto\WorkPlace\WorkPlaceEditDto;
 
 interface IwmsApiWorkPlaceServiceInterface
 {
@@ -15,16 +17,16 @@ interface IwmsApiWorkPlaceServiceInterface
     public function getWorkPlaces(?int $page): IwmsApiPaginationResponseDto;
 
     /**
-     * @param IwmsApiWorkPlaceDto $apiWorkPlaceDto
+     * @param WorkPlaceDto $workPlaceDto
      * @return IwmsApiWorkPlaceDto|null
      */
-    public function create(IwmsApiWorkPlaceDto $apiWorkPlaceDto): ?IwmsApiWorkPlaceDto;
+    public function create(WorkPlaceDto $workPlaceDto): ?IwmsApiWorkPlaceDto;
 
     /**
-     * @param IwmsApiWorkPlaceEditDto $apiWorkPlaceEditDto
+     * @param WorkPlaceEditDto $workPlaceEditDto
      * @return IwmsApiWorkPlaceEditDto|null
      */
-    public function update(IwmsApiWorkPlaceEditDto $apiWorkPlaceEditDto): ?IwmsApiWorkPlaceEditDto;
+    public function update(WorkPlaceEditDto $workPlaceEditDto): ?IwmsApiWorkPlaceEditDto;
 
     /**
      * @param string $id

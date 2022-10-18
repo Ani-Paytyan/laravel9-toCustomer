@@ -1,29 +1,17 @@
 <?php
 
-namespace App\Dto\IwmsApi\WorkPlace;
+namespace App\Dto\WorkPlace;
 
-class IwmsApiWorkPlaceDto
+use App\Http\Requests\WorkPlace\WorkPlaceCreateRequest;
+
+class WorkPlaceDto
 {
-    private string $id;
     private string $name;
     private string $companyId;
     private ?string $address;
     private ?string $zip;
     private ?string $city;
     private ?string $number;
-    private ?string $status;
-    private ?string $sum_price;
-
-    public function getId(): string
-    {
-        return $this->id;
-    }
-
-    public function setId(string $id): self
-    {
-        $this->id = $id;
-        return $this;
-    }
 
     /**
      * @return string
@@ -131,53 +119,14 @@ class IwmsApiWorkPlaceDto
         return $this;
     }
 
-    /**
-     * @return string|null
-     */
-    public function getStatus(): ?string
-    {
-        return $this->status;
-    }
-
-    /**
-     * @param string|null $status
-     * @return $this
-     */
-    public function setStatus(?string $status): self
-    {
-        $this->status = $status;
-        return $this;
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getSumPrice(): ?string
-    {
-        return $this->sum_price;
-    }
-
-    /**
-     * @param string|null $sum_price
-     * @return $this
-     */
-    public function setSumPrice(?string $sum_price): self
-    {
-        $this->sum_price = $sum_price;
-        return $this;
-    }
-
-    public static function createFromApiResponse(array $data, string $companyId): self
+    public static function createFromRequest(WorkPlaceCreateRequest $request, string $companyId): self
     {
         return (new self())
-            ->setId($data['id'])
+            ->setName($request->get('name'))
             ->setCompanyId($companyId)
-            ->setName($data['name'])
-            ->setAddress($data['address'])
-            ->setZip($data['zip'])
-            ->setNumber($data['number'])
-            ->setCity($data['city'])
-            ->setStatus($data['status'])
-            ->setSumPrice($data['sum_price']);
+            ->setAddress($request->get('address'))
+            ->setZip($request->get('zip'))
+            ->setCity($request->get('city'))
+            ->setNumber($request->get('number'));
     }
 }

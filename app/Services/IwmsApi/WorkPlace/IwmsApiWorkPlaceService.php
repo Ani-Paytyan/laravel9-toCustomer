@@ -5,6 +5,8 @@ namespace App\Services\IwmsApi\WorkPlace;
 use App\Dto\IwmsApi\IwmsApiPaginationResponseDto;
 use App\Dto\IwmsApi\WorkPlace\IwmsApiWorkPlaceDto;
 use App\Dto\IwmsApi\WorkPlace\IwmsApiWorkPlaceEditDto;
+use App\Dto\WorkPlace\WorkPlaceDto;
+use App\Dto\WorkPlace\WorkPlaceEditDto;
 use App\Models\Company;
 use App\Services\IwmsApi\AbstractIwmsApi;
 
@@ -44,42 +46,42 @@ class IwmsApiWorkPlaceService extends AbstractIwmsApi implements IwmsApiWorkPlac
     }
 
     /**
-     * @param IwmsApiWorkPlaceDto $apiWorkPlaceDto
+     * @param WorkPlaceDto $workPlaceDto
      * @return IwmsApiWorkPlaceDto|null
      */
-    public function create(IwmsApiWorkPlaceDto $apiWorkPlaceDto): ?IwmsApiWorkPlaceDto
+    public function create(WorkPlaceDto $workPlaceDto): ?IwmsApiWorkPlaceDto
     {
         $response = $this->getRequestBuilder()->post(self::WORK_PLACE_CREATE_URL, [
-            'company_id' => $apiWorkPlaceDto->getCompanyId(),
-            'name' => $apiWorkPlaceDto->getName(),
-            'address' => $apiWorkPlaceDto->getAddress(),
-            'zip' => $apiWorkPlaceDto->getZip(),
-            'city' => $apiWorkPlaceDto->getCity(),
-            'number' => $apiWorkPlaceDto->getNumber()
+            'company_id' => $workPlaceDto->getCompanyId(),
+            'name' => $workPlaceDto->getName(),
+            'address' => $workPlaceDto->getAddress(),
+            'zip' => $workPlaceDto->getZip(),
+            'city' => $workPlaceDto->getCity(),
+            'number' => $workPlaceDto->getNumber()
         ]);
 
         if ($response && $response->status() === 200) {
             $result = json_decode($response->getBody()->getContents(), true);
 
-            return IwmsApiWorkPlaceDto::createFromApiResponse($result['results'], $apiWorkPlaceDto->getCompanyId());
+            return IwmsApiWorkPlaceDto::createFromApiResponse($result['results'], $workPlaceDto->getCompanyId());
         }
 
         return null;
     }
 
     /**
-     * @param IwmsApiWorkPlaceEditDto $apiWorkPlaceEditDto
+     * @param WorkPlaceEditDto $workPlaceEditDto
      * @return IwmsApiWorkPlaceEditDto|null
      */
-    public function update(IwmsApiWorkPlaceEditDto $apiWorkPlaceEditDto): ?IwmsApiWorkPlaceEditDto
+    public function update(WorkPlaceEditDto $workPlaceEditDto): ?IwmsApiWorkPlaceEditDto
     {
         $response = $this->getRequestBuilder()->put(self::WORK_PLACE_UPDATE_URL, [
-            'id' => $apiWorkPlaceEditDto->getId(),
-            'name' => $apiWorkPlaceEditDto->getName(),
-            'address' => $apiWorkPlaceEditDto->getAddress(),
-            'zip' => $apiWorkPlaceEditDto->getZip(),
-            'city' => $apiWorkPlaceEditDto->getCity(),
-            'number' => $apiWorkPlaceEditDto->getNumber()
+            'id' => $workPlaceEditDto->getId(),
+            'name' => $workPlaceEditDto->getName(),
+            'address' => $workPlaceEditDto->getAddress(),
+            'zip' => $workPlaceEditDto->getZip(),
+            'city' => $workPlaceEditDto->getCity(),
+            'number' => $workPlaceEditDto->getNumber()
         ]);
 
         if ($response && $response->status() === 200) {

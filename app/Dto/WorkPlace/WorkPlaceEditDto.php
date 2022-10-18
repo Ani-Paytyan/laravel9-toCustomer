@@ -1,8 +1,10 @@
 <?php
 
-namespace App\Dto\IwmsApi\WorkPlace;
+namespace App\Dto\WorkPlace;
 
-class IwmsApiWorkPlaceDto
+use App\Http\Requests\WorkPlace\WorkPlaceEditRequest;
+
+class WorkPlaceEditDto
 {
     private string $id;
     private string $name;
@@ -11,8 +13,6 @@ class IwmsApiWorkPlaceDto
     private ?string $zip;
     private ?string $city;
     private ?string $number;
-    private ?string $status;
-    private ?string $sum_price;
 
     public function getId(): string
     {
@@ -36,25 +36,6 @@ class IwmsApiWorkPlaceDto
     public function setName(string $name): self
     {
         $this->name = $name;
-
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getCompanyId(): string
-    {
-        return $this->companyId;
-    }
-
-    /**
-     * @param string $companyId
-     * @return $this
-     */
-    public function setCompanyId(string $companyId): self
-    {
-        $this->companyId = $companyId;
 
         return $this;
     }
@@ -131,53 +112,14 @@ class IwmsApiWorkPlaceDto
         return $this;
     }
 
-    /**
-     * @return string|null
-     */
-    public function getStatus(): ?string
-    {
-        return $this->status;
-    }
-
-    /**
-     * @param string|null $status
-     * @return $this
-     */
-    public function setStatus(?string $status): self
-    {
-        $this->status = $status;
-        return $this;
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getSumPrice(): ?string
-    {
-        return $this->sum_price;
-    }
-
-    /**
-     * @param string|null $sum_price
-     * @return $this
-     */
-    public function setSumPrice(?string $sum_price): self
-    {
-        $this->sum_price = $sum_price;
-        return $this;
-    }
-
-    public static function createFromApiResponse(array $data, string $companyId): self
+    public static function createFromRequest(WorkPlaceEditRequest $request, $id): self
     {
         return (new self())
-            ->setId($data['id'])
-            ->setCompanyId($companyId)
-            ->setName($data['name'])
-            ->setAddress($data['address'])
-            ->setZip($data['zip'])
-            ->setNumber($data['number'])
-            ->setCity($data['city'])
-            ->setStatus($data['status'])
-            ->setSumPrice($data['sum_price']);
+            ->setName($request->get('name'))
+            ->setId($id)
+            ->setAddress($request->get('address'))
+            ->setZip($request->get('zip'))
+            ->setCity($request->get('city'))
+            ->setNumber($request->get('number'));
     }
 }

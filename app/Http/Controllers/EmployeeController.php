@@ -40,10 +40,9 @@ class EmployeeController extends Controller
      */
     public function index(Request $request)
     {
-        $companyId = $this->user->getCompany()->getId();
         $userId = $this->user->getId();
 
-        $employees = $this->apiContactService->getContacts($companyId ?? '', $request->page ?? 1);
+        $employees = $this->apiContactService->getContacts($this->user->getCompany()->getId(), $request->page ?? 1);
 
         $paginator = $this->getPaginator($request, $employees);
 

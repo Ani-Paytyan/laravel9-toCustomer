@@ -15,6 +15,8 @@ interface IwmsApiContactServiceInterface
      */
     public function getContacts(string $companyId, ?int $page): IwmsApiPaginationResponseDto;
 
+    public function getContact(string $companyId, string $id); //:IwmsApiContactDto
+
     /**
      * @param IwmsApiContactEditDto $iwmsApiContactEditDto
      * @return bool

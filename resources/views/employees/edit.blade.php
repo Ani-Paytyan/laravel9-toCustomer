@@ -23,6 +23,7 @@
                                 label="{{ __('attributes.user.first_name') }}"
                                 placeholder="{{ __('attributes.user.first_name') }}"
                                 class="form-control-muted"
+                                value="{{ $employee->getFirstName() }}"
                             />
                         </div>
                         <div class="col-md">
@@ -34,6 +35,7 @@
                                 label="{{ __('attributes.user.last_name') }}"
                                 placeholder="{{ __('attributes.user.last_name') }}"
                                 class="form-control-muted"
+                                value="{{ $employee->getLastName() }}"
                             />
                         </div>
                     </div>
@@ -46,6 +48,7 @@
                                 label="{{ __('attributes.user.email') }}"
                                 placeholder="{{ __('attributes.user.email') }}"
                                 class="form-control-muted"
+                                value="{{ $employee->getEmail() }}"
                             />
                         </div>
                     </div>

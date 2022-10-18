@@ -35,14 +35,25 @@ class IwmsApiContactService extends AbstractIwmsApi implements IwmsApiContactSer
         return IwmsApiPaginationResponseDto::createFromApiResponse($result);
     }
 
-    public function getContact(string $companyId, string $id)
+    /**
+     * @param string $companyId
+     * @param string $id
+     * @return IwmsApiContactDto|null
+     */
+    public function getContact(string $companyId, string $id): ?IwmsApiContactDto
     {
         $response = $this->getRequestBuilder()->get(self::CONTACTS_GET_URL, [
             'company_id' => $companyId,
             'id' => $id,
         ]);
 
-      //  return IwmsApiContactDto
+        if ($response && $response->status() === 200) {
+            $result = json_decode($response->getBody()->getContents(), true);
+
+            return IwmsApiContactDto::createFromApiResponse($result['results'][0]);
+        }
+
+        return null;
     }
 
     /**

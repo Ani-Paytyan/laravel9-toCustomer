@@ -75,7 +75,9 @@ class EmployeeController extends Controller
     {
         Gate::authorize('edit-employee');
 
-        return view('employees.edit', compact('id'));
+        $employee = $this->apiContactService->getContact($this->user->getCompany()->getId(), $id);
+
+        return view('employees.edit', compact('id', 'employee'));
     }
 
     /**

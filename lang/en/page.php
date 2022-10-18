@@ -25,5 +25,11 @@ return [
         'title' => 'Teams',
         'create' => 'Create team',
         'edit' => 'Edit team',
+        'created_successfully' => 'Team created successfully',
+        'created_error' => 'Team not created',
+        'updated_successfully' => 'Team updated successfully',
+        'updated_error' => 'Team not updated',
+        'deleted_successfully' => 'Team deleted successfully',
+        'deleted_error' => 'Team not deleted',
     ],
 ];

@@ -9,7 +9,7 @@ services:
             dockerfile: 'Dockerfile'
             args:
                 USERID: '${USERID}'
-                USERNAME: '${APPUSERNAME}'
+                USERNAME: '${USERNAME}'
                 USERGROUPID: '${USERGROUPID}'
                 USERGROUPNAME: '${USERGROUPNAME}'
                 #SSH_PRIVATE_KEY: '$(cat ~/.ssh/id_rsa)'

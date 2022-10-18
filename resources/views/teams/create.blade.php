@@ -10,7 +10,7 @@
                 <div class="page-title">
                     <h3>{{ __('page.teams.create')}}</h3>
                 </div>
-                <form method="POST" action="{{ route("team.store") }}">
+                <form method="POST" action="{{ route("teams.store") }}">
                     @csrf
                     @method('POST')
                     <div class="row mb-3 g-2">
@@ -29,9 +29,9 @@
                     <div class="row mb-3 g-2">
                         <div class="col-md">
                             <x-form.input
-                                name="address"
+                                name="description"
                                 type="text"
-                                id="address"
+                                id="description"
                                 label="{{ __('attributes.team.description') }}"
                                 placeholder="{{ __('attributes.team.description') }}"
                                 class="form-control-muted"

@@ -9,8 +9,8 @@ interface TeamServiceInterface
 {
     public function create(TeamCreateDto $dto): Team;
 
-    public function update(TeamUpdateDto $dto): Team;
+    public function update(TeamUpdateDto $dto): bool;
 
-    public function delete(Team $team): bool;
+    public function destroy(string $id): bool;
 
 }

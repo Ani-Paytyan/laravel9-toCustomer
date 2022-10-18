@@ -5,22 +5,44 @@ namespace App\Services\Team;
 use App\Dto\Team\TeamCreateDto;
 use App\Dto\Team\TeamUpdateDto;
 use App\Models\Team;
+use Illuminate\Support\Str;
 
 class TeamService implements TeamServiceInterface
 {
 
+    /**
+     * @param TeamCreateDto $dto
+     * @return Team
+     */
     public function create(TeamCreateDto $dto): Team
     {
-        // TODO: Implement create() method.
+        return Team::create([
+            'uuid' => Str::uuid()->toString(),
+            'name' => $dto->getName(),
+            'description' => $dto->getDescription(),
+        ]);
+
     }
 
-    public function update(TeamUpdateDto $dto): Team
+    /**
+     * @param TeamUpdateDto $dto
+     * @return bool
+     */
+    public function update(TeamUpdateDto $dto): bool
     {
-        // TODO: Implement update() method.
+        return Team::findOrFail($dto->getId())->update([
+            'name' => $dto->getName(),
+            'description' => $dto->getDescription(),
+        ]);
     }
 
-    public function delete(Team $team): bool
+    /**
+     * @param string $id
+     * @return bool
+     */
+
+    public function destroy(string $id): bool
     {
-        // TODO: Implement delete() method.
+        return Team::destroy($id);
     }
 }

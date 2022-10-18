@@ -59,6 +59,6 @@ class TeamUpdateDto
         return (new self())
             ->setId($id)
             ->setName($request->get('name'))
-            ->setDescription($request->get('address'));
+            ->setDescription($request->get('description'));
     }
 }

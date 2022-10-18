@@ -9,7 +9,7 @@
             <div>
                 <h4>{{ __('page.teams.title')}}</h4>
                 <div class="create-button">
-                    <a href="{{ route('team.create') }}" class="btn btn-sm btn-success">
+                    <a href="{{ route('teams.create') }}" class="btn btn-sm btn-success">
                         <i class="bi bi-person"></i> {{ __('page.teams.create')}}
                     </a>
                 </div>
@@ -30,12 +30,12 @@
                                 <td>{{ $team->name }}</td>
                                 <td>{{ $team->description }}</td>
                                 <td>
-                                    <a href="{{ route('team.edit', $team->uuid) }}"
+                                    <a href="{{ route('teams.edit', $team->uuid) }}"
                                        class="btn btn-sm btn-neutral">
                                         <i class="bi bi-pencil"></i>
                                     </a>
                                     <form method="POST"
-                                          action="{{ route('team.destroy', $team->uuid) }}">
+                                          action="{{ route('teams.destroy', $team->uuid) }}">
                                         {{ csrf_field() }}
                                         {{ method_field('DELETE') }}
                                         <button class="btn btn-sm btn-danger delete-employee">

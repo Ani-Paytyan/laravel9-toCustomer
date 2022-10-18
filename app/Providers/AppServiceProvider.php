@@ -5,6 +5,8 @@ namespace App\Providers;
 use App\Services\Auth\UserProvider;
 use App\Services\Company\CompanyService;
 use App\Services\Company\CompanyServiceInterface;
+use App\Services\Team\TeamService;
+use App\Services\Team\TeamServiceInterface;
 use App\Services\WorkPlace\WorkPlaceService;
 use App\Services\WorkPlace\WorkPlaceServiceInterface;
 use Illuminate\Contracts\Auth\UserProvider as UserProviderInterface;
@@ -22,6 +24,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->singleton(CompanyServiceInterface::class, CompanyService::class);
         $this->app->singleton(UserProviderInterface::class, UserProvider::class);
         $this->app->singleton(WorkPlaceServiceInterface::class, WorkPlaceService::class);
+        $this->app->singleton(TeamServiceInterface::class, TeamService::class);
     }
 
     /**

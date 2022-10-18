@@ -36,16 +36,10 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">
-                                <i class="bi bi-bookmarks"></i> Collections
+                            <a class="nav-link" href="{{ route('team.index') }}">
+                                <i class="bi bi-people"></i> {{ __('page.teams.title') }}
                             </a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">
-                                <i class="bi bi-people"></i> Users
-                            </a>
-                        </li>
-
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('employees.index') }}">
                                 <i class="bi bi-people"></i> {{ __('page.employees.title')}}

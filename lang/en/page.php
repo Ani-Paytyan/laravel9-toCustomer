@@ -21,5 +21,9 @@ return [
         'delete_successfully' => 'Contact deleted successfully',
         'delete_error' => 'Contact not deleted',
     ],
-
+    'teams' => [
+        'title' => 'Teams',
+        'create' => 'Create team',
+        'edit' => 'Edit team',
+    ],
 ];

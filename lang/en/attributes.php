@@ -17,4 +17,7 @@ return [
     'employees' => [
         'portal_access' => 'Portal Access',
     ],
+    'team' => [
+        'description' => 'Description',
+    ],
 ];

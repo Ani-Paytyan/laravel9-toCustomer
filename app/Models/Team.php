@@ -10,7 +10,7 @@ class Team extends Model
 {
     use HasFactory, SoftDeletes;
 
-    public $table = 'companies';
+    public $table = 'teams';
 
     protected $primaryKey = 'uuid';
 

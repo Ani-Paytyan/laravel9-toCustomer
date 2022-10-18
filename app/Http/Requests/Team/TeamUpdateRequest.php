@@ -4,7 +4,7 @@ namespace App\Http\Requests\Team;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class TeamStoreRequest extends FormRequest
+class TeamUpdateRequest extends FormRequest
 {
     /**
      * Get the validation rules that apply to the request.

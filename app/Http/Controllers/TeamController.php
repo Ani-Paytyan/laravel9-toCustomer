@@ -12,15 +12,30 @@ use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Auth;
 
 class TeamController extends Controller
 {
+    protected $user;
+    protected $companyId;
+
+    public function __construct()
+    {
+        $this->middleware(function ($request, $next) {
+            $this->user = Auth::user();
+            $this->companyId = Auth::user()->getCompany()->getId();
+
+            return $next($request);
+        });
+
+    }
+
     /**
      * @return Application|Factory|View
      */
     public function index()
     {
-        $teams = Team::orderBy('name', 'ASC')->paginate(20);
+        $teams = Team::where('company_id', $this->companyId)->orderBy('name', 'ASC')->paginate(20);
 
         return view('teams.index', compact('teams'));
     }
@@ -40,7 +55,7 @@ class TeamController extends Controller
      */
     public function store(TeamStoreRequest $request, TeamServiceInterface $teamService): RedirectResponse
     {
-        $storeDto = TeamCreateDto::createFromRequest($request);
+        $storeDto = TeamCreateDto::createFromRequest($request, $this->companyId);
 
         if ($teamService->create($storeDto)) {
             return redirect()->route('teams.index')->with('toast_success', __('page.teams.created_successfully'));

@@ -15,6 +15,7 @@ return new class extends Migration
     {
         Schema::create('teams', function (Blueprint $table) {
             $table->uuid()->primary();
+            $table->uuid('company_id');
             $table->string('name');
             $table->text('description')->nullable();
             $table->timestamps();

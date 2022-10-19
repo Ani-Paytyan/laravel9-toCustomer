@@ -7,6 +7,7 @@ use App\Http\Requests\Team\TeamUpdateRequest;
 class TeamUpdateDto
 {
     private string $id;
+    private string $companyId;
     private string $name;
     private ?string $description;
 
@@ -18,6 +19,25 @@ class TeamUpdateDto
     public function setId(string $id): self
     {
         $this->id = $id;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCompanyId(): string
+    {
+        return $this->companyId;
+    }
+
+    /**
+     * @param string $companyId
+     * @return $this
+     */
+    public function setCompanyId(string $companyId): self
+    {
+        $this->companyId = $companyId;
+
         return $this;
     }
 

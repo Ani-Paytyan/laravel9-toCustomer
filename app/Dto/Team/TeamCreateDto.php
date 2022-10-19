@@ -8,6 +8,7 @@ class TeamCreateDto
 {
     private string $name;
     private ?string $description;
+    private string $companyId;
 
     /**
      * @return string
@@ -20,6 +21,25 @@ class TeamCreateDto
     public function setName(string $name): self
     {
         $this->name = $name;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCompanyId(): string
+    {
+        return $this->companyId;
+    }
+
+    /**
+     * @param string $companyId
+     * @return $this
+     */
+    public function setCompanyId(string $companyId): self
+    {
+        $this->companyId = $companyId;
 
         return $this;
     }
@@ -42,10 +62,11 @@ class TeamCreateDto
         return $this;
     }
 
-    public static function createFromRequest(TeamStoreRequest $request): self
+    public static function createFromRequest(TeamStoreRequest $request, $companyId): self
     {
         return (new self())
             ->setName($request->get('name'))
+            ->setCompanyId($companyId)
             ->setDescription($request->get('description'));
     }
 }

@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Dto\WorkPlace\WorkPlaceDto;
-use App\Dto\WorkPlace\WorkPlaceEditDto;
+use App\Dto\IwmsApi\WorkPlace\IwmsApiWorkPlaceDto;
+use App\Dto\IwmsApi\WorkPlace\IwmsApiWorkPlaceEditDto;
 use App\Http\Requests\WorkPlace\WorkPlaceCreateRequest;
 use App\Http\Requests\WorkPlace\WorkPlaceEditRequest;
 use App\Models\WorkPlace;
@@ -21,7 +21,6 @@ class WorkPlaceController extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth');
         $this->middleware(function ($request, $next) {
             $this->user = Auth::user();
             $this->companyId = Auth::user()->getCompany()->getId();
@@ -55,9 +54,9 @@ class WorkPlaceController extends Controller
      */
     public function store(WorkPlaceCreateRequest $request, IwmsWorkPlaceFacade $iwmsWorkPlaceFacade): RedirectResponse
     {
-        $storeDto = WorkPlaceDto::createFromRequest($request, $this->companyId);
+        $iwmsApiWorkPlaceDto = IwmsApiWorkPlaceDto::createFromRequest($request->all(), $this->companyId);
 
-        if ($iwmsWorkPlaceFacade->create($storeDto)) {
+        if ($iwmsWorkPlaceFacade->create($iwmsApiWorkPlaceDto)) {
             return redirect()->route('workplaces.index')->with('toast_success', __('page.workplaces.created_successfully'));
         }
 
@@ -65,28 +64,25 @@ class WorkPlaceController extends Controller
     }
 
     /**
-     * @param $id
-     * @return Application|Factory|View
+     * @param WorkPlace $workplace
+     * @return View|Factory|Application
      */
-    public function edit($id): View|Factory|Application
+    public function edit(WorkPlace $workplace): View|Factory|Application
     {
-        $workplace = WorkPlace::where('uuid', $id)->firstOrFail();
-
         return view('workplaces.edit', compact('workplace'));
     }
-
 
     /**
      * @param WorkPlaceEditRequest $request
      * @param IwmsWorkPlaceFacade $iwmsWorkPlaceFacade
-     * @param $id
+     * @param WorkPlace $workplace
      * @return RedirectResponse
      */
-    public function update(WorkPlaceEditRequest $request, IwmsWorkPlaceFacade $iwmsWorkPlaceFacade, $id): RedirectResponse
+    public function update(WorkPlaceEditRequest $request, IwmsWorkPlaceFacade $iwmsWorkPlaceFacade, WorkPlace $workplace): RedirectResponse
     {
-        $updateDto = WorkPlaceEditDto::createFromRequest($request, $id);
+        $iwmsApiWorkPlaceEditDto = IwmsApiWorkPlaceEditDto::createFromRequest($request->all(), $workplace->uuid);
 
-        if ($iwmsWorkPlaceFacade->update($updateDto)) {
+        if ($iwmsWorkPlaceFacade->update($iwmsApiWorkPlaceEditDto)) {
             return redirect()->route('workplaces.index')->with('toast_success', __('page.workplaces.updated_successfully'));
         }
 
@@ -95,12 +91,12 @@ class WorkPlaceController extends Controller
 
     /**
      * @param IwmsWorkPlaceFacade $iwmsWorkPlaceFacade
-     * @param $id
+     * @param WorkPlace $workplace
      * @return RedirectResponse
      */
-    public function destroy(IwmsWorkPlaceFacade $iwmsWorkPlaceFacade, $id): RedirectResponse
+    public function destroy(IwmsWorkPlaceFacade $iwmsWorkPlaceFacade, WorkPlace $workplace): RedirectResponse
     {
-        if ($iwmsWorkPlaceFacade->destroy($id)) {
+        if ($iwmsWorkPlaceFacade->destroy($workplace, $workplace->uuid)) {
             return redirect()->route('workplaces.index')->with('toast_success', __('page.workplaces.deleted_successfully'));
         }
 

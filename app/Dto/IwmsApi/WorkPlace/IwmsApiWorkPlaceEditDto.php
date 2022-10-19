@@ -190,4 +190,15 @@ class IwmsApiWorkPlaceEditDto
             ->setNumber($data['number'])
             ->setStatus($data['status']);
     }
+
+    public static function createFromRequest(array $data, string $id): self
+    {
+        return (new self())
+            ->setId($id)
+            ->setName($data['name'])
+            ->setAddress($data['address'])
+            ->setZip($data['zip'])
+            ->setCity($data['city'])
+            ->setNumber($data['number']);
+    }
 }

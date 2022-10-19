@@ -2,8 +2,8 @@
 
 namespace App\Services\WorkPlace;
 
-use App\Dto\IwmsApi\WorkPlace\IwmsApiWorkPlaceDto;
-use App\Dto\IwmsApi\WorkPlace\IwmsApiWorkPlaceEditDto;
+use App\Dto\WorkPlace\WorkPlaceDto;
+use App\Dto\WorkPlace\WorkPlaceEditDto;
 use App\Models\WorkPlace;
 
 interface WorkPlaceServiceInterface
@@ -14,13 +14,13 @@ interface WorkPlaceServiceInterface
      */
     public function sync(array $workPlaces): void;
 
-    public function create(IwmsApiWorkPlaceDto $apiWorkPlaceDto): WorkPlace;
+    public function create(WorkPlaceDto $workPlaceDto): WorkPlace;
 
-    public function update(IwmsApiWorkPlaceEditDto $apiWorkPlaceEditDto): WorkPlace;
+    public function update(WorkPlaceEditDto $workPlaceEditDto): WorkPlace;
 
     /**
-     * @param string $id
+     * @param WorkPlace $workplace
      * @return bool
      */
-    public function destroy(string $id): bool;
+    public function destroy(WorkPlace $workplace): bool;
 }

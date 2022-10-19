@@ -17,16 +17,16 @@ interface IwmsApiWorkPlaceServiceInterface
     public function getWorkPlaces(?int $page): IwmsApiPaginationResponseDto;
 
     /**
-     * @param WorkPlaceDto $workPlaceDto
+     * @param IwmsApiWorkPlaceDto $apiWorkPlaceDto
      * @return IwmsApiWorkPlaceDto|null
      */
-    public function create(WorkPlaceDto $workPlaceDto): ?IwmsApiWorkPlaceDto;
+    public function create(IwmsApiWorkPlaceDto $apiWorkPlaceDto): ?IwmsApiWorkPlaceDto;
 
     /**
-     * @param WorkPlaceEditDto $workPlaceEditDto
+     * @param IwmsApiWorkPlaceEditDto $apiWorkPlaceEditDto
      * @return IwmsApiWorkPlaceEditDto|null
      */
-    public function update(WorkPlaceEditDto $workPlaceEditDto): ?IwmsApiWorkPlaceEditDto;
+    public function update(IwmsApiWorkPlaceEditDto $apiWorkPlaceEditDto): ?IwmsApiWorkPlaceEditDto;
 
     /**
      * @param string $id

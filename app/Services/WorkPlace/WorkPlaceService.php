@@ -2,8 +2,8 @@
 
 namespace App\Services\WorkPlace;
 
-use App\Dto\IwmsApi\WorkPlace\IwmsApiWorkPlaceDto;
-use App\Dto\IwmsApi\WorkPlace\IwmsApiWorkPlaceEditDto;
+use App\Dto\WorkPlace\WorkPlaceDto;
+use App\Dto\WorkPlace\WorkPlaceEditDto;
 use App\Models\WorkPlace;
 
 class WorkPlaceService implements WorkPlaceServiceInterface
@@ -39,50 +39,46 @@ class WorkPlaceService implements WorkPlaceServiceInterface
     }
 
     /**
-     * @param IwmsApiWorkPlaceDto $apiWorkPlaceDto
+     * @param WorkPlaceDto $workPlaceDto
      * @return Workplace
      */
-    public function create(IwmsApiWorkPlaceDto $apiWorkPlaceDto): WorkPlace
+    public function create(WorkPlaceDto $workPlaceDto): WorkPlace
     {
         return WorkPlace::create([
-            'uuid' => $apiWorkPlaceDto->getId(),
-            'company_id' => $apiWorkPlaceDto->getCompanyId(),
-            'name' => $apiWorkPlaceDto->getName(),
-            'address' => $apiWorkPlaceDto->getAddress() ?? '',
-            'zip' => $apiWorkPlaceDto->getZip(),
-            'number' => $apiWorkPlaceDto->getNumber(),
-            'city' => $apiWorkPlaceDto->getCity(),
-            'status' => $apiWorkPlaceDto->getStatus(),
-            'sum_price' => $apiWorkPlaceDto->getSumPrice()
+            'uuid' => $workPlaceDto->getId(),
+            'company_id' => $workPlaceDto->getCompanyId(),
+            'name' => $workPlaceDto->getName(),
+            'address' => $workPlaceDto->getAddress() ?? '',
+            'zip' => $workPlaceDto->getZip(),
+            'number' => $workPlaceDto->getNumber(),
+            'city' => $workPlaceDto->getCity()
         ]);
     }
 
     /**
-     * @param IwmsApiWorkPlaceEditDto $apiWorkPlaceEditDto
+     * @param WorkPlaceEditDto $workPlaceEditDto
      * @return WorkPlace
      */
-    public function update(IwmsApiWorkPlaceEditDto $apiWorkPlaceEditDto): WorkPlace
+    public function update(WorkPlaceEditDto $workPlaceEditDto): WorkPlace
     {
         // update or create workPlace
         return WorkPlace::withTrashed()->updateOrCreate([
-            'uuid' => $apiWorkPlaceEditDto->getId()
+            'uuid' => $workPlaceEditDto->getId()
         ], [
-            'name' => $apiWorkPlaceEditDto->getName(),
-            'address' => $apiWorkPlaceEditDto->getAddress(),
-            'zip' => $apiWorkPlaceEditDto->getZip(),
-            'number' => $apiWorkPlaceEditDto->getNumber(),
-            'city' => $apiWorkPlaceEditDto->getCity(),
-            'status' => $apiWorkPlaceEditDto->getStatus(),
-            'sum_price' => $apiWorkPlaceEditDto->getSumPrice()
+            'name' => $workPlaceEditDto->getName(),
+            'address' => $workPlaceEditDto->getAddress(),
+            'zip' => $workPlaceEditDto->getZip(),
+            'number' => $workPlaceEditDto->getNumber(),
+            'city' => $workPlaceEditDto->getCity()
         ]);
     }
 
     /**
-     * @param string $id
+     * @param WorkPlace $workplace
      * @return bool
      */
-    public function destroy(string $id): bool
+    public function destroy(WorkPlace $workplace): bool
     {
-        return WorkPlace::destroy($id);
+        return $workplace->delete();
     }
 }

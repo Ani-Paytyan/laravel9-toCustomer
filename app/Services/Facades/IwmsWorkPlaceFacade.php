@@ -2,6 +2,8 @@
 
 namespace App\Services\Facades;
 
+use App\Dto\IwmsApi\WorkPlace\IwmsApiWorkPlaceDto;
+use App\Dto\IwmsApi\WorkPlace\IwmsApiWorkPlaceEditDto;
 use App\Dto\WorkPlace\WorkPlaceDto;
 use App\Dto\WorkPlace\WorkPlaceEditDto;
 use App\Models\WorkPlace;
@@ -18,47 +20,66 @@ class IwmsWorkPlaceFacade
     }
 
     /**
-     * @param WorkPlaceDto $workPlaceDto
+     * @param IwmsApiWorkPlaceDto $apiWorkPlaceDto
      * @return WorkPlace|bool
      */
-    public function create(WorkPlaceDto $workPlaceDto): WorkPlace|bool
+    public function create(IwmsApiWorkPlaceDto $apiWorkPlaceDto): WorkPlace|bool
     {
         // send data to api
-        $res = $this->apiWorkPlaceService->create($workPlaceDto);
+        $res = $this->apiWorkPlaceService->create($apiWorkPlaceDto);
         // if success from api we save data in DB
         if ($res) {
-            return $this->workPlaceService->create($res);
+           $workPlaceDto = (new WorkPlaceDto())
+                ->setId($res->getId())
+                ->setCompanyId($res->getCompanyId())
+                ->setName($res->getName())
+                ->setAddress($res->getAddress())
+                ->setZip($res->getZip())
+                ->setCity($res->getCity())
+                ->setNumber($res->getNumber());
+
+            return $this->workPlaceService->create($workPlaceDto);
         }
 
         return false;
     }
 
     /**
-     * @param WorkPlaceEditDto $workPlaceEditDto
+     * @param IwmsApiWorkPlaceEditDto $apiWorkPlaceEditDto
      * @return WorkPlace|bool
      */
-    public function update(WorkPlaceEditDto $workPlaceEditDto): WorkPlace|bool
+    public function update(IwmsApiWorkPlaceEditDto $apiWorkPlaceEditDto): WorkPlace|bool
     {
         // send data to api
-        $res = $this->apiWorkPlaceService->update($workPlaceEditDto);
+        $res = $this->apiWorkPlaceService->update($apiWorkPlaceEditDto);
         // if success from api we update data in DB
         if ($res) {
-            return $this->workPlaceService->update($res);
+            $workPlaceEditDto = (new WorkPlaceEditDto())
+                ->setId($res->getId())
+                ->setName($res->getName())
+                ->setAddress($res->getAddress())
+                ->setZip($res->getZip())
+                ->setCity($res->getCity())
+                ->setNumber($res->getNumber());
+
+            return $this->workPlaceService->update($workPlaceEditDto);
         }
 
         return false;
     }
 
+
     /**
-     * @param string $id
+     * @param WorkPlace $workplace
+     * @param $id
      * @return bool
      */
-    public function destroy(string $id): bool
+    public function destroy(WorkPlace $workplace, $id): bool
     {
         $res = $this->apiWorkPlaceService->destroy($id);
 
         if ($res) {
-            return $this->workPlaceService->destroy($id);
+            return $this->workPlaceService->destroy($workplace);
         }
 
         return false;

@@ -2,13 +2,10 @@
 
 namespace App\Dto\WorkPlace;
 
-use App\Http\Requests\WorkPlace\WorkPlaceEditRequest;
-
 class WorkPlaceEditDto
 {
     private string $id;
     private string $name;
-    private string $companyId;
     private ?string $address;
     private ?string $zip;
     private ?string $city;
@@ -110,16 +107,5 @@ class WorkPlaceEditDto
     {
         $this->number = $number;
         return $this;
-    }
-
-    public static function createFromRequest(WorkPlaceEditRequest $request, $id): self
-    {
-        return (new self())
-            ->setName($request->get('name'))
-            ->setId($id)
-            ->setAddress($request->get('address'))
-            ->setZip($request->get('zip'))
-            ->setCity($request->get('city'))
-            ->setNumber($request->get('number'));
     }
 }

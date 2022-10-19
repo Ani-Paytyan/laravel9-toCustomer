@@ -46,42 +46,42 @@ class IwmsApiWorkPlaceService extends AbstractIwmsApi implements IwmsApiWorkPlac
     }
 
     /**
-     * @param WorkPlaceDto $workPlaceDto
+     * @param IwmsApiWorkPlaceDto $apiWorkPlaceDto
      * @return IwmsApiWorkPlaceDto|null
      */
-    public function create(WorkPlaceDto $workPlaceDto): ?IwmsApiWorkPlaceDto
+    public function create(IwmsApiWorkPlaceDto $apiWorkPlaceDto): ?IwmsApiWorkPlaceDto
     {
         $response = $this->getRequestBuilder()->post(self::WORK_PLACE_CREATE_URL, [
-            'company_id' => $workPlaceDto->getCompanyId(),
-            'name' => $workPlaceDto->getName(),
-            'address' => $workPlaceDto->getAddress(),
-            'zip' => $workPlaceDto->getZip(),
-            'city' => $workPlaceDto->getCity(),
-            'number' => $workPlaceDto->getNumber()
+            'company_id' => $apiWorkPlaceDto->getCompanyId(),
+            'name' => $apiWorkPlaceDto->getName(),
+            'address' => $apiWorkPlaceDto->getAddress(),
+            'zip' => $apiWorkPlaceDto->getZip(),
+            'city' => $apiWorkPlaceDto->getCity(),
+            'number' => $apiWorkPlaceDto->getNumber()
         ]);
 
         if ($response && $response->status() === 200) {
             $result = json_decode($response->getBody()->getContents(), true);
 
-            return IwmsApiWorkPlaceDto::createFromApiResponse($result['results'], $workPlaceDto->getCompanyId());
+            return IwmsApiWorkPlaceDto::createFromApiResponse($result['results'], $apiWorkPlaceDto->getCompanyId());
         }
 
         return null;
     }
 
     /**
-     * @param WorkPlaceEditDto $workPlaceEditDto
+     * @param IwmsApiWorkPlaceEditDto $apiWorkPlaceEditDto
      * @return IwmsApiWorkPlaceEditDto|null
      */
-    public function update(WorkPlaceEditDto $workPlaceEditDto): ?IwmsApiWorkPlaceEditDto
+    public function update(IwmsApiWorkPlaceEditDto $apiWorkPlaceEditDto): ?IwmsApiWorkPlaceEditDto
     {
         $response = $this->getRequestBuilder()->put(self::WORK_PLACE_UPDATE_URL, [
-            'id' => $workPlaceEditDto->getId(),
-            'name' => $workPlaceEditDto->getName(),
-            'address' => $workPlaceEditDto->getAddress(),
-            'zip' => $workPlaceEditDto->getZip(),
-            'city' => $workPlaceEditDto->getCity(),
-            'number' => $workPlaceEditDto->getNumber()
+            'id' => $apiWorkPlaceEditDto->getId(),
+            'name' => $apiWorkPlaceEditDto->getName(),
+            'address' => $apiWorkPlaceEditDto->getAddress(),
+            'zip' => $apiWorkPlaceEditDto->getZip(),
+            'city' => $apiWorkPlaceEditDto->getCity(),
+            'number' => $apiWorkPlaceEditDto->getNumber()
         ]);
 
         if ($response && $response->status() === 200) {

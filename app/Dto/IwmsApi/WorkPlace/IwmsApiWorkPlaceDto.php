@@ -180,4 +180,15 @@ class IwmsApiWorkPlaceDto
             ->setStatus($data['status'])
             ->setSumPrice($data['sum_price']);
     }
+
+    public static function createFromRequest(array $data, string $companyId): self
+    {
+        return (new self())
+            ->setName($data['name'])
+            ->setCompanyId($companyId)
+            ->setAddress($data['address'])
+            ->setZip($data['zip'])
+            ->setCity($data['city'])
+            ->setNumber($data['number']);
+    }
 }

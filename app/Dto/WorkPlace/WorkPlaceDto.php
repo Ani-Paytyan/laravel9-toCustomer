@@ -2,16 +2,26 @@
 
 namespace App\Dto\WorkPlace;
 
-use App\Http\Requests\WorkPlace\WorkPlaceCreateRequest;
-
 class WorkPlaceDto
 {
+    private string $id;
     private string $name;
     private string $companyId;
     private ?string $address;
     private ?string $zip;
     private ?string $city;
     private ?string $number;
+
+    public function getId(): string
+    {
+        return $this->id;
+    }
+
+    public function setId(string $id): self
+    {
+        $this->id = $id;
+        return $this;
+    }
 
     /**
      * @return string
@@ -117,16 +127,5 @@ class WorkPlaceDto
     {
         $this->number = $number;
         return $this;
-    }
-
-    public static function createFromRequest(WorkPlaceCreateRequest $request, string $companyId): self
-    {
-        return (new self())
-            ->setName($request->get('name'))
-            ->setCompanyId($companyId)
-            ->setAddress($request->get('address'))
-            ->setZip($request->get('zip'))
-            ->setCity($request->get('city'))
-            ->setNumber($request->get('number'));
     }
 }

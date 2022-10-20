@@ -61,6 +61,7 @@
                                 label="{{ __('attributes.user.phone') }}"
                                 placeholder="{{ __('attributes.user.phone') }}"
                                 class="form-control-muted"
+                                value="{{ $employee->getPhone() }}"
                             />
                         </div>
                     </div>
@@ -73,6 +74,7 @@
                                 label="{{ __('attributes.user.address') }}"
                                 placeholder="{{ __('attributes.user.address') }}"
                                 class="form-control-muted"
+                                value="{{ $employee->getAddress() }}"
                             />
                         </div>
                     </div>
@@ -85,6 +87,7 @@
                                 label="{{ __('attributes.user.city') }}"
                                 placeholder="{{ __('attributes.user.city') }}"
                                 class="form-control-muted"
+                                value="{{ $employee->getCity() }}"
                             />
                         </div>
                     </div>
@@ -97,6 +100,7 @@
                                 label="{{ __('attributes.user.zip') }}"
                                 placeholder="{{ __('attributes.user.zip') }}"
                                 class="form-control-muted"
+                                value="{{ $employee->getZip() }}"
                             />
                         </div>
                     </div>

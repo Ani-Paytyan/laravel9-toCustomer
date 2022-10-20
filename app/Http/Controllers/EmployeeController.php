@@ -21,10 +21,17 @@ class EmployeeController extends Controller
 {
     use PaginatorTrait;
 
+    protected $user;
+
     public function __construct(
-        protected IwmsApiContactServiceInterface $apiContactService
+        protected IwmsApiContactServiceInterface $apiContactService,
     )
     {
+        $this->middleware(function ($request, $next) {
+            $this->user = Auth::user();
+
+            return $next($request);
+        });
     }
 
     /**
@@ -33,16 +40,13 @@ class EmployeeController extends Controller
      */
     public function index(Request $request)
     {
-        $currentUser = Auth::user();
-        if ($currentUser) {
-            $companyId = $currentUser->getCompany()->getId() ?? '';
-        }
+        $userId = $this->user->getId();
 
-        $employees = $this->apiContactService->getContacts($companyId ?? '', $request->page ?? 1);
+        $employees = $this->apiContactService->getContacts($this->user->getCompany()->getId(), $request->page ?? 1);
 
         $paginator = $this->getPaginator($request, $employees);
 
-        return view('employees.index', compact('employees', 'paginator'));
+        return view('employees.index', compact('employees', 'paginator', 'userId'));
     }
 
     /**
@@ -82,9 +86,8 @@ class EmployeeController extends Controller
     {
         Gate::authorize('invite-employee');
 
-        $currentUser = Auth::user();
         $result = $this->apiContactService->invite(
-            IwmsApiContactDto::createForApiInvite($request->only(['email', 'role']), $currentUser->getCompany()->getId())
+            IwmsApiContactDto::createForApiInvite($request->only(['email', 'role']), $this->user->getCompany()->getId())
         );
 
         if ($result) {

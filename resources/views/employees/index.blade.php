@@ -48,15 +48,15 @@
                                                 </a>
                                             @endif
                                         @endif
-                                        @if (Gate::allows('destroy-employee'))
-                                                <form method="POST"
-                                                      action="{{ route('employees.destroy', $employee->getId()) }}">
-                                                    {{ csrf_field() }}
-                                                    {{ method_field('DELETE') }}
-                                                    <button class="btn btn-sm btn-danger delete-employee">
-                                                        <i class="bi bi-trash"></i>
-                                                    </button>
-                                                </form>
+                                        @if (Gate::allows('destroy-employee') && $userId !== $employee->getId())
+                                            <form method="POST"
+                                                  action="{{ route('employees.destroy', $employee->getId()) }}">
+                                                {{ csrf_field() }}
+                                                {{ method_field('DELETE') }}
+                                                <button class="btn btn-sm btn-danger delete-employee">
+                                                    <i class="bi bi-trash"></i>
+                                                </button>
+                                            </form>
                                         @endif
                                     @endif
                                 </td>

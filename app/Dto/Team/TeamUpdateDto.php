@@ -74,10 +74,9 @@ class TeamUpdateDto
         return $this;
     }
 
-    public static function createFromRequest(TeamUpdateRequest $request, $id): self
+    public static function createFromRequest(TeamUpdateRequest $request): self
     {
         return (new self())
-            ->setId($id)
             ->setName($request->get('name'))
             ->setDescription($request->get('description'));
     }

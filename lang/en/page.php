@@ -43,9 +43,16 @@ return [
         'deleted_successfully' => 'Team deleted successfully',
         'deleted_error' => 'Team not deleted',
         'users' => 'Users',
+        'user' => 'User',
     ],
     'user' => [
+        'add_users' => 'Add user to team',
+        'created_successfully' => 'User added to company successfully',
+        'created_error' => 'User not added',
         'updated_successfully' => 'User updated successfully',
         'updated_error' => 'User not updated',
+        'deleted_successfully' => 'User deleted from company successfully',
+        'deleted_error' => 'User not deleted',
+        'add_user' => 'Add user',
     ],
 ];

@@ -15,6 +15,7 @@ return new class extends Migration
     {
         Schema::create('team_users', function (Blueprint $table) {
             $table->uuid()->primary();
+            $table->uuid('user_id');
             $table->uuid('team_id');
             $table->string('name');
             $table->string('role');

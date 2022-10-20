@@ -10,12 +10,16 @@ class TeamUser extends Model
 {
     use HasFactory, SoftDeletes;
 
+    public const ROLE_LEAD = 'Lead';
+    public const ROLE_MEMBER = 'Member';
+
     public $table = 'team_users';
 
     protected $primaryKey = 'uuid';
 
     protected $fillable = [
         'uuid',
+        'user_id',
         'team_id',
         'name',
         'role',
@@ -26,4 +30,12 @@ class TeamUser extends Model
     protected $casts = [
         'uuid' => 'string'
     ];
+
+    public static function getRoles()
+    {
+        return [
+            self::ROLE_LEAD => self::ROLE_LEAD,
+            self::ROLE_MEMBER => self::ROLE_MEMBER,
+        ];
+    }
 }

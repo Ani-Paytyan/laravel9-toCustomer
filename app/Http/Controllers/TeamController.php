@@ -8,19 +8,23 @@ use App\Http\Requests\Team\TeamStoreRequest;
 use App\Http\Requests\Team\TeamUpdateRequest;
 use App\Models\Team;
 use App\Models\TeamUser;
+use App\Services\IwmsApi\Contact\IwmsApiContactServiceInterface;
 use App\Services\Team\TeamServiceInterface;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 
 class TeamController extends Controller
 {
     protected $user;
     protected $companyId;
 
-    public function __construct()
+    public function __construct(
+        protected IwmsApiContactServiceInterface $apiContactService,
+    )
     {
         $this->middleware(function ($request, $next) {
             $this->user = Auth::user();
@@ -70,13 +74,14 @@ class TeamController extends Controller
      */
     public function edit(Team $team)
     {
-        $users = TeamUser::where('team_id', $team->uuid)->orderBy('name', 'ASC')->get();
-        $roles = [
-            'Lead' => 'Lead',
-            'Member' => 'Member',
-        ];
+        $roles = TeamUser::getRoles();
+        $teamUsers = TeamUser::where('team_id', $team->uuid)->orderBy('name', 'ASC')->get();
+        // get all contacts (employees) and save to cache
+        $usersList = Cache::remember('contacts', 5, function() use ($teamUsers) {
+            return $this->getContactsFromApiWithPagination($teamUsers);
+        });
 
-        return view('teams.edit', compact('team', 'users', 'roles'));
+        return view('teams.edit', compact('team', 'roles', 'teamUsers', 'usersList'));
     }
 
     /**
@@ -87,7 +92,7 @@ class TeamController extends Controller
      */
     public function update(TeamUpdateRequest $request, TeamServiceInterface $teamService, Team $team): RedirectResponse
     {
-        $updateDto = TeamUpdateDto::createFromRequest($request, $team->uuid);
+        $updateDto = TeamUpdateDto::createFromRequest($request);
 
         if ($teamService->update($updateDto, $team)) {
             return redirect()->route('teams.index')->with('toast_success', __('page.teams.updated_successfully'));
@@ -103,5 +108,37 @@ class TeamController extends Controller
         }
 
         return redirect()->route('teams.index')->with('toast_error', __('page.teams.deleted_error'));
+    }
+
+    /**
+     * @param $teamUsers
+     * @return array
+     */
+    public function getContactsFromApiWithPagination($teamUsers): array
+    {
+        $contactsList = [];
+        $result = $this->apiContactService->getContacts($this->user->getCompany()->getId(),  1);
+        $pageCount = $result->getTotalPages();
+        $contacts[] = $result->getResults();
+
+        if ($pageCount > 1) {
+            for ($i = 2; $i <= $pageCount; $i++) {
+                $resultOtherPages = $this->apiContactService->getContacts($this->user->getCompany()->getId(), $i);
+                $contacts[] = $resultOtherPages->getResults();
+            }
+        }
+
+        foreach (array_merge([], ...$contacts) as $contact) {
+            if (!in_array($contact->getId(), $teamUsers->pluck('uuid')->toArray(), true)) {
+                $fullNameOrEmail = $contact->getFullName();
+                if (empty($contact->getFullName())) {
+                    $fullNameOrEmail = $contact->getEmail();
+                }
+
+                $contactsList[$contact->getId()] = $fullNameOrEmail;
+            }
+        }
+
+        return $contactsList;
     }
 }

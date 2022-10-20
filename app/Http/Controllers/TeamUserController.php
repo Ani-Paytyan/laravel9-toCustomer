@@ -2,21 +2,61 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\TeamUser\TeamUserStoreRequest;
+use App\Http\Requests\TeamUser\TeamUserUpdateRequest;
 use App\Models\TeamUser;
-use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Str;
 
 class TeamUserController extends Controller
 {
-
-    public function update(Request $request, TeamUser $teamUser)
+    /**
+     * @param TeamUserStoreRequest $request
+     * @return JsonResponse
+     */
+    public function store(TeamUserStoreRequest $request): JsonResponse
     {
-        $r = $request->all();
+        $data = $request->only('uuid', 'name', 'role', 'team_id');
 
-        $teamUserR = $teamUser->update([
-            'role' => $r['role']
+        $result = TeamUser::withTrashed()->updateOrCreate([
+            'user_id' => trim($data['uuid']),
+            'team_id' => trim($data['team_id']),
+        ], [
+            'uuid' => Str::uuid()->toString(),
+            'name' => trim($data['name']),
+            'role' => trim($data['role']),
+            'deleted_at' => null
         ]);
 
-        if ($teamUserR) {
+        if ($result) {
+            return response()->json([
+                'data' => $result,
+                'status' => 'success',
+                'message' => __('page.user.created_successfully')
+            ]);
+        }
+
+        return response()->json([
+            'data' => [],
+            'status' => 'error',
+            'message' => __('page.user.created_error')
+        ]);
+    }
+
+    /**
+     * @param TeamUserUpdateRequest $request
+     * @param TeamUser $teamUser
+     * @return JsonResponse
+     */
+    public function update(TeamUserUpdateRequest $request, TeamUser $teamUser): JsonResponse
+    {
+        $data = $request->only('role');
+
+        $result = $teamUser->update([
+            'role' => trim($data['role'])
+        ]);
+
+        if ($result) {
             return response()->json([
                 'data' => [],
                 'status' => 'success',
@@ -31,4 +71,20 @@ class TeamUserController extends Controller
         ]);
     }
 
+    public function destroy(TeamUser $teamUser): JsonResponse
+    {
+        if ($teamUser->delete()) {
+            return response()->json([
+                'data' => [],
+                'status' => 'success',
+                'message' => __('page.user.deleted_successfully')
+            ]);
+        }
+
+        return response()->json([
+            'data' => [],
+            'status' => 'error',
+            'message' => __('page.user.deleted_error')
+        ]);
+    }
 }

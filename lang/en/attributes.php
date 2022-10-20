@@ -13,8 +13,12 @@ return [
         'address' => 'Address',
         'city' => 'City',
         'zip' => 'Zip',
+        'id' => 'Id',
     ],
     'employees' => [
         'portal_access' => 'Portal Access',
+    ],
+    'workplaces' => [
+        'number' => 'Number',
     ],
 ];

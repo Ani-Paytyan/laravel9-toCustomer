@@ -18,6 +18,7 @@ class TeamService implements TeamServiceInterface
     {
         return Team::create([
             'uuid' => Str::uuid()->toString(),
+            'company_id' => $dto->getCompanyId(),
             'name' => $dto->getName(),
             'description' => $dto->getDescription(),
         ]);
@@ -28,21 +29,21 @@ class TeamService implements TeamServiceInterface
      * @param TeamUpdateDto $dto
      * @return bool
      */
-    public function update(TeamUpdateDto $dto): bool
+    public function update(TeamUpdateDto $dto, Team $team): bool
     {
-        return Team::findOrFail($dto->getId())->update([
+        return $team->update([
             'name' => $dto->getName(),
             'description' => $dto->getDescription(),
         ]);
     }
 
     /**
-     * @param string $id
+     * @param Team $team
      * @return bool
      */
 
-    public function destroy(string $id): bool
+    public function destroy(Team $team): bool
     {
-        return Team::destroy($id);
+        return $team->delete();
     }
 }

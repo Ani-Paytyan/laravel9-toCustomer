@@ -6,19 +6,19 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Team extends Model
+class TeamUser extends Model
 {
     use HasFactory, SoftDeletes;
 
-    public $table = 'teams';
+    public $table = 'team_users';
 
     protected $primaryKey = 'uuid';
 
     protected $fillable = [
         'uuid',
-        'company_id',
+        'team_id',
         'name',
-        'description',
+        'role',
         'updated_at',
         'deleted_at',
     ];

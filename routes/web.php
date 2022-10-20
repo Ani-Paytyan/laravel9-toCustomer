@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\TeamController;
+use App\Http\Controllers\TeamUserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -27,4 +28,5 @@ Route::prefix('auth')->name('auth.')->group($basePath . '/auth.php');
 Route::group(['middleware' => ['auth', 'SetIwmsApiToken']], static function () {
     Route::resource('employees', EmployeeController::class);
     Route::resource('teams', TeamController::class);
+    Route::resource('team_users', TeamUserController::class);
 });

@@ -31,5 +31,10 @@ return [
         'updated_error' => 'Team not updated',
         'deleted_successfully' => 'Team deleted successfully',
         'deleted_error' => 'Team not deleted',
+        'users' => 'Users',
+    ],
+    'user' => [
+        'updated_successfully' => 'User updated successfully',
+        'updated_error' => 'User not updated',
     ],
 ];

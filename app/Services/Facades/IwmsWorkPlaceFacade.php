@@ -46,9 +46,10 @@ class IwmsWorkPlaceFacade
 
     /**
      * @param IwmsApiWorkPlaceEditDto $apiWorkPlaceEditDto
-     * @return WorkPlace|bool
+     * @param WorkPlace $workplace
+     * @return bool
      */
-    public function update(IwmsApiWorkPlaceEditDto $apiWorkPlaceEditDto): WorkPlace|bool
+    public function update(IwmsApiWorkPlaceEditDto $apiWorkPlaceEditDto, WorkPlace $workplace): bool
     {
         // send data to api
         $res = $this->apiWorkPlaceService->update($apiWorkPlaceEditDto);
@@ -62,7 +63,7 @@ class IwmsWorkPlaceFacade
                 ->setCity($res->getCity())
                 ->setNumber($res->getNumber());
 
-            return $this->workPlaceService->update($workPlaceEditDto);
+            return $this->workPlaceService->update($workPlaceEditDto, $workplace);
         }
 
         return false;

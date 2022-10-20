@@ -82,7 +82,7 @@ class WorkPlaceController extends Controller
     {
         $iwmsApiWorkPlaceEditDto = IwmsApiWorkPlaceEditDto::createFromRequest($request->all(), $workplace->uuid);
 
-        if ($iwmsWorkPlaceFacade->update($iwmsApiWorkPlaceEditDto)) {
+        if ($iwmsWorkPlaceFacade->update($iwmsApiWorkPlaceEditDto, $workplace)) {
             return redirect()->route('workplaces.index')->with('toast_success', __('page.workplaces.updated_successfully'));
         }
 

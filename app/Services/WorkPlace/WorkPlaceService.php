@@ -55,16 +55,15 @@ class WorkPlaceService implements WorkPlaceServiceInterface
         ]);
     }
 
+
     /**
      * @param WorkPlaceEditDto $workPlaceEditDto
-     * @return WorkPlace
+     * @param WorkPlace $workplace
+     * @return bool
      */
-    public function update(WorkPlaceEditDto $workPlaceEditDto): WorkPlace
+    public function update(WorkPlaceEditDto $workPlaceEditDto, WorkPlace $workplace): bool
     {
-        // update or create workPlace
-        return WorkPlace::withTrashed()->updateOrCreate([
-            'uuid' => $workPlaceEditDto->getId()
-        ], [
+        return $workplace->update([
             'name' => $workPlaceEditDto->getName(),
             'address' => $workPlaceEditDto->getAddress(),
             'zip' => $workPlaceEditDto->getZip(),

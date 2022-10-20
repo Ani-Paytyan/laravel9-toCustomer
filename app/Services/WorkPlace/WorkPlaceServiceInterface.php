@@ -14,9 +14,18 @@ interface WorkPlaceServiceInterface
      */
     public function sync(array $workPlaces): void;
 
+    /**
+     * @param WorkPlaceDto $workPlaceDto
+     * @return WorkPlace
+     */
     public function create(WorkPlaceDto $workPlaceDto): WorkPlace;
 
-    public function update(WorkPlaceEditDto $workPlaceEditDto): WorkPlace;
+    /**
+     * @param WorkPlaceEditDto $workPlaceEditDto
+     * @param WorkPlace $workplace
+     * @return bool
+     */
+    public function update(WorkPlaceEditDto $workPlaceEditDto, WorkPlace $workplace): bool;
 
     /**
      * @param WorkPlace $workplace

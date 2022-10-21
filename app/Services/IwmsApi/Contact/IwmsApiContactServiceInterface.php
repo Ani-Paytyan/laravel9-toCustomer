@@ -20,7 +20,7 @@ interface IwmsApiContactServiceInterface
      * @param string $id
      * @return IwmsApiContactDto|null
      */
-    public function getContact(string $companyId, string $id): ?IwmsApiContactEditDto;
+    public function getContact(string $companyId, string $id): ?IwmsApiContactDto;
 
     /**
      * @param IwmsApiContactEditDto $iwmsApiContactEditDto

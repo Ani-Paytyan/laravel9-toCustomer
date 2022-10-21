@@ -188,18 +188,4 @@ class IwmsApiContactEditDto
             ->setFirstName($data['first_name'])
             ->setLastName($data['last_name']);
     }
-
-    public static function createFromApiResponse(array $data): self
-    {
-        return (new self())
-            ->setId($data['id'])
-            ->setRole($data['role'])
-            ->setPhone($data['phone'])
-            ->setEmail($data['email'])
-            ->setAddress($data['address'])
-            ->setCity($data['city'])
-            ->setZip($data['zip'])
-            ->setFirstName($data['first_name'])
-            ->setLastName($data['last_name']);
-    }
 }

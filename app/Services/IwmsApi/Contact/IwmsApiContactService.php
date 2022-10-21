@@ -14,6 +14,8 @@ class IwmsApiContactService extends AbstractIwmsApi implements IwmsApiContactSer
     private const CONTACTS_DELETE_URL =  'contacts/delete';
     private const CONTACTS_INVITE_URL =  'contacts/invite';
 
+    private const CONTACTS_GET_SORT_FIELD =  'first_name';
+
     public function getContacts(string $companyId, ?int $page = 1): IwmsApiPaginationResponseDto
     {
         $result = null;
@@ -21,6 +23,7 @@ class IwmsApiContactService extends AbstractIwmsApi implements IwmsApiContactSer
         $response = $this->getRequestBuilder()->get(self::CONTACTS_GET_URL, [
             'currentPage' => $page,
             'company_id' => $companyId,
+            'sort' => self::CONTACTS_GET_SORT_FIELD,
         ]);
         if ($response && $response->status() === 200) {
             $result = json_decode($response->getBody()->getContents(), true);

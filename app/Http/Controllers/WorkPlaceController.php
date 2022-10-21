@@ -13,6 +13,7 @@ use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Gate;
 
 class WorkPlaceController extends Controller
 {
@@ -44,6 +45,8 @@ class WorkPlaceController extends Controller
      */
     public function create()
     {
+        Gate::authorize('create-workplace');
+
         return view('workplaces.create');
     }
 
@@ -54,6 +57,8 @@ class WorkPlaceController extends Controller
      */
     public function store(WorkPlaceCreateRequest $request, IwmsWorkPlaceFacade $iwmsWorkPlaceFacade): RedirectResponse
     {
+        Gate::authorize('create-workplace');
+
         $iwmsApiWorkPlaceDto = IwmsApiWorkPlaceDto::createFromRequest($request->all(), $this->companyId);
 
         if ($iwmsWorkPlaceFacade->create($iwmsApiWorkPlaceDto)) {
@@ -69,6 +74,8 @@ class WorkPlaceController extends Controller
      */
     public function edit(WorkPlace $workplace): View|Factory|Application
     {
+        Gate::authorize('edit-workplace');
+
         return view('workplaces.edit', compact('workplace'));
     }
 
@@ -80,6 +87,8 @@ class WorkPlaceController extends Controller
      */
     public function update(WorkPlaceEditRequest $request, IwmsWorkPlaceFacade $iwmsWorkPlaceFacade, WorkPlace $workplace): RedirectResponse
     {
+        Gate::authorize('edit-workplace');
+
         $iwmsApiWorkPlaceEditDto = IwmsApiWorkPlaceEditDto::createFromRequest($request->all(), $workplace->uuid);
 
         if ($iwmsWorkPlaceFacade->update($iwmsApiWorkPlaceEditDto, $workplace)) {
@@ -96,6 +105,8 @@ class WorkPlaceController extends Controller
      */
     public function destroy(IwmsWorkPlaceFacade $iwmsWorkPlaceFacade, WorkPlace $workplace): RedirectResponse
     {
+        Gate::authorize('destroy-workplace');
+
         if ($iwmsWorkPlaceFacade->destroy($workplace, $workplace->uuid)) {
             return redirect()->route('workplaces.index')->with('toast_success', __('page.workplaces.deleted_successfully'));
         }

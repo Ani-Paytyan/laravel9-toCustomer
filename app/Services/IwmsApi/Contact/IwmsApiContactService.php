@@ -70,6 +70,7 @@ class IwmsApiContactService extends AbstractIwmsApi implements IwmsApiContactSer
             'address' => $iwmsApiContactEditDto->getAddress(),
             'city' => $iwmsApiContactEditDto->getCity(),
             'zip' => $iwmsApiContactEditDto->getZip(),
+            'role' => $iwmsApiContactEditDto->getRole(),
         ]);
 
         return $response && $response->status() === 200;

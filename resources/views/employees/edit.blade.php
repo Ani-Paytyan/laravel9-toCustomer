@@ -104,6 +104,22 @@
                             />
                         </div>
                     </div>
+                    @if ($canEditRole)
+                        <div class="row mb-3 g-2">
+                            <div class="col-md">
+                                <x-form.select
+                                    name="role"
+                                    id="role"
+                                    required
+                                    label="{{ __('attributes.user.role') }}"
+                                    placeholder="{{ __('attributes.user.role') }}"
+                                    class="form-select form-control-muted"
+                                    :options="$roles"
+                                    value="{{ $employee->getRole() }}"
+                                />
+                            </div>
+                        </div>
+                    @endif
                     <button type="submit" class="btn btn-success">{{ trans('common.update') }}</button>
                 </form>
             </div>

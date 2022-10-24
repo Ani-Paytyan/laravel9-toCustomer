@@ -23,6 +23,7 @@
                                 label="{{ __('attributes.user.first_name') }}"
                                 placeholder="{{ __('attributes.user.first_name') }}"
                                 class="form-control-muted"
+                                value="{{ $employee->getFirstName() }}"
                             />
                         </div>
                         <div class="col-md">
@@ -34,6 +35,7 @@
                                 label="{{ __('attributes.user.last_name') }}"
                                 placeholder="{{ __('attributes.user.last_name') }}"
                                 class="form-control-muted"
+                                value="{{ $employee->getLastName() }}"
                             />
                         </div>
                     </div>
@@ -46,6 +48,7 @@
                                 label="{{ __('attributes.user.email') }}"
                                 placeholder="{{ __('attributes.user.email') }}"
                                 class="form-control-muted"
+                                value="{{ $employee->getEmail() }}"
                             />
                         </div>
                     </div>
@@ -58,6 +61,7 @@
                                 label="{{ __('attributes.user.phone') }}"
                                 placeholder="{{ __('attributes.user.phone') }}"
                                 class="form-control-muted"
+                                value="{{ $employee->getPhone() }}"
                             />
                         </div>
                     </div>
@@ -70,6 +74,7 @@
                                 label="{{ __('attributes.user.address') }}"
                                 placeholder="{{ __('attributes.user.address') }}"
                                 class="form-control-muted"
+                                value="{{ $employee->getAddress() }}"
                             />
                         </div>
                     </div>
@@ -82,6 +87,7 @@
                                 label="{{ __('attributes.user.city') }}"
                                 placeholder="{{ __('attributes.user.city') }}"
                                 class="form-control-muted"
+                                value="{{ $employee->getCity() }}"
                             />
                         </div>
                     </div>
@@ -94,9 +100,26 @@
                                 label="{{ __('attributes.user.zip') }}"
                                 placeholder="{{ __('attributes.user.zip') }}"
                                 class="form-control-muted"
+                                value="{{ $employee->getZip() }}"
                             />
                         </div>
                     </div>
+                    @if ($canEditRole)
+                        <div class="row mb-3 g-2">
+                            <div class="col-md">
+                                <x-form.select
+                                    name="role"
+                                    id="role"
+                                    required
+                                    label="{{ __('attributes.user.role') }}"
+                                    placeholder="{{ __('attributes.user.role') }}"
+                                    class="form-select form-control-muted"
+                                    :options="$roles"
+                                    value="{{ $employee->getRole() }}"
+                                />
+                            </div>
+                        </div>
+                    @endif
                     <button type="submit" class="btn btn-success">{{ trans('common.update') }}</button>
                 </form>
             </div>

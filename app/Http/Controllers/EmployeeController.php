@@ -75,7 +75,20 @@ class EmployeeController extends Controller
     {
         Gate::authorize('edit-employee');
 
-        return view('employees.edit', compact('id'));
+        $roles = [
+            IwmsApiUserDto::ROLE_ADMIN => IwmsApiUserDto::ROLE_ADMIN,
+            IwmsApiUserDto::ROLE_MANAGER => IwmsApiUserDto::ROLE_MANAGER,
+            IwmsApiUserDto::ROLE_WORKER => IwmsApiUserDto::ROLE_WORKER,
+        ];
+
+        $employee = $this->apiContactService->getContact($this->user->getCompany()->getId(), $id);
+        // ability to change the role of all contacts of contacts, except for super-admins
+        $canEditRole = true;
+        if ($employee->getRole() === IwmsApiUserDto::ROLE_SUPER_ADMIN) {
+            $canEditRole = false;
+        }
+
+        return view('employees.edit', compact('id', 'employee', 'roles', 'canEditRole'));
     }
 
     /**
@@ -107,7 +120,7 @@ class EmployeeController extends Controller
         Gate::authorize('edit-employee');
 
         $data = IwmsApiContactEditDto::createFromFormRequest(
-            $request->only(['first_name', 'last_name', 'email', 'phone', 'address', 'city', 'zip']), $id
+            $request->only(['first_name', 'last_name', 'email', 'phone', 'address', 'city', 'zip', 'role']), $id
         );
 
         $result = $this->apiContactService->update($data);

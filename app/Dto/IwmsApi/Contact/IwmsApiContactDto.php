@@ -18,6 +18,9 @@ class IwmsApiContactDto
     private string $status;
     private ?string $portal_access;
     private ?string $company_id;
+    private ?string $address;
+    private ?string $city;
+    private ?string $zip;
 
     /**
      * @return string
@@ -214,14 +217,72 @@ class IwmsApiContactDto
         return $this;
     }
 
+    /**
+     * @return string|null
+     */
+    public function getAddress(): ?string
+    {
+        return $this->address;
+    }
+
+    /**
+     * @param string|null $address
+     * @return $this
+     */
+    public function setAddress(?string $address): self
+    {
+        $this->address = $address;
+        return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getCity(): ?string
+    {
+        return $this->city;
+    }
+
+    /**
+     * @param string|null $city
+     * @return $this
+     */
+    public function setCity(?string $city): self
+    {
+        $this->city = $city;
+        return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getZip(): ?string
+    {
+        return $this->zip;
+    }
+
+    /**
+     * @param string|null $zip
+     * @return $this
+     */
+    public function setZip(?string $zip): self
+    {
+        $this->zip = $zip;
+        return $this;
+    }
+
     public static function createFromApiResponse(array $data): self
     {
         return (new self())
             ->setId($data['id'])
             ->setRole($data['role'])
+            ->setPhone($data['phone'])
             ->setEmail($data['email'])
+            ->setAddress($data['address'])
             ->setFirstName($data['first_name'])
             ->setLastName($data['last_name'])
+            ->setCity($data['city'])
+            ->setZip($data['zip'])
             ->setFullName($data['full_name'])
             ->setStatus($data['status'])
             ->setPortalAccess($data['portal_access']);

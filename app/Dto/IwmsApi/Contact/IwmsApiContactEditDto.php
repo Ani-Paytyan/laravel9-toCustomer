@@ -33,18 +33,18 @@ class IwmsApiContactEditDto
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getRole(): string
+    public function getRole(): ?string
     {
         return $this->role;
     }
 
     /**
-     * @param string $role
+     * @param string|null $role
      * @return $this
      */
-    public function setRole(string $role): self
+    public function setRole(?string $role): self
     {
         $this->role = $role;
         return $this;
@@ -185,6 +185,7 @@ class IwmsApiContactEditDto
             ->setEmail($data['email'])
             ->setCity($data['city'])
             ->setZip($data['zip'])
+            ->setRole($data['role'] ?? '')
             ->setFirstName($data['first_name'])
             ->setLastName($data['last_name']);
     }

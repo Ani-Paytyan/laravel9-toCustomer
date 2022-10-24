@@ -8,9 +8,9 @@
         <div class="card mb-7">
             <div class="row card-header align-items-center">
                 <div class="page-title">
-                    <h3>{{ __('page.employees.edit_employee')}}</h3>
+                    <h3>{{ __('page.employees.edit_employee')}} - {{ $employee->name }}</h3>
                 </div>
-                <form method="POST" action="{{ route("employees.update", $id) }}">
+                <form method="POST" action="{{ route("employees.update", $employee->uuid) }}">
                     @csrf
                     @method('PUT')
                     <div class="row mb-3 g-2">
@@ -23,7 +23,7 @@
                                 label="{{ __('attributes.user.first_name') }}"
                                 placeholder="{{ __('attributes.user.first_name') }}"
                                 class="form-control-muted"
-                                value="{{ $employee->getFirstName() }}"
+                                value="{{ $employee->first_name }}"
                             />
                         </div>
                         <div class="col-md">
@@ -35,7 +35,7 @@
                                 label="{{ __('attributes.user.last_name') }}"
                                 placeholder="{{ __('attributes.user.last_name') }}"
                                 class="form-control-muted"
-                                value="{{ $employee->getLastName() }}"
+                                value="{{ $employee->last_name }}"
                             />
                         </div>
                     </div>
@@ -48,7 +48,7 @@
                                 label="{{ __('attributes.user.email') }}"
                                 placeholder="{{ __('attributes.user.email') }}"
                                 class="form-control-muted"
-                                value="{{ $employee->getEmail() }}"
+                                value="{{ $employee->email }}"
                             />
                         </div>
                     </div>
@@ -61,7 +61,7 @@
                                 label="{{ __('attributes.user.phone') }}"
                                 placeholder="{{ __('attributes.user.phone') }}"
                                 class="form-control-muted"
-                                value="{{ $employee->getPhone() }}"
+                                value="{{ $employee->phone }}"
                             />
                         </div>
                     </div>
@@ -74,7 +74,7 @@
                                 label="{{ __('attributes.user.address') }}"
                                 placeholder="{{ __('attributes.user.address') }}"
                                 class="form-control-muted"
-                                value="{{ $employee->getAddress() }}"
+                                value="{{ $employee->address }}"
                             />
                         </div>
                     </div>
@@ -87,7 +87,7 @@
                                 label="{{ __('attributes.user.city') }}"
                                 placeholder="{{ __('attributes.user.city') }}"
                                 class="form-control-muted"
-                                value="{{ $employee->getCity() }}"
+                                value="{{ $employee->city }}"
                             />
                         </div>
                     </div>
@@ -100,7 +100,7 @@
                                 label="{{ __('attributes.user.zip') }}"
                                 placeholder="{{ __('attributes.user.zip') }}"
                                 class="form-control-muted"
-                                value="{{ $employee->getZip() }}"
+                                value="{{ $employee->zip }}"
                             />
                         </div>
                     </div>
@@ -115,7 +115,7 @@
                                     placeholder="{{ __('attributes.user.role') }}"
                                     class="form-select form-control-muted"
                                     :options="$roles"
-                                    value="{{ $employee->getRole() }}"
+                                    value="{{ $employee->role }}"
                                 />
                             </div>
                         </div>

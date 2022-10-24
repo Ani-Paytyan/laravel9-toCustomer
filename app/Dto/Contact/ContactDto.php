@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Dto\IwmsApi\Contact;
+namespace App\Dto\Contact;
 
-class IwmsApiContactDto
+class ContactDto
 {
     const STATUS_ACTIVE = "Active";
     const STATUS_INVITED = "Invited";
@@ -269,40 +269,5 @@ class IwmsApiContactDto
     {
         $this->zip = $zip;
         return $this;
-    }
-
-    public static function createFromApiResponse(array $data): self
-    {
-        return (new self())
-            ->setId($data['id'])
-            ->setCompanyId($data['company_id'])
-            ->setRole($data['role'])
-            ->setPhone($data['phone'])
-            ->setEmail($data['email'])
-            ->setAddress($data['address'])
-            ->setFirstName($data['first_name'])
-            ->setLastName($data['last_name'])
-            ->setCity($data['city'])
-            ->setZip($data['zip'])
-            ->setFullName($data['full_name'])
-            ->setStatus($data['status'])
-            ->setPortalAccess($data['portal_access']);
-    }
-
-    public static function createFromApiInviteResponse(array $data, $companyId): self
-    {
-        return (new self())
-            ->setId($data['id'])
-            ->setCompanyId($companyId)
-            ->setRole($data['role'])
-            ->setEmail($data['email']);
-    }
-
-    public static function createFromRequest(array $data, $id): self
-    {
-        return (new self())
-            ->setCompanyId($id)
-            ->setRole($data['role'])
-            ->setEmail($data['email']);
     }
 }

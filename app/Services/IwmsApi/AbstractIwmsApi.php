@@ -57,7 +57,6 @@ abstract class AbstractIwmsApi
     protected function handleError(Response $response)
     {
         if (!$response->successful()) {
-            // TODO: refactor for using view error bag
             $message = $response->json()['errors'] ? implode(' ', $response->json()['errors']) : [];
 
             throw new IwmsApiError($message, $response->status());

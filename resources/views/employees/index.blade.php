@@ -42,6 +42,9 @@
                                     @endif
                                 </td>
                                 <td>
+                                    <a href="{{ route('teams.employee-teams', $employee->getId()) }}" class="btn btn-sm btn-neutral">
+                                        <i class="bi bi-microsoft-teams"></i>
+                                    </a>
                                     @if($employee->getStatus() != $employee->getStatusDeleted())
                                         @if (Gate::allows('edit-employee'))
                                             @if ($employee->getId())
@@ -53,6 +56,7 @@
                                         @endif
                                         @if (Gate::allows('destroy-employee') && $userId !== $employee->getId())
                                             <form method="POST"
+                                                  class="btn btn-sm p-0"
                                                   action="{{ route('employees.destroy', $employee->getId()) }}">
                                                 {{ csrf_field() }}
                                                 {{ method_field('DELETE') }}

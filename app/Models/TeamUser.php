@@ -38,4 +38,9 @@ class TeamUser extends Model
             self::ROLE_MEMBER => self::ROLE_MEMBER,
         ];
     }
+
+    public function team()
+    {
+       return $this->belongsTo(Team::class, 'team_id', 'uuid');
+    }
 }

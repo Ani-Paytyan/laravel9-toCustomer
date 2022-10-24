@@ -31,4 +31,5 @@ Route::group(['middleware' => ['auth', 'SetIwmsApiToken']], static function () {
     Route::resource('workplaces', WorkPlaceController::class);
     Route::resource('teams', TeamController::class);
     Route::resource('team_users', TeamUserController::class);
+    Route::get('/employee-teams/{id}', [TeamUserController::class, 'employeeTeams'])->name('teams.employee-teams');
 });

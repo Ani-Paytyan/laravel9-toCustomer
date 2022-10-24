@@ -53,7 +53,7 @@
         <div class="row">
             <div class="col-md-3">
                 <x-form.select
-                    name="role"
+                    name="user_id"
                     required
                     id="user_id"
                     label="{{ __('page.teams.user') }}"

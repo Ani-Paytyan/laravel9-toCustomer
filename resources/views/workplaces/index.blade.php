@@ -37,6 +37,7 @@
                                         <i class="bi bi-pencil"></i>
                                     </a>
                                     <form method="POST"
+                                          class="btn btn-sm p-0"
                                           action="{{ route('workplaces.destroy', $workPlace->uuid) }}">
                                         {{ csrf_field() }}
                                         {{ method_field('DELETE') }}

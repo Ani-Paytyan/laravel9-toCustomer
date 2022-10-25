@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Dto\IwmsApi\Contact;
+namespace App\Dto\Contact;
 
-class IwmsApiContactEditDto
+class ContactEditDto
 {
     private string $id;
     private string $company_id;
-    private ?string $status;
     private ?string $role;
+    private ?string $status;
     private ?string $email;
     private ?string $phone;
     private string $first_name;
@@ -212,35 +212,5 @@ class IwmsApiContactEditDto
     {
         $this->status = $status;
         return $this;
-    }
-
-    public static function createFromApiResponse(array $data): self
-    {
-        return (new self())
-            ->setId($data['id'])
-            ->setPhone($data['phone'])
-            ->setAddress($data['address'])
-            ->setEmail($data['email'])
-            ->setCity($data['city'])
-            ->setCompanyId($data['company_id'])
-            ->setZip($data['zip'])
-            ->setStatus($data['status'])
-            ->setRole($data['role'])
-            ->setFirstName($data['first_name'])
-            ->setLastName($data['last_name']);
-    }
-
-    public static function createFromRequest(array $data, $id): self
-    {
-        return (new self())
-            ->setId($id)
-            ->setFirstName($data['first_name'])
-            ->setLastName($data['last_name'])
-            ->setAddress($data['address'])
-            ->setPhone($data['phone'])
-            ->setCity($data['city'])
-            ->setZip($data['zip'])
-            ->setRole($data['role'])
-            ->setEmail($data['email']);
     }
 }

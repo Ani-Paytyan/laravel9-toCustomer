@@ -25,35 +25,27 @@
                                 <th scope="col">{{ __('attributes.user.email')}}</th>
                                 <th scope="col">{{ __('attributes.user.role')}}</th>
                                 <th scope="col">{{ __('attributes.user.status')}}</th>
-                                <th scope="col">{{ __('attributes.employees.portal_access')}}</th>
                                 <th scope="col">{{ __('common.actions')}}</th>
                             </tr>
                         </thead>
                         <tbody>
-                        @foreach($paginator as $employee)
+                        @foreach($employees as $employee)
                             <tr>
-                                <td>{{ $employee->getFullName() }}</td>
-                                <td>{{ $employee->getEmail() }}</td>
-                                <td>{{ $employee->getRole() }}</td>
-                                <td>{{ $employee->getStatus() }} </td>
+                                <td>{{ $employee->first_name . ' ' . $employee->last_name }}</td>
+                                <td>{{ $employee->email }}</td>
+                                <td>{{ $employee->role }}</td>
+                                <td>{{ $employee->status }} </td>
                                 <td>
-                                    @if($employee->getPortalAccess())
-                                        <i class="bi bi-plus"></i>
-                                    @endif
-                                </td>
-                                <td>
-                                    @if($employee->getStatus() != $employee->getStatusDeleted())
+                                    @if($employee->status != $statusDeleted)
                                         @if (Gate::allows('edit-employee'))
-                                            @if ($employee->getId())
-                                                <a href="{{ route('employees.edit', $employee->getId()) }}"
-                                                   class="btn btn-sm btn-neutral">
-                                                    <i class="bi bi-pencil"></i>
-                                                </a>
-                                            @endif
+                                            <a href="{{ route('employees.edit', $employee->uuid) }}"
+                                               class="btn btn-sm btn-neutral">
+                                                <i class="bi bi-pencil"></i>
+                                            </a>
                                         @endif
-                                        @if (Gate::allows('destroy-employee') && $userId !== $employee->getId())
+                                        @if (Gate::allows('destroy-employee') && $userId !== $employee->uuid)
                                             <form method="POST"
-                                                  action="{{ route('employees.destroy', $employee->getId()) }}">
+                                                  action="{{ route('employees.destroy', $employee->uuid) }}">
                                                 {{ csrf_field() }}
                                                 {{ method_field('DELETE') }}
                                                 <button class="btn btn-sm btn-danger delete-employee">
@@ -69,7 +61,7 @@
                     </table>
                 </div>
             </div>
-            {{ $paginator->links() }}
+            {{ $employees->links() }}
         </div>
     </main>
 @endsection

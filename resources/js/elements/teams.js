@@ -66,9 +66,8 @@ $(document).ready(function() {
         let formData = {
             _method: 'POST',
             _token: $('meta[name="csrf-token"]').attr('content'),
-            uuid: $('#user_id option:selected').val(),
             team_id: $('#team_id').val(),
-            name: $('#user_id option:selected').text(),
+            user_id: $('#user_id option:selected').val(),
             role: $('#user_role option:selected').val()
         };
 

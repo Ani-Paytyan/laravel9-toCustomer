@@ -34,4 +34,9 @@ class Contact extends Model
     protected $casts = [
         'uuid' => 'string'
     ];
+
+    public function getFullNameAttribute()
+    {
+        return ucfirst($this->first_name) . ' ' . ucfirst($this->last_name);
+    }
 }

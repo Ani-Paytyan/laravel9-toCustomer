@@ -6,6 +6,7 @@ use App\Dto\Team\TeamCreateDto;
 use App\Dto\Team\TeamUpdateDto;
 use App\Http\Requests\Team\TeamStoreRequest;
 use App\Http\Requests\Team\TeamUpdateRequest;
+use App\Models\Contact;
 use App\Models\Team;
 use App\Models\TeamUser;
 use App\Services\IwmsApi\Contact\IwmsApiContactServiceInterface;
@@ -15,7 +16,7 @@ use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\DB;
 
 class TeamController extends Controller
 {
@@ -75,11 +76,18 @@ class TeamController extends Controller
     public function edit(Team $team)
     {
         $roles = TeamUser::getRoles();
-        $teamUsers = TeamUser::where('team_id', $team->uuid)->orderBy('name', 'ASC')->get();
-        // get all contacts (employees) and save to cache
-        $usersList = Cache::remember('contacts', 5, function() use ($teamUsers) {
-            return $this->getContactsFromApiWithPagination($teamUsers);
-        });
+        $teamUsers = TeamUser::with('user')->where('team_id', $team->uuid)->get();
+
+        $usersList = Contact::where('company_id', $this->companyId)
+            ->orderBy(DB::raw('ISNULL(first_name), first_name'), 'ASC')
+            ->whereNotIn('uuid', $teamUsers->pluck('user_id')->toArray())
+            ->select('uuid', 'first_name', 'last_name', 'email')
+            ->get()
+            ->mapWithKeys(function ($item) {
+                return [$item['uuid'] => $item['first_name'] && $item['last_name']
+                    ? ($item->getFullNameAttribute())
+                    : $item['email']];
+            })->toArray();
 
         return view('teams.edit', compact('team', 'roles', 'teamUsers', 'usersList'));
     }
@@ -108,37 +116,5 @@ class TeamController extends Controller
         }
 
         return redirect()->route('teams.index')->with('toast_error', __('page.teams.deleted_error'));
-    }
-
-    /**
-     * @param $teamUsers
-     * @return array
-     */
-    public function getContactsFromApiWithPagination($teamUsers): array
-    {
-        $contactsList = [];
-        $result = $this->apiContactService->getContacts($this->user->getCompany()->getId(),  1);
-        $pageCount = $result->getTotalPages();
-        $contacts[] = $result->getResults();
-
-        if ($pageCount > 1) {
-            for ($i = 2; $i <= $pageCount; $i++) {
-                $resultOtherPages = $this->apiContactService->getContacts($this->user->getCompany()->getId(), $i);
-                $contacts[] = $resultOtherPages->getResults();
-            }
-        }
-
-        foreach (array_merge([], ...$contacts) as $contact) {
-            if (!in_array($contact->getId(), $teamUsers->pluck('uuid')->toArray(), true)) {
-                $fullNameOrEmail = $contact->getFullName();
-                if (empty($contact->getFullName())) {
-                    $fullNameOrEmail = $contact->getEmail();
-                }
-
-                $contactsList[$contact->getId()] = $fullNameOrEmail;
-            }
-        }
-
-        return $contactsList;
     }
 }

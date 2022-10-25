@@ -14,6 +14,8 @@ class TeamUserStoreRequest extends FormRequest
     public function rules()
     {
         return [
+            'user_id' => 'required',
+            'team_id' => 'required',
             'role' => 'string|required',
         ];
     }

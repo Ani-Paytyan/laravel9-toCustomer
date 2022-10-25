@@ -38,4 +38,9 @@ class TeamUser extends Model
             self::ROLE_MEMBER => self::ROLE_MEMBER,
         ];
     }
+
+    public function user()
+    {
+        return $this->hasOne(Contact::class, 'uuid', 'user_id');
+    }
 }

@@ -17,10 +17,12 @@ return new class extends Migration
             $table->uuid()->primary();
             $table->uuid('user_id');
             $table->uuid('team_id');
-            $table->string('name');
             $table->string('role');
             $table->timestamps();
             $table->softDeletes();
+
+            $table->foreign('user_id')->references('uuid')->on('contacts');
+            $table->foreign('team_id')->references('uuid')->on('teams');
         });
     }
 

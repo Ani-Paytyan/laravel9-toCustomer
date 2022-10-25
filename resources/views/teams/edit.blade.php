@@ -42,7 +42,10 @@
                     </div>
                     <button type="submit" class="btn btn-success">{{ trans('common.update') }}</button>
                 </form>
-                @include('teams.components.teams')
+                <div>
+                    @include('teams.components.users_team')
+                    @include('teams.components.users_team_form')
+                </div>
             </div>
         </div>
     </div>

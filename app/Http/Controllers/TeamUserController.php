@@ -16,14 +16,13 @@ class TeamUserController extends Controller
      */
     public function store(TeamUserStoreRequest $request): JsonResponse
     {
-        $data = $request->only('uuid', 'name', 'role', 'team_id');
+        $data = $request->only('user_id', 'team_id', 'role');
 
         $result = TeamUser::withTrashed()->updateOrCreate([
-            'user_id' => trim($data['uuid']),
+            'user_id' => trim($data['user_id']),
             'team_id' => trim($data['team_id']),
         ], [
             'uuid' => Str::uuid()->toString(),
-            'name' => trim($data['name']),
             'role' => trim($data['role']),
             'deleted_at' => null
         ]);

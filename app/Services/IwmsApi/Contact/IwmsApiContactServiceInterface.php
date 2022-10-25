@@ -9,10 +9,11 @@ use App\Dto\IwmsApi\IwmsApiPaginationResponseDto;
 interface IwmsApiContactServiceInterface
 {
     /**
+     * @param string $companyId
      * @param int|null $page
-     * @return IwmsApiPaginationResponseDto
+     * @return null|IwmsApiPaginationResponseDto
      */
-    public function getContacts(?int $page): IwmsApiPaginationResponseDto;
+    public function getContacts(string $companyId, ?int $page): ?IwmsApiPaginationResponseDto;
 
     /**
      * @param IwmsApiContactDto $iwmsApiContactDto

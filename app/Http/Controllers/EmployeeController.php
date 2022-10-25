@@ -39,7 +39,7 @@ class EmployeeController extends Controller
     public function index()
     {
         $userId = $this->user->getId();
-        $statusDeleted = (new IwmsApiContactDto)->getStatusDeleted();
+        $statusDeleted = IwmsApiContactDto::STATUS_DELETED;
 
         $employees = Contact::where('company_id', $this->companyId)
             ->orderBy(DB::raw('ISNULL(first_name), first_name'), 'ASC')
@@ -99,10 +99,7 @@ class EmployeeController extends Controller
         ];
 
         // ability to change the role of all contacts of contacts, except for super-admins
-        $canEditRole = true;
-        if ($employee->role === IwmsApiUserDto::ROLE_SUPER_ADMIN) {
-            $canEditRole = false;
-        }
+        $canEditRole = $employee->role !== IwmsApiUserDto::ROLE_SUPER_ADMIN;
 
         return view('employees.edit', compact('employee', 'roles', 'canEditRole'));
     }
@@ -135,7 +132,7 @@ class EmployeeController extends Controller
     {
         Gate::authorize('destroy-employee');
 
-        if ($iwmsContactFacade->destroy($employee, $employee->uuid)) {
+        if ($iwmsContactFacade->destroy($employee)) {
             return redirect()->route('employees.index')->with('toast_success', __('page.employees.delete_successfully'));
         }
 

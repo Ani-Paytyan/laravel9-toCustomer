@@ -1,6 +1,7 @@
 <?php
 namespace App\Console\Commands;
 
+use App\Models\Company;
 use App\Services\Contact\ContactServiceInterface;
 use App\Services\IwmsApi\Contact\IwmsApiContactServiceInterface;
 use Illuminate\Console\Command;
@@ -49,15 +50,24 @@ class IwmsSyncContacts extends Command
      */
     public function getContactsWithPagination(IwmsApiContactServiceInterface $apiService): array
     {
+        // get all companies
+        $companies = Company::pluck('uuid');
+        $contacts = [];
         // get contacts
-        $result = $apiService->getContacts(1);
-        $pageCount = $result->getTotalPages();
-        $contacts[] = $result->getResults();
+        foreach ($companies as $company) {
+            $result = $apiService->getContacts($company,1);
+            if ($result) {
+                $pageCount = $result->getTotalPages();
+                $contacts[] = $result->getResults();
 
-        if ($pageCount > 1) {
-            for ($i = 2; $i <= $pageCount; $i++) {
-                $resultOtherPages = $apiService->getContacts($i);
-                $contacts[] = $resultOtherPages->getResults();
+                if ($pageCount > 1) {
+                    for ($i = 2; $i <= $pageCount; $i++) {
+                        $resultOtherPages = $apiService->getContacts($company,$i);
+                        if ($resultOtherPages) {
+                            $contacts[] = $resultOtherPages->getResults();
+                        }
+                    }
+                }
             }
         }
 

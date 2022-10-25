@@ -4,10 +4,6 @@ namespace App\Dto\Contact;
 
 class ContactDto
 {
-    const STATUS_ACTIVE = "Active";
-    const STATUS_INVITED = "Invited";
-    const STATUS_DELETED = "Deleted";
-
     private string $id;
     private string $role;
     private string $email;
@@ -154,21 +150,6 @@ class ContactDto
     public function getStatus(): string
     {
         return $this->status;
-    }
-
-    public function getStatusActive()
-    {
-        return self::STATUS_ACTIVE;
-    }
-
-    public function getStatusInvited()
-    {
-        return self::STATUS_INVITED;
-    }
-
-    public function getStatusDeleted()
-    {
-        return self::STATUS_DELETED;
     }
 
     /**

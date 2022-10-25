@@ -17,31 +17,27 @@ class IwmsApiContactService extends AbstractIwmsApi implements IwmsApiContactSer
 
     private const CONTACTS_GET_SORT_FIELD =  'first_name';
 
-    public function getContacts(?int $page = 1): IwmsApiPaginationResponseDto
+    public function getContacts(string $companyId, ?int $page = 1): ?IwmsApiPaginationResponseDto
     {
-        // get all companies
-        $companies = Company::pluck('uuid');
-        $result = null;
         $contacts = [];
+        $response = $this->getRequestBuilder()->get(self::CONTACTS_GET_URL, [
+            'currentPage' => $page,
+            'company_id' => $companyId,
+            'sort' => self::CONTACTS_GET_SORT_FIELD,
+        ]);
+        if ($response && $response->status() === 200) {
+            $result = json_decode($response->getBody()->getContents(), true);
 
-        foreach ($companies as $companyId) {
-            $response = $this->getRequestBuilder()->get(self::CONTACTS_GET_URL, [
-                'currentPage' => $page,
-                'company_id' => $companyId,
-                'sort' => self::CONTACTS_GET_SORT_FIELD,
-            ]);
-            if ($response && $response->status() === 200) {
-                $result = json_decode($response->getBody()->getContents(), true);
-
-                foreach ($result['results'] as $contact) {
-                    $contacts[] = IwmsApiContactDto::createFromApiResponse($contact);
-                }
-
-                $result['results'] = $contacts;
+            foreach ($result['results'] as $contact) {
+                $contacts[] = IwmsApiContactDto::createFromApiResponse($contact);
             }
+
+            $result['results'] = $contacts;
+
+            return IwmsApiPaginationResponseDto::createFromApiResponse($result);
         }
 
-        return IwmsApiPaginationResponseDto::createFromApiResponse($result);
+        return null;
     }
 
     /**

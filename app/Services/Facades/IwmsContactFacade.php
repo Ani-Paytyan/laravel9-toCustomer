@@ -71,15 +71,13 @@ class IwmsContactFacade
         return false;
     }
 
-
     /**
      * @param Contact $contact
-     * @param $id
      * @return bool
      */
-    public function destroy(Contact $contact, $id): bool
+    public function destroy(Contact $contact): bool
     {
-        $res = $this->apiContactService->destroy($id);
+        $res = $this->apiContactService->destroy($contact->uuid);
 
         if ($res) {
             return $this->contactService->destroy($contact);

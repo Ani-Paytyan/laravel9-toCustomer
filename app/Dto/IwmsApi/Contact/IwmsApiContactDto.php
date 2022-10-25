@@ -156,21 +156,6 @@ class IwmsApiContactDto
         return $this->status;
     }
 
-    public function getStatusActive()
-    {
-        return self::STATUS_ACTIVE;
-    }
-
-    public function getStatusInvited()
-    {
-        return self::STATUS_INVITED;
-    }
-
-    public function getStatusDeleted()
-    {
-        return self::STATUS_DELETED;
-    }
-
     /**
      * @param string $status
      * @return $this

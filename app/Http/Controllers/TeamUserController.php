@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\TeamUser\TeamUserStoreRequest;
 use App\Http\Requests\TeamUser\TeamUserUpdateRequest;
+use App\Models\Contact;
 use App\Models\Team;
 use App\Models\TeamUser;
 use Illuminate\Contracts\Foundation\Application;
@@ -31,7 +32,8 @@ class TeamUserController extends Controller
      */
     public function employeeTeams($id)
     {
-        $userTeams = TeamUser::with('team')->where('user_id', $id)->get();
+        $contact = Contact::where('uuid', $id)->firstOrFail();
+        $userTeams = TeamUser::with('team')->where('user_id', $contact->uuid)->get();
         // get all team ids from table TeamUser if isset client
         $teamsIds = $userTeams->pluck('team_id')->toArray();
         $roles = TeamUser::getRoles();
@@ -42,7 +44,7 @@ class TeamUserController extends Controller
             ->pluck('name','uuid')
             ->toArray();
 
-        return view('teams.employee-teams', compact('id','userTeams', 'roles', 'teamsList'));
+        return view('teams.employee-teams', compact('contact','userTeams', 'roles', 'teamsList'));
     }
 
     /**

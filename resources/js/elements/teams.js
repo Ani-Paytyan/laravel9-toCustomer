@@ -44,8 +44,11 @@ $(document).ready(function() {
             success: function (data) {
                 if (data.status == 'success') {
                     $(obj).closest("tr").remove();
+                    location.reload();
+                } else {
+                    $('#loading').hide();
                 }
-                location.reload();
+
                 swalAlert(data.status, data.message);
             },
             error: function (data) {
@@ -77,8 +80,13 @@ $(document).ready(function() {
             data: formData,
             dataType: 'json',
             success: function (data) {
+                if (data.status == 'success') {
+                    location.reload();
+                } else {
+                    $('#loading').hide();
+                }
+
                 swalAlert(data.status, data.message);
-                location.reload();
             },
             error: function (data) {
                 $('.preloader').hide();
@@ -98,9 +106,8 @@ $(document).ready(function() {
         let formData = {
             _method: 'POST',
             _token: $('meta[name="csrf-token"]').attr('content'),
-            uuid: $('#user_id').val(),
+            user_id: $('#user_id').val(),
             team_id: $('#team_id option:selected').val(),
-            name: $('#team_id option:selected').text(),
             role: $('#user_role option:selected').val()
         };
 
@@ -110,8 +117,13 @@ $(document).ready(function() {
             data: formData,
             dataType: 'json',
             success: function (data) {
+                if (data.status == 'success') {
+                    location.reload();
+                } else {
+                    $('#loading').hide();
+                }
+
                 swalAlert(data.status, data.message);
-                location.reload();
             },
             error: function (data) {
                 $('.preloader').hide();

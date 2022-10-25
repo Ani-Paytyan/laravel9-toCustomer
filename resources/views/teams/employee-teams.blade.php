@@ -8,9 +8,9 @@
         <div class="card mb-7">
             <div class="row card-header align-items-center">
                 <div class="page-title">
-                    <h3>{{ __('page.user.user_teams')}}</h3>
+                    <h3>{{ $contact->getFullNameAttribute() }} - {{ __('page.teams.title')}} </h3>
                 </div>
-                @if($userTeams)
+                @if(!empty($userTeams))
                     <div class="card">
                         <div class="table-responsive">
                             <table class="table table-hover table-nowrap">
@@ -59,7 +59,7 @@
                 <form class="team-user-form" method="POST" action="{{ route("team_users.store") }}">
                     @csrf
                     @method('POST')
-                    <input type="hidden" id="user_id" value="{{ $id }}">
+                    <input type="hidden" id="user_id" value="{{ $contact->uuid }}">
                     <div class="row">
                         <div class="col-md-3">
                             <x-form.select

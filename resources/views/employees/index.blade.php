@@ -31,7 +31,7 @@
                         <tbody>
                         @foreach($employees as $employee)
                             <tr>
-                                <td>{{ $employee->first_name . ' ' . $employee->last_name }}</td>
+                                <td>{{ $employee->getFullNameAttribute() }}</td>
                                 <td>{{ $employee->email }}</td>
                                 <td>{{ $employee->role }}</td>
                                 <td>{{ $employee->status }} </td>

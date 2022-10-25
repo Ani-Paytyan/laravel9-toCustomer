@@ -14,7 +14,7 @@
             <tbody class="users-list">
             @foreach($teamUsers as $teamUser)
                 <tr>
-                    <td>{{ $teamUser->user->getFullNameAttribute() }}</td>
+                    <td>{{ $teamUser->user->first_name ? $teamUser->user->getFullNameAttribute() : $teamUser->user->email }}</td>
                     <td>
                         <x-form.select
                             name="role"

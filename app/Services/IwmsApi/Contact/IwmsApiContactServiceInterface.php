@@ -11,25 +11,25 @@ interface IwmsApiContactServiceInterface
     /**
      * @param string $companyId
      * @param int|null $page
-     * @return IwmsApiPaginationResponseDto
+     * @return null|IwmsApiPaginationResponseDto
      */
-    public function getContacts(string $companyId, ?int $page): IwmsApiPaginationResponseDto;
+    public function getContacts(string $companyId, ?int $page): ?IwmsApiPaginationResponseDto;
+
+    /**
+     * @param IwmsApiContactDto $iwmsApiContactDto
+     * @return IwmsApiContactDto|null
+     */
+    public function invite(IwmsApiContactDto $iwmsApiContactDto): ?IwmsApiContactDto;
 
     /**
      * @param IwmsApiContactEditDto $iwmsApiContactEditDto
-     * @return bool
+     * @return IwmsApiContactEditDto|null
      */
-    public function update(IwmsApiContactEditDto $iwmsApiContactEditDto): bool;
+    public function update(IwmsApiContactEditDto $iwmsApiContactEditDto): ?IwmsApiContactEditDto;
 
     /**
      * @param string $id
      * @return bool
      */
     public function destroy(string $id): bool;
-
-    /**
-     * @param IwmsApiContactDto $iwmsApiContactDto
-     * @return bool
-     */
-    public function invite(IwmsApiContactDto $iwmsApiContactDto): bool;
 }

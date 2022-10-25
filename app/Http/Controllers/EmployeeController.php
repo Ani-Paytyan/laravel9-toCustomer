@@ -5,48 +5,47 @@ namespace App\Http\Controllers;
 use App\Dto\IwmsApi\Contact\IwmsApiContactDto;
 use App\Dto\IwmsApi\Contact\IwmsApiContactEditDto;
 use App\Dto\IwmsApi\IwmsApiUserDto;
+use App\Http\Requests\Employee\EmployeeCreateRequest;
 use App\Http\Requests\Employee\EmployeeEditRequest;
-use App\Services\IwmsApi\Contact\IwmsApiContactServiceInterface;
-use App\Traits\PaginatorTrait;
+use App\Models\Contact;
+use App\Services\Facades\IwmsContactFacade;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
 
 
 class EmployeeController extends Controller
 {
-    use PaginatorTrait;
-
     protected $user;
+    protected $companyId;
 
-    public function __construct(
-        protected IwmsApiContactServiceInterface $apiContactService,
-    )
+    public function __construct()
     {
         $this->middleware(function ($request, $next) {
             $this->user = Auth::user();
+            $this->companyId = Auth::user()->getCompany()->getId();
 
             return $next($request);
         });
     }
 
     /**
-     * @param Request $request
      * @return Application|Factory|View
      */
-    public function index(Request $request)
+    public function index()
     {
         $userId = $this->user->getId();
+        $statusDeleted = IwmsApiContactDto::STATUS_DELETED;
 
-        $employees = $this->apiContactService->getContacts($this->user->getCompany()->getId(), $request->page ?? 1);
+        $employees = Contact::where('company_id', $this->companyId)
+            ->orderBy(DB::raw('ISNULL(first_name), first_name'), 'ASC')
+            ->paginate(20);
 
-        $paginator = $this->getPaginator($request, $employees);
-
-        return view('employees.index', compact('employees', 'paginator', 'userId'));
+        return view('employees.index', compact('employees',  'userId', 'statusDeleted'));
     }
 
     /**
@@ -68,29 +67,17 @@ class EmployeeController extends Controller
     }
 
     /**
-     * @param $id
-     * @return Application|Factory|View
-     */
-    public function edit($id)
-    {
-        Gate::authorize('edit-employee');
-
-        return view('employees.edit', compact('id'));
-    }
-
-    /**
-     * @param Request $request
+     * @param EmployeeCreateRequest $request
+     * @param IwmsContactFacade $iwmsContactFacade
      * @return RedirectResponse
      */
-    public function store(Request $request): RedirectResponse
+    public function store(EmployeeCreateRequest $request, IwmsContactFacade $iwmsContactFacade): RedirectResponse
     {
         Gate::authorize('invite-employee');
 
-        $result = $this->apiContactService->invite(
-            IwmsApiContactDto::createForApiInvite($request->only(['email', 'role']), $this->user->getCompany()->getId())
-        );
+        $iwmsApiContactDto = IwmsApiContactDto::createFromRequest($request->all(), $this->companyId);
 
-        if ($result) {
+        if ($iwmsContactFacade->invite($iwmsApiContactDto)) {
             return redirect()->route('employees.index')->with('toast_success', __('page.employees.invite_successfully'));
         }
 
@@ -98,21 +85,38 @@ class EmployeeController extends Controller
     }
 
     /**
-     * @param EmployeeEditRequest $request
-     * @param $id
-     * @return RedirectResponse
+     * @param Contact $employee
+     * @return Application|Factory|View
      */
-    public function update(EmployeeEditRequest $request, $id): RedirectResponse
+    public function edit(Contact $employee)
     {
         Gate::authorize('edit-employee');
 
-        $data = IwmsApiContactEditDto::createFromFormRequest(
-            $request->only(['first_name', 'last_name', 'email', 'phone', 'address', 'city', 'zip']), $id
-        );
+        $roles = [
+            IwmsApiUserDto::ROLE_ADMIN => IwmsApiUserDto::ROLE_ADMIN,
+            IwmsApiUserDto::ROLE_MANAGER => IwmsApiUserDto::ROLE_MANAGER,
+            IwmsApiUserDto::ROLE_WORKER => IwmsApiUserDto::ROLE_WORKER,
+        ];
 
-        $result = $this->apiContactService->update($data);
+        // ability to change the role of all contacts of contacts, except for super-admins
+        $canEditRole = $employee->role !== IwmsApiUserDto::ROLE_SUPER_ADMIN;
 
-        if ($result) {
+        return view('employees.edit', compact('employee', 'roles', 'canEditRole'));
+    }
+
+    /**
+     * @param EmployeeEditRequest $request
+     * @param IwmsContactFacade $iwmsContactFacade
+     * @param Contact $employee
+     * @return RedirectResponse
+     */
+    public function update(EmployeeEditRequest $request, IwmsContactFacade $iwmsContactFacade, Contact $employee): RedirectResponse
+    {
+        Gate::authorize('edit-employee');
+
+        $iwmsApiContactEditDto = IwmsApiContactEditDto::createFromRequest($request->all(), $employee->uuid);
+
+        if ($iwmsContactFacade->update($iwmsApiContactEditDto, $employee)) {
             return redirect()->route('employees.index')->with('toast_success', __('page.employees.update_successfully'));
         }
 
@@ -120,14 +124,15 @@ class EmployeeController extends Controller
     }
 
     /**
-     * @param string $id
+     * @param IwmsContactFacade $iwmsContactFacade
+     * @param Contact $employee
      * @return RedirectResponse
      */
-    public function destroy(string $id): RedirectResponse
+    public function destroy(IwmsContactFacade $iwmsContactFacade, Contact $employee): RedirectResponse
     {
         Gate::authorize('destroy-employee');
 
-        if ($this->apiContactService->destroy($id)) {
+        if ($iwmsContactFacade->destroy($employee)) {
             return redirect()->route('employees.index')->with('toast_success', __('page.employees.delete_successfully'));
         }
 

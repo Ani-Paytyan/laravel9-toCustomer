@@ -40,6 +40,7 @@ class AuthServiceProvider extends ServiceProvider
             return $app->make(\Illuminate\Contracts\Auth\UserProvider::class);
         });
 
+        // employees
         Gate::define('invite-employee', function (IwmsApiUserDto $user) {
             return $user->getRole() === IwmsApiUserDto::ROLE_SUPER_ADMIN
                 || $user->getRole() === IwmsApiUserDto::ROLE_ADMIN;
@@ -51,6 +52,22 @@ class AuthServiceProvider extends ServiceProvider
         });
 
         Gate::define('destroy-employee', function (IwmsApiUserDto $user) {
+            return $user->getRole() === IwmsApiUserDto::ROLE_SUPER_ADMIN
+                || $user->getRole() === IwmsApiUserDto::ROLE_ADMIN;
+        });
+
+        // workplaces
+        Gate::define('create-workplace', function (IwmsApiUserDto $user) {
+            return $user->getRole() === IwmsApiUserDto::ROLE_SUPER_ADMIN
+                || $user->getRole() === IwmsApiUserDto::ROLE_ADMIN;
+        });
+
+        Gate::define('edit-workplace', function (IwmsApiUserDto $user) {
+            return $user->getRole() === IwmsApiUserDto::ROLE_SUPER_ADMIN
+                || $user->getRole() === IwmsApiUserDto::ROLE_ADMIN;
+        });
+
+        Gate::define('destroy-workplace', function (IwmsApiUserDto $user) {
             return $user->getRole() === IwmsApiUserDto::ROLE_SUPER_ADMIN
                 || $user->getRole() === IwmsApiUserDto::ROLE_ADMIN;
         });

@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 use App\Models\Company;
 use App\Services\Contact\ContactServiceInterface;
 use App\Services\IwmsApi\Contact\IwmsApiContactServiceInterface;
+use Exception;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Log;
@@ -55,19 +56,25 @@ class IwmsSyncContacts extends Command
         $contacts = [];
         // get contacts
         foreach ($companies as $company) {
-            $result = $apiService->getContacts($company,1);
-            if ($result) {
-                $pageCount = $result->getTotalPages();
-                $contacts[] = $result->getResults();
+            try {
+                $result = $apiService->getContacts($company,1);
+                if ($result) {
+                    $pageCount = $result->getTotalPages();
+                    $contacts[] = $result->getResults();
 
-                if ($pageCount > 1) {
-                    for ($i = 2; $i <= $pageCount; $i++) {
-                        $resultOtherPages = $apiService->getContacts($company,$i);
-                        if ($resultOtherPages) {
-                            $contacts[] = $resultOtherPages->getResults();
+                    if ($pageCount > 1) {
+                        for ($i = 2; $i <= $pageCount; $i++) {
+                            $resultOtherPages = $apiService->getContacts($company,$i);
+                            if ($resultOtherPages) {
+                                $contacts[] = $resultOtherPages->getResults();
+                            }
                         }
                     }
                 }
+            } catch (Exception $e) {
+                Log::error("IwmsSyncContacts - Code: " . $e->getCode() . " File:" . $e->getFile() .  " Message: " . $e->getMessage());
+
+                continue;
             }
         }
 

@@ -3,8 +3,6 @@
 namespace App\Exceptions\Iwms;
 
 use Illuminate\Support\Facades\Log;
-use Illuminate\Http\RedirectResponse;
-use JetBrains\PhpStorm\Internal\LanguageLevelTypeAware;
 
 class IwmsApiError extends \Exception
 {
@@ -13,14 +11,11 @@ class IwmsApiError extends \Exception
         parent::__construct($message, $code, $previous);
     }
 
-    /**
-     * @return RedirectResponse
-     */
-    public function render(): RedirectResponse
+    public function render()
     {
         Log::error("Code: " . $this->code . " File:" . $this->file .  " Message: " . $this->getMessage());
         Log::error($this);
 
-        return redirect()->route('dashboard')->with('toast_error', $this->getMessage());
+        return redirect()->back()->with('toast_error', $this->getMessage());
     }
 }

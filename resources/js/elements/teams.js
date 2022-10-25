@@ -87,6 +87,39 @@ $(document).ready(function() {
         });
     });
 
+    $(".addUserToTeam").click(function (e) {
+        e.preventDefault();
+
+        if ($('#team_id option:selected').val() === '') {
+            return;
+        }
+        $('#loading').show();
+
+        let formData = {
+            _method: 'POST',
+            _token: $('meta[name="csrf-token"]').attr('content'),
+            uuid: $('#user_id').val(),
+            team_id: $('#team_id option:selected').val(),
+            name: $('#team_id option:selected').text(),
+            role: $('#user_role option:selected').val()
+        };
+
+        $.ajax({
+            type: "POST",
+            url: $('.team-user-form').attr('action'),
+            data: formData,
+            dataType: 'json',
+            success: function (data) {
+                swalAlert(data.status, data.message);
+                location.reload();
+            },
+            error: function (data) {
+                $('.preloader').hide();
+                console.log(data);
+            }
+        });
+    });
+
     function swalAlert(status, message, toast = true, position = 'top-right') {
         Swal.fire({
             toast: toast,

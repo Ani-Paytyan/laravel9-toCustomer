@@ -42,6 +42,7 @@
                                     @endif
                                     @if (Gate::allows('destroy-workplace'))
                                         <form method="POST"
+                                              class="btn btn-sm p-0"
                                               action="{{ route('workplaces.destroy', $workPlace->uuid) }}">
                                             {{ csrf_field() }}
                                             {{ method_field('DELETE') }}

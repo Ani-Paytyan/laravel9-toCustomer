@@ -4,12 +4,47 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\TeamUser\TeamUserStoreRequest;
 use App\Http\Requests\TeamUser\TeamUserUpdateRequest;
+use App\Models\Team;
 use App\Models\TeamUser;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 
 class TeamUserController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware(function ($request, $next) {
+            $this->user = Auth::user();
+            $this->companyId = Auth::user()->getCompany()->getId();
+
+            return $next($request);
+        });
+    }
+
+    /**
+     * @param $id
+     * @return Application|Factory|View
+     */
+    public function employeeTeams($id)
+    {
+        $userTeams = TeamUser::with('team')->where('user_id', $id)->get();
+        // get all team ids from table TeamUser if isset client
+        $teamsIds = $userTeams->pluck('team_id')->toArray();
+        $roles = TeamUser::getRoles();
+
+        $teamsList = Team::where('company_id', $this->companyId)
+            ->whereNotIn('uuid', $teamsIds)
+            ->orderBy('name', 'ASC')
+            ->pluck('name','uuid')
+            ->toArray();
+
+        return view('teams.employee-teams', compact('id','userTeams', 'roles', 'teamsList'));
+    }
+
     /**
      * @param TeamUserStoreRequest $request
      * @return JsonResponse

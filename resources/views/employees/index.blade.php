@@ -36,6 +36,9 @@
                                 <td>{{ $employee->role }}</td>
                                 <td>{{ $employee->status }} </td>
                                 <td>
+                                    <a href="{{ route('teams.employee-teams', $employee->uuid) }}" class="btn btn-sm btn-neutral">
+                                        <i class="bi bi-microsoft-teams"></i>
+                                    </a>
                                     @if($employee->status != $statusDeleted)
                                         @if (Gate::allows('edit-employee'))
                                             <a href="{{ route('employees.edit', $employee->uuid) }}"
@@ -45,7 +48,8 @@
                                         @endif
                                         @if (Gate::allows('destroy-employee') && $userId !== $employee->uuid)
                                             <form method="POST"
-                                                  action="{{ route('employees.destroy', $employee->uuid) }}">
+                                                  class="btn btn-sm p-0"
+                                                  action="{{ route('employees.destroy', $employee->getId()) }}">
                                                 {{ csrf_field() }}
                                                 {{ method_field('DELETE') }}
                                                 <button class="btn btn-sm btn-danger delete-employee">

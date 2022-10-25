@@ -43,4 +43,9 @@ class TeamUser extends Model
     {
         return $this->hasOne(Contact::class, 'uuid', 'user_id');
     }
+
+    public function team()
+    {
+       return $this->belongsTo(Team::class, 'team_id', 'uuid');
+    }
 }

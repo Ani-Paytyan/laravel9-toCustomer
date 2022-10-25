@@ -54,5 +54,6 @@ return [
         'deleted_successfully' => 'User deleted from company successfully',
         'deleted_error' => 'User not deleted',
         'add_user' => 'Add user',
+        'user_teams' => 'User teams',
     ],
 ];

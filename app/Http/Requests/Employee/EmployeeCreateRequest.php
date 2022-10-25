@@ -4,7 +4,7 @@ namespace App\Http\Requests\Employee;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class EmployeeEditRequest extends FormRequest
+class EmployeeCreateRequest extends FormRequest
 {
     /**
      * Get the validation rules that apply to the request.
@@ -14,9 +14,8 @@ class EmployeeEditRequest extends FormRequest
     public function rules()
     {
         return [
-            'email' => 'unique:contacts,email,'. $this->employee->uuid.',uuid',
-            'first_name' => 'string|required',
-            'last_name' => 'string|required',
+            'email' => 'string|required|unique:contacts',
+            'role' => 'required',
         ];
     }
 
@@ -24,8 +23,7 @@ class EmployeeEditRequest extends FormRequest
     {
         return [
             'email' => trans('attributes.user.email'),
-            'first_name' => trans('attributes.user.first_name'),
-            'last_name' => trans('attributes.user.last_name'),
+            'role' => trans('attributes.user.role'),
         ];
     }
 }

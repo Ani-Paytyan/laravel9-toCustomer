@@ -9,7 +9,6 @@ return [
         'title' => 'Login',
         'sign_in_button' => 'Sign in',
     ],
-
     'employees' => [
         'title' => 'Employees',
         'edit_employee' => 'Edit employee',
@@ -61,6 +60,13 @@ return [
     ],
     'unique-item' => [
         'title' => 'Unique item',
-        'add_client' => 'Add client',
+        'add_contact' => 'Add contact to Unique Item',
+        'add_contact_btn' => 'Add contact',
+        'contact' => 'Contact',
+        'contacts' => 'Unique item contacts',
+        'created_successfully' => 'Client added to unique item successfully',
+        'created_error' => 'Client not added',
+        'deleted_successfully' => 'Client deleted from item successfully',
+        'deleted_error' => 'Client not deleted',
     ],
 ];

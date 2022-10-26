@@ -37,6 +37,9 @@
                                 <td>{{ $employee->status }} </td>
                                 <td>
                                     @if($employee->status != $statusDeleted)
+                                        <a href="{{ route('teams.unique-items', $employee->uuid) }}" class="btn btn-sm btn-neutral">
+                                            <i class="bi bi-microsoft-teams"></i>
+                                        </a>
                                         <a href="{{ route('teams.employee-teams', $employee->uuid) }}" class="btn btn-sm btn-neutral">
                                             <i class="bi bi-microsoft-teams"></i>
                                         </a>

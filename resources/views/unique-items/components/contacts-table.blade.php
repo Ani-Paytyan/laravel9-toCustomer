@@ -1,5 +1,5 @@
 <div class="mt-4 mb-4">
-    <h5>{{ __('page.teams.users')}}</h5>
+    <h4>{{ __('page.unique-item.contacts')}} :</h4>
 </div>
 <div class="card mb-8">
     <div class="table-responsive">
@@ -10,13 +10,13 @@
                 <th scope="col">{{ __('common.actions')}}</th>
             </tr>
             </thead>
-            <tbody class="users-list">
+            <tbody class="contact-list">
             @foreach($uniqueItemContacts as $uniqueItem)
                 <tr>
-                    <td>{{ $uniqueItem->user->first_name ? $uniqueItem->user->getFullNameAttribute() : $uniqueItem->user->email }}</td>
+                    <td>{{ $uniqueItem->contact->first_name ? $uniqueItem->contact->getFullNameAttribute() : $uniqueItem->contact->email }}</td>
                     <td>
-                        <a href="{{ route('team_users.destroy', $uniqueItem->uuid) }}"
-                           class="btn btn-sm btn-neutral destroyUser">
+                        <a href="{{ route('unique-item-contacts.destroy', $uniqueItem->uuid) }}"
+                           class="btn btn-sm btn-neutral unique-item-contacts-destroy">
                             <i class="bi bi-trash"></i>
                         </a>
                     </td>

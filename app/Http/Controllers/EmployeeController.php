@@ -8,6 +8,8 @@ use App\Dto\IwmsApi\IwmsApiUserDto;
 use App\Http\Requests\Employee\EmployeeCreateRequest;
 use App\Http\Requests\Employee\EmployeeEditRequest;
 use App\Models\Contact;
+use App\Models\Team;
+use App\Models\TeamContact;
 use App\Services\Facades\IwmsContactFacade;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
@@ -137,5 +139,26 @@ class EmployeeController extends Controller
         }
 
         return redirect()->route('employees.index')->with('toast_error', __('page.employees.delete_error'));
+    }
+
+    /**
+     * @param $id
+     * @return Application|Factory|View
+     */
+    public function employeeTeams($id)
+    {
+        $contact = Contact::where('uuid', $id)->firstOrFail();
+        $contactTeams = TeamContact::with('team')->where('contact_id', $contact->uuid)->get();
+        // get all team ids from table TeamUser if isset client
+        $teamsIds = $contactTeams->pluck('team_id')->toArray();
+        $roles = TeamContact::getRoles();
+
+        $teamsList = Team::where('company_id', $this->companyId)
+            ->whereNotIn('uuid', $teamsIds)
+            ->orderBy('name', 'ASC')
+            ->pluck('name','uuid')
+            ->toArray();
+
+        return view('teams.employee-teams', compact('contact','contactTeams', 'roles', 'teamsList'));
     }
 }

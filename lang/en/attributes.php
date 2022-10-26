@@ -23,7 +23,7 @@ return [
     ],
     'team' => [
         'name' => 'Team name',
-        'user_role' => 'User role',
+        'contact_role' => 'Contact role',
         'description' => 'Description',
     ],
 ];

@@ -6,20 +6,20 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class TeamUser extends Model
+class TeamContact extends Model
 {
     use HasFactory, SoftDeletes;
 
     public const ROLE_LEAD = 'Lead';
     public const ROLE_MEMBER = 'Member';
 
-    public $table = 'team_users';
+    public $table = 'team_contacts';
 
     protected $primaryKey = 'uuid';
 
     protected $fillable = [
         'uuid',
-        'user_id',
+        'contact_id',
         'team_id',
         'name',
         'role',
@@ -39,9 +39,9 @@ class TeamUser extends Model
         ];
     }
 
-    public function user()
+    public function contact()
     {
-        return $this->hasOne(Contact::class, 'uuid', 'user_id');
+        return $this->hasOne(Contact::class, 'uuid', 'contact_id');
     }
 
     public function team()

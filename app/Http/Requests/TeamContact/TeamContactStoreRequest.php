@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\TeamUser;
+namespace App\Http\Requests\TeamContact;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class TeamUserStoreRequest extends FormRequest
+class TeamContactStoreRequest extends FormRequest
 {
     /**
      * Get the validation rules that apply to the request.
@@ -14,7 +14,7 @@ class TeamUserStoreRequest extends FormRequest
     public function rules()
     {
         return [
-            'user_id' => 'required',
+            'contact_id' => 'required',
             'team_id' => 'required',
             'role' => 'string|required',
         ];

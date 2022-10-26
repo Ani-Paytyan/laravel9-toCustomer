@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\TeamUser;
+namespace App\Http\Requests\TeamContact;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class TeamUserUpdateRequest extends FormRequest
+class TeamContactUpdateRequest extends FormRequest
 {
     /**
      * Get the validation rules that apply to the request.

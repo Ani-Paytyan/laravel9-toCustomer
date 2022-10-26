@@ -13,15 +13,15 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('team_users', function (Blueprint $table) {
+        Schema::create('team_contacts', function (Blueprint $table) {
             $table->uuid()->primary();
-            $table->uuid('user_id');
+            $table->uuid('contact_id');
             $table->uuid('team_id');
             $table->string('role');
             $table->timestamps();
             $table->softDeletes();
 
-            $table->foreign('user_id')->references('uuid')->on('contacts');
+            $table->foreign('contact_id')->references('uuid')->on('contacts');
             $table->foreign('team_id')->references('uuid')->on('teams');
         });
     }
@@ -33,6 +33,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('team_users');
+        Schema::dropIfExists('team_contacts');
     }
 };

@@ -1,5 +1,5 @@
 <div class="mt-4 mb-4">
-    <h5>{{ __('page.teams.users')}} {{ $team->name }}</h5>
+    <h5>{{ __('page.teams.contacts')}} {{ $team->name }}</h5>
 </div>
 <div class="card mb-8">
     <div class="table-responsive">
@@ -11,10 +11,10 @@
                 <th scope="col">{{ __('common.actions')}}</th>
             </tr>
             </thead>
-            <tbody class="users-list">
-            @foreach($teamUsers as $teamUser)
+            <tbody class="clients-list">
+            @foreach($teamContacts as $teamContact)
                 <tr>
-                    <td>{{ $teamUser->user->first_name ? $teamUser->user->getFullNameAttribute() : $teamUser->user->email }}</td>
+                    <td>{{ $teamContact->contact->first_name ? $teamContact->contact->getFullNameAttribute() : $teamContact->contact->email }}</td>
                     <td>
                         <x-form.select
                             name="role"
@@ -23,16 +23,16 @@
                             class="form-select role"
                             :hide-default-option="true"
                             :options="$roles"
-                            value="{{ $teamUser->role }}"
+                            value="{{ $teamContact->role }}"
                         />
                     </td>
                     <td>
-                        <a href="{{ route('team_users.update', $teamUser->uuid) }}"
-                           class="btn btn-sm btn-neutral updateUser">
+                        <a href="{{ route('team-contacts.update', $teamContact->uuid) }}"
+                           class="btn btn-sm btn-neutral updateContact">
                             <i class="bi bi-save"></i>
                         </a>
-                        <a href="{{ route('team_users.destroy', $teamUser->uuid) }}"
-                           class="btn btn-sm btn-neutral destroyUser">
+                        <a href="{{ route('team-contacts.destroy', $teamContact->uuid) }}"
+                           class="btn btn-sm btn-neutral destroyContact">
                             <i class="bi bi-trash"></i>
                         </a>
                     </td>

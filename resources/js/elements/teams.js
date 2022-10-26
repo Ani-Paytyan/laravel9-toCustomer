@@ -1,5 +1,5 @@
 $(document).ready(function() {
-    $(".updateUser").click(function (e) {
+    $(".updateContact").click(function (e) {
         e.preventDefault();
         $('#loading').show();
 
@@ -26,7 +26,7 @@ $(document).ready(function() {
     });
 
 
-    $(".destroyUser").click(function (e) {
+    $(".destroyContact").click(function (e) {
         e.preventDefault();
         $('#loading').show();
         const obj = $(this);
@@ -58,10 +58,10 @@ $(document).ready(function() {
         });
     });
 
-    $(".addUser").click(function (e) {
+    $(".addContactToTeam").click(function (e) {
         e.preventDefault();
 
-        if ($('#user_id option:selected').val() === '') {
+        if ($('#contact_id option:selected').val() === '') {
             return;
         }
         $('#loading').show();
@@ -70,13 +70,13 @@ $(document).ready(function() {
             _method: 'POST',
             _token: $('meta[name="csrf-token"]').attr('content'),
             team_id: $('#team_id').val(),
-            user_id: $('#user_id option:selected').val(),
-            role: $('#user_role option:selected').val()
+            contact_id: $('#contact_id option:selected').val(),
+            role: $('#contact_role option:selected').val()
         };
 
         $.ajax({
             type: "POST",
-            url: $('.team-user-form').attr('action'),
+            url: $('.team-contact-form').attr('action'),
             data: formData,
             dataType: 'json',
             success: function (data) {
@@ -95,7 +95,7 @@ $(document).ready(function() {
         });
     });
 
-    $(".addUserToTeam").click(function (e) {
+    $(".addTeamToContact").click(function (e) {
         e.preventDefault();
 
         if ($('#team_id option:selected').val() === '') {
@@ -106,14 +106,14 @@ $(document).ready(function() {
         let formData = {
             _method: 'POST',
             _token: $('meta[name="csrf-token"]').attr('content'),
-            user_id: $('#user_id').val(),
+            contact_id: $('#contact_id').val(),
             team_id: $('#team_id option:selected').val(),
-            role: $('#user_role option:selected').val()
+            role: $('#contact_role option:selected').val()
         };
 
         $.ajax({
             type: "POST",
-            url: $('.team-user-form').attr('action'),
+            url: $('.contact-team-form').attr('action'),
             data: formData,
             dataType: 'json',
             success: function (data) {

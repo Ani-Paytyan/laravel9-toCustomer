@@ -8,7 +8,7 @@ use App\Http\Requests\Team\TeamStoreRequest;
 use App\Http\Requests\Team\TeamUpdateRequest;
 use App\Models\Contact;
 use App\Models\Team;
-use App\Models\TeamUser;
+use App\Models\TeamContact;
 use App\Services\IwmsApi\Contact\IwmsApiContactServiceInterface;
 use App\Services\Team\TeamServiceInterface;
 use Illuminate\Contracts\Foundation\Application;
@@ -75,12 +75,12 @@ class TeamController extends Controller
      */
     public function edit(Team $team)
     {
-        $roles = TeamUser::getRoles();
-        $teamUsers = TeamUser::with('user')->where('team_id', $team->uuid)->get();
+        $roles = TeamContact::getRoles();
+        $teamContacts = TeamContact::with('contact')->where('team_id', $team->uuid)->get();
 
-        $usersList = Contact::where('company_id', $this->companyId)
+        $contacts = Contact::where('company_id', $this->companyId)
             ->orderBy(DB::raw('ISNULL(first_name), first_name'), 'ASC')
-            ->whereNotIn('uuid', $teamUsers->pluck('user_id')->toArray())
+            ->whereNotIn('uuid', $teamContacts->pluck('contact_id')->toArray())
             ->select('uuid', 'first_name', 'last_name', 'email')
             ->get()
             ->mapWithKeys(function ($item) {
@@ -89,7 +89,7 @@ class TeamController extends Controller
                     : $item['email']];
             })->toArray();
 
-        return view('teams.edit', compact('team', 'roles', 'teamUsers', 'usersList'));
+        return view('teams.edit', compact('team', 'roles', 'teamContacts', 'contacts'));
     }
 
     /**

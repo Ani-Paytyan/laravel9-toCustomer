@@ -1,6 +1,6 @@
 @extends('layout.dashboard')
 @section('title')
-    {{ __('page.user.user_teams')}}
+    {{ __('page.contact.contact_teams')}}
 @endsection
 @section('content')
     <div class="container-fluid">
@@ -10,21 +10,21 @@
                 <div class="page-title">
                     <h3>{{ $contact->getFullNameAttribute() }} - {{ __('page.teams.title')}} </h3>
                 </div>
-                @if(!empty($userTeams))
+                @if(!empty($contactTeams))
                     <div class="card">
                         <div class="table-responsive">
                             <table class="table table-hover table-nowrap">
                                 <thead class="table-light">
                                 <tr>
                                     <th scope="col">{{ __('attributes.team.name')}}</th>
-                                    <th scope="col">{{ __('attributes.team.user_role')}}</th>
+                                    <th scope="col">{{ __('attributes.user.role')}}</th>
                                     <th scope="col">{{ __('common.actions')}}</th>
                                 </tr>
                                 </thead>
-                                <tbody class="users-list">
-                                @foreach($userTeams as $teamUser)
+                                <tbody>
+                                @foreach($contactTeams as $teamContact)
                                     <tr>
-                                        <td>{{ $teamUser->team->name }}</td>
+                                        <td>{{ $teamContact->team->name }}</td>
                                         <td>
                                             <x-form.select
                                                 name="role"
@@ -33,16 +33,16 @@
                                                 class="form-select role"
                                                 :hide-default-option="true"
                                                 :options="$roles"
-                                                value="{{ $teamUser->role }}"
+                                                value="{{ $teamContact->role }}"
                                             />
                                         </td>
                                         <td>
-                                            <a href="{{ route('team_users.update', $teamUser->uuid) }}"
-                                               class="btn btn-sm btn-neutral updateUser">
+                                            <a href="{{ route('team-contacts.update', $teamContact->uuid) }}"
+                                               class="btn btn-sm btn-neutral updateContact">
                                                 <i class="bi bi-save"></i>
                                             </a>
-                                            <a href="{{ route('team_users.destroy', $teamUser->uuid) }}"
-                                               class="btn btn-sm btn-neutral destroyUser">
+                                            <a href="{{ route('team-contacts.destroy', $teamContact->uuid) }}"
+                                               class="btn btn-sm btn-neutral destroyContact">
                                                 <i class="bi bi-trash"></i>
                                             </a>
                                         </td>
@@ -54,12 +54,12 @@
                     </div>
                 @endif
                 <div class="mt-4 mb-4">
-                    <h5>{{ __('page.user.add_users')}}</h5>
+                    <h5>{{ __('page.contact.team_add')}}</h5>
                 </div>
-                <form class="team-user-form" method="POST" action="{{ route("team_users.store") }}">
+                <form class="contact-team-form" method="POST" action="{{ route("team-contacts.store") }}">
                     @csrf
                     @method('POST')
-                    <input type="hidden" id="user_id" value="{{ $contact->uuid }}">
+                    <input type="hidden" id="contact_id" value="{{ $contact->uuid }}">
                     <div class="row">
                         <div class="col-md-3">
                             <x-form.select
@@ -75,7 +75,7 @@
                             <x-form.select
                                 name="role"
                                 required
-                                id="user_role"
+                                id="contact_role"
                                 label="{{ __('attributes.user.role') }}"
                                 class="form-select role"
                                 :hide-default-option="true"
@@ -83,9 +83,9 @@
                             />
                         </div>
                         <div class="col-md-3">
-                            <button class="btn btn-success addUserToTeam">
+                            <button class="btn btn-success addTeamToContact">
                                 <i class="bi bi-person-plus"></i>
-                                {{ trans('page.user.add_users') }}
+                                {{ trans('page.contact.team_add_btn') }}
                             </button>
                         </div>
                     </div>

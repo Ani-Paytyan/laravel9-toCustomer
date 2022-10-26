@@ -31,12 +31,15 @@
                         <tbody>
                         @foreach($employees as $employee)
                             <tr>
-                                <td>{{ $employee->first_name . ' ' . $employee->last_name }}</td>
+                                <td>{{ $employee->getFullNameAttribute() }}</td>
                                 <td>{{ $employee->email }}</td>
                                 <td>{{ $employee->role }}</td>
                                 <td>{{ $employee->status }} </td>
                                 <td>
                                     @if($employee->status != $statusDeleted)
+                                        <a href="{{ route('teams.employee-teams', $employee->uuid) }}" class="btn btn-sm btn-neutral">
+                                            <i class="bi bi-microsoft-teams"></i>
+                                        </a>
                                         @if (Gate::allows('edit-employee'))
                                             <a href="{{ route('employees.edit', $employee->uuid) }}"
                                                class="btn btn-sm btn-neutral">
@@ -45,6 +48,7 @@
                                         @endif
                                         @if (Gate::allows('destroy-employee') && $userId !== $employee->uuid)
                                             <form method="POST"
+                                                  class="btn btn-sm p-0"
                                                   action="{{ route('employees.destroy', $employee->uuid) }}">
                                                 {{ csrf_field() }}
                                                 {{ method_field('DELETE') }}

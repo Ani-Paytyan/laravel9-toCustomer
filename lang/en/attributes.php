@@ -21,6 +21,11 @@ return [
     'workplaces' => [
         'number' => 'Number',
     ],
+    'team' => [
+        'name' => 'Team name',
+        'user_role' => 'User role',
+        'description' => 'Description',
+    ],
     'unique-items' => [
         'item_name' => 'Item Name',
         'item_serial_number' => 'Item serial number',

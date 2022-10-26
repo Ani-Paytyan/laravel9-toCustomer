@@ -36,13 +36,8 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">
-                                <i class="bi bi-bookmarks"></i> Collections
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">
-                                <i class="bi bi-people"></i> Users
+                            <a class="nav-link" href="{{ route('teams.index') }}">
+                                <i class="bi bi-people"></i> {{ __('page.teams.title') }}
                             </a>
                         </li>
                         <li class="nav-item">

@@ -1,7 +1,7 @@
 @php
-/**
- * @var \Illuminate\View\ComponentAttributeBag $attributes
- */
+    /**
+     * @var \Illuminate\View\ComponentAttributeBag $attributes
+     */
 @endphp
 
 @include('components.form._label')
@@ -15,7 +15,9 @@
     data-selection-css-class="@if ($controlErrors) is-invalid @endif"
     @if (!$withSearch) data-minimum-results-for-search="Infinity" @endif
 >
-    <option></option>
+    @if ($attributes->get('hide-default-option') !== true)
+        <option></option>
+    @endif
 
     @foreach($options as $optValue => $name)
         <option value="{{ $optValue }}" @if ($optValue == $attributes->get('value')) selected @endif>

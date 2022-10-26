@@ -31,6 +31,12 @@ return [
         'deleted_successfully' => 'Work Places deleted successfully',
         'deleted_error' => 'Work Places not deleted',
         'edit' => 'Edit Work Places',
-    ]
-
+    ],
+    'unique-items' => [
+        'title' => 'Unique items',
+    ],
+    'unique-item' => [
+        'title' => 'Unique item',
+        'add_client' => 'Add client',
+    ],
 ];

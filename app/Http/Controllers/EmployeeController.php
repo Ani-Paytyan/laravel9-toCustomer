@@ -43,6 +43,7 @@ class EmployeeController extends Controller
 
         $employees = Contact::where('company_id', $this->companyId)
             ->orderBy(DB::raw('ISNULL(first_name), first_name'), 'ASC')
+            ->orderBy(DB::raw('ISNULL(last_name), last_name'), 'ASC')
             ->paginate(20);
 
         return view('employees.index', compact('employees',  'userId', 'statusDeleted'));

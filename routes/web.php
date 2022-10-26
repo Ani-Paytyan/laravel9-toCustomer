@@ -7,7 +7,6 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\TeamController;
 use App\Http\Controllers\TeamContactController;
-use App\Http\Controllers\WorkPlaceController;
 use App\Http\Controllers\UniqueItemController;
 
 /*
@@ -32,12 +31,11 @@ Route::prefix('auth')->name('auth.')->group($basePath . '/auth.php');
 Route::group(['middleware' => ['auth', 'SetIwmsApiToken']], static function () {
     Route::resource('employees', EmployeeController::class);
     Route::get('/employee-teams/{id}', [EmployeeController::class, 'employeeTeams'])->name('teams.employee-teams');
+    Route::get('/employee-unique-items/{id}', [EmployeeController::class, 'employeeUniqueItems'])->name('employee.unique-items');
 
     Route::resource('workplaces', WorkPlaceController::class);
     Route::resource('teams', TeamController::class);
     Route::resource('team-contacts', TeamContactController::class);
-    Route::resource('team_users', TeamUserController::class);
-    Route::get('/employee-teams/{id}', [TeamUserController::class, 'employeeTeams'])->name('teams.employee-teams');
     Route::resource('unique-items', UniqueItemController::class);
     Route::resource('unique-item-contacts', UniqueItemContactController::class);
 });

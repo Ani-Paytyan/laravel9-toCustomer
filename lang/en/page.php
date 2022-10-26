@@ -70,5 +70,7 @@ return [
         'created_error' => 'Client not added',
         'deleted_successfully' => 'Client deleted from item successfully',
         'deleted_error' => 'Client not deleted',
+        'unique_item_add' => 'Add unique item to contact',
+        'unique_item_add_btn' => 'Add unique item',
     ],
 ];

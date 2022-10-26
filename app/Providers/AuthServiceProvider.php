@@ -71,5 +71,14 @@ class AuthServiceProvider extends ServiceProvider
             return $user->getRole() === IwmsApiUserDto::ROLE_SUPER_ADMIN
                 || $user->getRole() === IwmsApiUserDto::ROLE_ADMIN;
         });
+
+        // unique-items
+        Gate::define('create-unique-items', function (IwmsApiUserDto $user) {
+            return $user->getRole() !== IwmsApiUserDto::ROLE_WORKER;
+        });
+
+        Gate::define('destroy-unique-items', function (IwmsApiUserDto $user) {
+            return $user->getRole() !== IwmsApiUserDto::ROLE_WORKER;
+        });
     }
 }

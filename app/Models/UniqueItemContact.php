@@ -35,4 +35,9 @@ class UniqueItemContact extends Model
     {
         return $this->belongsTo(Contact::class, 'contact_id', 'uuid');
     }
+
+    public function item(): BelongsTo
+    {
+        return $this->belongsTo(UniqueItem::class, 'unique_item_id', 'uuid');
+    }
 }

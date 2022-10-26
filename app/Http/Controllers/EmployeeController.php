@@ -10,6 +10,8 @@ use App\Http\Requests\Employee\EmployeeEditRequest;
 use App\Models\Contact;
 use App\Models\Team;
 use App\Models\TeamContact;
+use App\Models\UniqueItem;
+use App\Models\UniqueItemContact;
 use App\Services\Facades\IwmsContactFacade;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
@@ -160,5 +162,25 @@ class EmployeeController extends Controller
             ->toArray();
 
         return view('teams.employee-teams', compact('contact','contactTeams', 'roles', 'teamsList'));
+    }
+
+    /**
+     * @param $id
+     * @return Application|Factory|View
+     */
+    public function employeeUniqueItems($id)
+    {
+        $contact = Contact::where('uuid', $id)->firstOrFail();
+        $uniqueItemContacts = UniqueItemContact::with('item')->where('contact_id', $contact->uuid)->get();
+
+        $uniqueItemList = UniqueItem::whereNotIn('uuid', $uniqueItemContacts->pluck('unique_item_id')->toArray())
+            ->orderBy('article', 'ASC')
+            ->select('uuid', 'name', 'article')
+            ->get()
+            ->mapWithKeys(function ($item) {
+                return [$item['uuid'] => $item['name'] ?? $item['article']];
+            })->toArray();
+
+        return view('employees.employee-unique-items', compact('contact','uniqueItemContacts', 'uniqueItemList'));
     }
 }

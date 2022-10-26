@@ -7,19 +7,23 @@
             <thead class="table-light">
             <tr>
                 <th scope="col">{{ __('attributes.user.name')}}</th>
-                <th scope="col">{{ __('common.actions')}}</th>
+                @if (Gate::allows('destroy-unique-items'))
+                    <th scope="col">{{ __('common.actions')}}</th>
+                @endif
             </tr>
             </thead>
             <tbody class="contact-list">
             @foreach($uniqueItemContacts as $uniqueItem)
                 <tr>
                     <td>{{ $uniqueItem->contact->first_name ? $uniqueItem->contact->getFullNameAttribute() : $uniqueItem->contact->email }}</td>
-                    <td>
-                        <a href="{{ route('unique-item-contacts.destroy', $uniqueItem->uuid) }}"
-                           class="btn btn-sm btn-neutral unique-item-contacts-destroy">
-                            <i class="bi bi-trash"></i>
-                        </a>
-                    </td>
+                    @if (Gate::allows('destroy-unique-items'))
+                        <td>
+                            <a href="{{ route('unique-item-contacts.destroy', $uniqueItem->uuid) }}"
+                               class="btn btn-sm btn-neutral unique-item-contacts-destroy">
+                                <i class="bi bi-trash"></i>
+                            </a>
+                        </td>
+                    @endif
                 </tr>
             @endforeach
             </tbody>

@@ -15,7 +15,9 @@
             <div class="card mb-8">
                 <div class="row card-header align-items-center">
                     @include('unique-items.components.contacts-table')
-                    @include('unique-items.components.contacts-form')
+                    @if (Gate::allows('create-unique-items'))
+                        @include('unique-items.components.contacts-form')
+                    @endif
                 </div>
             </div>
         </div>

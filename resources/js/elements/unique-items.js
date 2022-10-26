@@ -35,6 +35,42 @@ $(document).ready(function() {
         });
     });
 
+    $(".addUniqueItemToContact").click(function (e) {
+        e.preventDefault();
+
+        if ($('#unique_item_id option:selected').val() === '') {
+            return;
+        }
+        $('#loading').show();
+
+        let formData = {
+            _method: 'POST',
+            _token: $('meta[name="csrf-token"]').attr('content'),
+            contact_id: $('#contact_id').val(),
+            unique_item_id: $('#unique_item_id option:selected').val()
+        };
+
+        $.ajax({
+            type: "POST",
+            url: $('.contacts-unique-item-form').attr('action'),
+            data: formData,
+            dataType: 'json',
+            success: function (data) {
+                if (data.status == 'success') {
+                    location.reload();
+                } else {
+                    $('#loading').hide();
+                }
+
+                swalAlert(data.status, data.message);
+            },
+            error: function (data) {
+                $('.preloader').hide();
+                console.log(data);
+            }
+        });
+    });
+
     $(".unique-item-contacts-destroy").click(function (e) {
         e.preventDefault();
         $('#loading').show();

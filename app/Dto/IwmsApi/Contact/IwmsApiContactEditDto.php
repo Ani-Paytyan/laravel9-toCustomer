@@ -240,7 +240,7 @@ class IwmsApiContactEditDto
             ->setPhone($data['phone'])
             ->setCity($data['city'])
             ->setZip($data['zip'])
-            ->setRole($data['role'])
+            ->setRole($data['role'] ?? '')
             ->setEmail($data['email']);
     }
 }

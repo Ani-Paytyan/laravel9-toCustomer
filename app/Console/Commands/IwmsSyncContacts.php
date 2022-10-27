@@ -1,6 +1,7 @@
 <?php
 namespace App\Console\Commands;
 
+use App\Exceptions\Iwms\IwmsApiError;
 use App\Models\Company;
 use App\Services\Contact\ContactServiceInterface;
 use App\Services\IwmsApi\Contact\IwmsApiContactServiceInterface;
@@ -55,18 +56,27 @@ class IwmsSyncContacts extends Command
         $contacts = [];
         // get contacts
         foreach ($companies as $company) {
-            $result = $apiService->getContacts($company,1);
-            if ($result) {
-                $pageCount = $result->getTotalPages();
-                $contacts[] = $result->getResults();
+            // Hotfix
+            try {
+                $result = $apiService->getContacts($company, 1);
+                if ($result) {
+                    $pageCount = $result->getTotalPages();
+                    $contacts[] = $result->getResults();
 
-                if ($pageCount > 1) {
-                    for ($i = 2; $i <= $pageCount; $i++) {
-                        $resultOtherPages = $apiService->getContacts($company,$i);
-                        if ($resultOtherPages) {
-                            $contacts[] = $resultOtherPages->getResults();
+                    if ($pageCount > 1) {
+                        for ($i = 2; $i <= $pageCount; $i++) {
+                            $resultOtherPages = $apiService->getContacts($company, $i);
+                            if ($resultOtherPages) {
+                                $contacts[] = $resultOtherPages->getResults();
+                            }
                         }
                     }
+                }
+            } catch (\Exception $e) {
+                if (get_class($e) === IwmsApiError::class) {
+                    $this->error($e->getMessage());
+                } else {
+                    throw $e;
                 }
             }
         }

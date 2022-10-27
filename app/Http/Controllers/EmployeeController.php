@@ -10,6 +10,8 @@ use App\Http\Requests\Employee\EmployeeEditRequest;
 use App\Models\Contact;
 use App\Models\Team;
 use App\Models\TeamContact;
+use App\Models\WorkPlace;
+use App\Models\WorkPlaceContact;
 use App\Services\Facades\IwmsContactFacade;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
@@ -160,5 +162,22 @@ class EmployeeController extends Controller
             ->toArray();
 
         return view('teams.employee-teams', compact('employee','contactTeams', 'roles', 'teamsList'));
+    }
+
+    /**
+     * @param Contact $employee
+     * @return Application|Factory|View
+     */
+    public function employeWorkPlaces(Contact $employee)
+    {
+        $contactWorkPlaces = WorkPlaceContact::with('workPlace')->where('contact_id', $employee->uuid)->get();
+
+        $workPlaceList = WorkPlace::where('company_id', $this->companyId)
+            ->whereNotIn('uuid', $contactWorkPlaces->pluck('workplace_id')->toArray())
+            ->orderBy('name', 'ASC')
+            ->pluck('name','uuid')
+            ->toArray();
+
+        return view('employees.contacts', compact('employee','contactWorkPlaces', 'workPlaceList'));
     }
 }

@@ -7,7 +7,9 @@ use App\Dto\IwmsApi\WorkPlace\IwmsApiWorkPlaceEditDto;
 use App\Http\Requests\WorkPlace\WorkPlaceCreateRequest;
 use App\Http\Requests\WorkPlace\WorkPlaceEditRequest;
 use App\Models\WorkPlace;
+use App\Models\WorkPlaceContact;
 use App\Services\Facades\IwmsWorkPlaceFacade;
+use App\Traits\ContactTrait;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -17,6 +19,8 @@ use Illuminate\Support\Facades\Gate;
 
 class WorkPlaceController extends Controller
 {
+    use ContactTrait;
+
     protected $user;
     protected $companyId;
 
@@ -48,6 +52,14 @@ class WorkPlaceController extends Controller
         Gate::authorize('create-workplace');
 
         return view('workplaces.create');
+    }
+
+    public function show(WorkPlace $workplace)
+    {
+        $workPlaceContacts = WorkPlaceContact::where('workplace_id', $workplace->uuid)->get();
+        $contactList = $this->getContactList($this->companyId, $workPlaceContacts->pluck('contact_id')->toArray());
+
+        return view('workplaces.show', compact('workplace', 'workPlaceContacts', 'contactList'));
     }
 
     /**

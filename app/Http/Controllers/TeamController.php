@@ -6,20 +6,21 @@ use App\Dto\Team\TeamCreateDto;
 use App\Dto\Team\TeamUpdateDto;
 use App\Http\Requests\Team\TeamStoreRequest;
 use App\Http\Requests\Team\TeamUpdateRequest;
-use App\Models\Contact;
 use App\Models\Team;
 use App\Models\TeamContact;
 use App\Services\IwmsApi\Contact\IwmsApiContactServiceInterface;
 use App\Services\Team\TeamServiceInterface;
+use App\Traits\ContactTrait;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 
 class TeamController extends Controller
 {
+    use ContactTrait;
+
     protected $user;
     protected $companyId;
 
@@ -78,16 +79,7 @@ class TeamController extends Controller
         $roles = TeamContact::getRoles();
         $teamContacts = TeamContact::with('contact')->where('team_id', $team->uuid)->get();
 
-        $contacts = Contact::where('company_id', $this->companyId)
-            ->orderBy(DB::raw('ISNULL(first_name), first_name'), 'ASC')
-            ->whereNotIn('uuid', $teamContacts->pluck('contact_id')->toArray())
-            ->select('uuid', 'first_name', 'last_name', 'email')
-            ->get()
-            ->mapWithKeys(function ($item) {
-                return [$item['uuid'] => $item['first_name'] && $item['last_name']
-                    ? ($item->getFullNameAttribute())
-                    : $item['email']];
-            })->toArray();
+        $contacts = $this->getContactList($this->companyId, $teamContacts->pluck('contact_id')->toArray());
 
         return view('teams.edit', compact('team', 'roles', 'teamContacts', 'contacts'));
     }

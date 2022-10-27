@@ -1,6 +1,7 @@
 <?php
 namespace App\Console\Commands;
 
+use App\Exceptions\Iwms\IwmsApiError;
 use App\Models\Company;
 use App\Services\Contact\ContactServiceInterface;
 use App\Services\IwmsApi\Contact\IwmsApiContactServiceInterface;
@@ -57,14 +58,14 @@ class IwmsSyncContacts extends Command
         // get contacts
         foreach ($companies as $company) {
             try {
-                $result = $apiService->getContacts($company,1);
+                $result = $apiService->getContacts($company, 1);
                 if ($result) {
                     $pageCount = $result->getTotalPages();
                     $contacts[] = $result->getResults();
 
                     if ($pageCount > 1) {
                         for ($i = 2; $i <= $pageCount; $i++) {
-                            $resultOtherPages = $apiService->getContacts($company,$i);
+                            $resultOtherPages = $apiService->getContacts($company, $i);
                             if ($resultOtherPages) {
                                 $contacts[] = $resultOtherPages->getResults();
                             }
@@ -72,9 +73,12 @@ class IwmsSyncContacts extends Command
                     }
                 }
             } catch (Exception $e) {
-                Log::error("IwmsSyncContacts - Code: " . $e->getCode() . " File:" . $e->getFile() .  " Message: " . $e->getMessage());
-
-                continue;
+                if (get_class($e) === IwmsApiError::class) {
+                    Log::error("IwmsSyncContacts - Code: " . $e->getCode() . " File:" . $e->getFile() .  " Message: " . $e->getMessage());
+                    $this->error($e->getMessage());
+                } else {
+                    throw $e;
+                }
             }
         }
 

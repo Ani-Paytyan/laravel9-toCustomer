@@ -34,6 +34,7 @@ class IwmsSyncCompanies extends Command
             $companyService->sync($this->getCompaniesWithPagination($apiService));
             $this->info('finish updating companies...');
         }  catch (\Exception $e) {
+            $this->error($e);
             Log::error('Sync companies : ' .  $e->getMessage());
         }
     }

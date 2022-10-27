@@ -9,6 +9,8 @@ use App\Services\Item\ItemService;
 use App\Services\Item\ItemServiceInterface;
 use App\Services\Contact\ContactService;
 use App\Services\Contact\ContactServiceInterface;
+use App\Services\TeamContact\TeamContactService;
+use App\Services\TeamContact\TeamContactServiceInterface;
 use App\Services\UniqueItem\UniqueItemService;
 use App\Services\UniqueItem\UniqueItemServiceInterface;
 use App\Services\Team\TeamService;
@@ -34,6 +36,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->singleton(UniqueItemServiceInterface::class, UniqueItemService::class);
         $this->app->singleton(WorkPlaceServiceInterface::class, WorkPlaceService::class);
         $this->app->singleton(TeamServiceInterface::class, TeamService::class);
+        $this->app->singleton(TeamContactServiceInterface::class, TeamContactService::class);
     }
 
     /**

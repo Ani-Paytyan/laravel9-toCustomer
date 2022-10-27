@@ -143,13 +143,12 @@ class EmployeeController extends Controller
     }
 
     /**
-     * @param $id
+     * @param Contact $employee
      * @return Application|Factory|View
      */
-    public function employeeTeams($id)
+    public function employeeTeams(Contact $employee)
     {
-        $contact = Contact::where('uuid', $id)->firstOrFail();
-        $contactTeams = TeamContact::with('team')->where('contact_id', $contact->uuid)->get();
+        $contactTeams = TeamContact::with('team')->where('contact_id', $employee->uuid)->get();
         // get all team ids from table TeamUser if isset client
         $teamsIds = $contactTeams->pluck('team_id')->toArray();
         $roles = TeamContact::getRoles();
@@ -160,6 +159,6 @@ class EmployeeController extends Controller
             ->pluck('name','uuid')
             ->toArray();
 
-        return view('teams.employee-teams', compact('contact','contactTeams', 'roles', 'teamsList'));
+        return view('teams.employee-teams', compact('employee','contactTeams', 'roles', 'teamsList'));
     }
 }

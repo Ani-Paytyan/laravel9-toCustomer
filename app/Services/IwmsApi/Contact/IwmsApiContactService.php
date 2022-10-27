@@ -5,7 +5,6 @@ namespace App\Services\IwmsApi\Contact;
 use App\Dto\IwmsApi\Contact\IwmsApiContactDto;
 use App\Dto\IwmsApi\Contact\IwmsApiContactEditDto;
 use App\Dto\IwmsApi\IwmsApiPaginationResponseDto;
-use App\Models\Company;
 use App\Services\IwmsApi\AbstractIwmsApi;
 
 class IwmsApiContactService extends AbstractIwmsApi implements IwmsApiContactServiceInterface

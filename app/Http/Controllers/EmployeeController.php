@@ -168,10 +168,9 @@ class EmployeeController extends Controller
      * @param $id
      * @return Application|Factory|View
      */
-    public function employeeUniqueItems($id)
+    public function employeeUniqueItems(Contact $employee)
     {
-        $contact = Contact::where('uuid', $id)->firstOrFail();
-        $uniqueItemContacts = UniqueItemContact::with('item')->where('contact_id', $contact->uuid)->get();
+        $uniqueItemContacts = UniqueItemContact::with('item')->where('contact_id', $employee->uuid)->get();
 
         $uniqueItemList = UniqueItem::whereNotIn('uuid', $uniqueItemContacts->pluck('unique_item_id')->toArray())
             ->orderBy('article', 'ASC')
@@ -181,6 +180,6 @@ class EmployeeController extends Controller
                 return [$item['uuid'] => $item['name'] ?? $item['article']];
             })->toArray();
 
-        return view('employees.employee-unique-items', compact('contact','uniqueItemContacts', 'uniqueItemList'));
+        return view('employees.employee-unique-items', compact('employee','uniqueItemContacts', 'uniqueItemList'));
     }
 }

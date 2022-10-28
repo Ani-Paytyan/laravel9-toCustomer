@@ -54,7 +54,7 @@
                     <form class="contacts-unique-item-form" method="POST" action="{{ route("unique-item-contacts.store") }}">
                         @csrf
                         @method('POST')
-                        <input type="hidden" id="contact_id" value="{{ $contact->uuid }}">
+                        <input type="hidden" id="contact_id" value="{{ $employee->uuid }}">
                         <div class="row">
                             <div class="col-md-6">
                                 <x-form.select

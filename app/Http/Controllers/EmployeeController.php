@@ -47,6 +47,7 @@ class EmployeeController extends Controller
 
         $employees = Contact::where('company_id', $this->companyId)
             ->orderBy(DB::raw('ISNULL(first_name), first_name'), 'ASC')
+            ->orderBy(DB::raw('ISNULL(last_name), last_name'), 'ASC')
             ->paginate(20);
 
         return view('employees.index', compact('employees',  'userId', 'statusDeleted'));
@@ -144,13 +145,12 @@ class EmployeeController extends Controller
     }
 
     /**
-     * @param $id
+     * @param Contact $employee
      * @return Application|Factory|View
      */
-    public function employeeTeams($id)
+    public function employeeTeams(Contact $employee)
     {
-        $contact = Contact::where('uuid', $id)->firstOrFail();
-        $contactTeams = TeamContact::with('team')->where('contact_id', $contact->uuid)->get();
+        $contactTeams = TeamContact::with('team')->where('contact_id', $employee->uuid)->get();
         // get all team ids from table TeamUser if isset client
         $teamsIds = $contactTeams->pluck('team_id')->toArray();
         $roles = TeamContact::getRoles();
@@ -161,7 +161,7 @@ class EmployeeController extends Controller
             ->pluck('name','uuid')
             ->toArray();
 
-        return view('teams.employee-teams', compact('contact','contactTeams', 'roles', 'teamsList'));
+        return view('teams.employee-teams', compact('employee','contactTeams', 'roles', 'teamsList'));
     }
 
     /**

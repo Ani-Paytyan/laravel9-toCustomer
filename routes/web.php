@@ -30,8 +30,8 @@ Route::prefix('auth')->name('auth.')->group($basePath . '/auth.php');
 
 Route::group(['middleware' => ['auth', 'SetIwmsApiToken']], static function () {
     Route::resource('employees', EmployeeController::class);
-    Route::get('/employee-teams/{id}', [EmployeeController::class, 'employeeTeams'])->name('teams.employee-teams');
-    Route::get('/employee-unique-items/{id}', [EmployeeController::class, 'employeeUniqueItems'])->name('employee.unique-items');
+    Route::get('/employee-teams/{employee}', [EmployeeController::class, 'employeeTeams'])->name('teams.employee-teams');
+    Route::get('/employee-unique-items/{employee}', [EmployeeController::class, 'employeeUniqueItems'])->name('employee.unique-items');
 
     Route::resource('workplaces', WorkPlaceController::class);
     Route::resource('teams', TeamController::class);

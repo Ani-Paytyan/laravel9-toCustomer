@@ -2,34 +2,28 @@
 
 namespace App\Http\Controllers;
 
+use App\Dto\TeamContact\TeamContactCreateDto;
+use App\Dto\TeamContact\TeamContactUpdateDto;
 use App\Http\Requests\TeamContact\TeamContactStoreRequest;
 use App\Http\Requests\TeamContact\TeamContactUpdateRequest;
 use App\Models\TeamContact;
+use App\Services\TeamContact\TeamContactServiceInterface;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Str;
 
 class TeamContactController extends Controller
 {
     /**
      * @param TeamContactStoreRequest $request
+     * @param TeamContactServiceInterface $teamContactService
      * @return JsonResponse
      */
-    public function store(TeamContactStoreRequest $request): JsonResponse
+    public function store(TeamContactStoreRequest $request, TeamContactServiceInterface $teamContactService): JsonResponse
     {
-        $data = $request->only('contact_id', 'team_id', 'role');
+        $teamContactCreateDto = TeamContactCreateDto::createFromRequest($request);
 
-        $result = TeamContact::withTrashed()->updateOrCreate([
-            'contact_id' => trim($data['contact_id']),
-            'team_id' => trim($data['team_id']),
-        ], [
-            'uuid' => Str::uuid()->toString(),
-            'role' => trim($data['role']),
-            'deleted_at' => null
-        ]);
-
-        if ($result) {
+        if ($teamContactService->create($teamContactCreateDto)) {
             return response()->json([
-                'data' => $result,
+                'data' => [],
                 'status' => 'success',
                 'message' => __('page.contact.created_successfully')
             ]);
@@ -45,17 +39,14 @@ class TeamContactController extends Controller
     /**
      * @param TeamContactUpdateRequest $request
      * @param TeamContact $teamContact
+     * @param TeamContactServiceInterface $teamContactService
      * @return JsonResponse
      */
-    public function update(TeamContactUpdateRequest $request, TeamContact $teamContact): JsonResponse
+    public function update(TeamContactUpdateRequest $request, TeamContact $teamContact, TeamContactServiceInterface $teamContactService): JsonResponse
     {
-        $data = $request->only('role');
+        $teamContactUpdateDto = TeamContactUpdateDto::createFromRequest($request);
 
-        $result = $teamContact->update([
-            'role' => trim($data['role'])
-        ]);
-
-        if ($result) {
+        if ($teamContactService->update($teamContactUpdateDto, $teamContact)) {
             return response()->json([
                 'data' => [],
                 'status' => 'success',
@@ -70,9 +61,14 @@ class TeamContactController extends Controller
         ]);
     }
 
-    public function destroy(TeamContact $teamContact): JsonResponse
+    /**
+     * @param TeamContact $teamContact
+     * @param TeamContactServiceInterface $teamContactService
+     * @return JsonResponse
+     */
+    public function destroy(TeamContact $teamContact, TeamContactServiceInterface $teamContactService): JsonResponse
     {
-        if ($teamContact->delete()) {
+        if ($teamContactService->destroy($teamContact)) {
             return response()->json([
                 'data' => [],
                 'status' => 'success',

@@ -21,6 +21,11 @@
                     <!-- Navigation -->
                     <ul class="navbar-nav">
                         <li class="nav-item">
+                            <a class="nav-link" href="{{ route('teams.index') }}">
+                                <i class="bi bi-people"></i> {{ __('page.teams.title') }}
+                            </a>
+                        </li>
+                        <li class="nav-item">
                             <a class="nav-link" href="{{ route('workplaces.index') }}">
                                 <i class="bi bi-person-workspace"></i> {{ __('page.workplaces.title')}}
                             </a>

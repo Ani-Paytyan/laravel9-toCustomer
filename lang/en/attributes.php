@@ -21,4 +21,9 @@ return [
     'workplaces' => [
         'number' => 'Number',
     ],
+    'team' => [
+        'name' => 'Team name',
+        'contact_role' => 'Contact role',
+        'description' => 'Description',
+    ],
 ];

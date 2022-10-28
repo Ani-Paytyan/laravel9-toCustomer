@@ -1,9 +1,11 @@
 <?php
 
-use App\Http\Controllers\WorkPlaceController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\EmployeeController;
+use App\Http\Controllers\TeamController;
+use App\Http\Controllers\TeamContactController;
+use App\Http\Controllers\WorkPlaceController;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,5 +28,9 @@ Route::prefix('auth')->name('auth.')->group($basePath . '/auth.php');
 
 Route::group(['middleware' => ['auth', 'SetIwmsApiToken']], static function () {
     Route::resource('employees', EmployeeController::class);
+    Route::get('/employee-teams/{employee}', [EmployeeController::class, 'employeeTeams'])->name('teams.employee-teams');
+
     Route::resource('workplaces', WorkPlaceController::class);
+    Route::resource('teams', TeamController::class);
+    Route::resource('team-contacts', TeamContactController::class);
 });

@@ -6,27 +6,19 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Contact extends Model
+class Team extends Model
 {
     use HasFactory, SoftDeletes;
 
-    public $table = 'contacts';
+    public $table = 'teams';
 
     protected $primaryKey = 'uuid';
 
     protected $fillable = [
         'uuid',
         'company_id',
-        'email',
-        'role',
-        'first_name',
-        'last_name',
-        'phone',
-        'address',
-        'city',
-        'zip',
-        'status',
-        'created_at',
+        'name',
+        'description',
         'updated_at',
         'deleted_at',
     ];
@@ -34,9 +26,4 @@ class Contact extends Model
     protected $casts = [
         'uuid' => 'string'
     ];
-
-    public function getFullNameAttribute()
-    {
-        return ucfirst($this->first_name) . ' ' . ucfirst($this->last_name);
-    }
 }

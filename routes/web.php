@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\WorkDaysController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\EmployeeController;
@@ -33,4 +34,12 @@ Route::group(['middleware' => ['auth', 'SetIwmsApiToken']], static function () {
     Route::resource('workplaces', WorkPlaceController::class);
     Route::resource('teams', TeamController::class);
     Route::resource('team-contacts', TeamContactController::class);
+
+    Route::get('company-workdays', [WorkDaysController::class, 'companyWorkdays'])->name('company.workdays');
+    Route::post('company-workdays', [WorkDaysController::class, 'storeCompanyWorkdays'])->name('company-workdays.store');
+    Route::delete('company-workdays', [WorkDaysController::class, 'deleteCompanyWorkdays'])->name('company-workdays.delete');
+
+    Route::get('workplace-workdays/{workPlace}', [WorkDaysController::class, 'workPlaceWorkdays'])->name('workplace.workdays');
+    Route::post('workplace-workdays/{workPlace}', [WorkDaysController::class, 'storeWorkPlaceWorkdays'])->name('workplace-workdays.store');
+    Route::delete('workplace-workdays/{workPlace}', [WorkDaysController::class, 'deleteWorkPlaceWorkdays'])->name('workplace-workdays.delete');
 });

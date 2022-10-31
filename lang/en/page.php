@@ -31,6 +31,8 @@ return [
         'deleted_successfully' => 'Work Places deleted successfully',
         'deleted_error' => 'Work Places not deleted',
         'edit' => 'Edit Work Places',
+        'workplace' => 'Work place',
+        'work_days' => 'work days',
     ],
     'teams' => [
         'title' => 'Teams',
@@ -58,4 +60,23 @@ return [
         'team_add' => 'Add team to contact',
         'team_add_btn' => 'Add team',
     ],
+    'company' => [
+        'workdays' => 'Company Working Days',
+        'from' => 'From',
+        'to' => 'To',
+        'working_day' => 'Working day',
+        'set_default_working_days' => 'Set default working days',
+    ],
+    'working_days' => [
+        'updated_successfully' => 'Company Working Days updated successfully',
+        'updated_error' => 'Company Working Days not updated',
+        'deleted_successfully' => 'Company Working Days set default time successfully',
+        'deleted_error' => 'Company Working Days default time not set',
+    ],
+    'workplace_working_days' => [
+        'updated_successfully' => 'Work Place Working Days updated successfully',
+        'updated_error' => 'Work Place Working Days not updated',
+        'deleted_successfully' => 'Work Place Working Days set default time successfully',
+        'deleted_error' => 'Work Place Working Days default time not set',
+    ]
 ];

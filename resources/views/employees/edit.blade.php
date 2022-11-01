@@ -23,7 +23,7 @@
                                 label="{{ __('attributes.user.first_name') }}"
                                 placeholder="{{ __('attributes.user.first_name') }}"
                                 class="form-control-muted"
-                                value="{{ $employee->first_name }}"
+                                value="{{ old('first_name') ?? $employee->first_name }}"
                             />
                         </div>
                         <div class="col-md">
@@ -35,7 +35,7 @@
                                 label="{{ __('attributes.user.last_name') }}"
                                 placeholder="{{ __('attributes.user.last_name') }}"
                                 class="form-control-muted"
-                                value="{{ $employee->last_name }}"
+                                value="{{ old('last_name') ?? $employee->last_name }}"
                             />
                         </div>
                     </div>
@@ -48,7 +48,7 @@
                                 label="{{ __('attributes.user.email') }}"
                                 placeholder="{{ __('attributes.user.email') }}"
                                 class="form-control-muted"
-                                value="{{ $employee->email }}"
+                                value="{{ old('email') ?? $employee->email }}"
                             />
                         </div>
                     </div>
@@ -61,7 +61,7 @@
                                 label="{{ __('attributes.user.phone') }}"
                                 placeholder="{{ __('attributes.user.phone') }}"
                                 class="form-control-muted"
-                                value="{{ $employee->phone }}"
+                                value="{{ old('phone') ?? $employee->phone }}"
                             />
                         </div>
                     </div>
@@ -74,7 +74,7 @@
                                 label="{{ __('attributes.user.address') }}"
                                 placeholder="{{ __('attributes.user.address') }}"
                                 class="form-control-muted"
-                                value="{{ $employee->address }}"
+                                value="{{ old('address') ?? $employee->address }}"
                             />
                         </div>
                     </div>
@@ -87,7 +87,7 @@
                                 label="{{ __('attributes.user.city') }}"
                                 placeholder="{{ __('attributes.user.city') }}"
                                 class="form-control-muted"
-                                value="{{ $employee->city }}"
+                                value="{{ old('city') ?? $employee->city }}"
                             />
                         </div>
                     </div>
@@ -100,7 +100,7 @@
                                 label="{{ __('attributes.user.zip') }}"
                                 placeholder="{{ __('attributes.user.zip') }}"
                                 class="form-control-muted"
-                                value="{{ $employee->zip }}"
+                                value="{{ old('zip') ?? $employee->zip }}"
                             />
                         </div>
                     </div>
@@ -115,7 +115,7 @@
                                     placeholder="{{ __('attributes.user.role') }}"
                                     class="form-select form-control-muted"
                                     :options="$roles"
-                                    value="{{ $employee->role }}"
+                                    value="{{ old('role') ?? $employee->role }}"
                                 />
                             </div>
                         </div>

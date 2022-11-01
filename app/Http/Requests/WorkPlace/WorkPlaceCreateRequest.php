@@ -15,7 +15,7 @@ class WorkPlaceCreateRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'string|required',
+            'name' => 'string|required|unique:workplaces',
         ];
     }
 

@@ -44,5 +44,8 @@ Route::group(['middleware' => ['auth', 'SetIwmsApiToken']], static function () {
     Route::post('workplace-workdays/{workPlace}', [WorkDaysController::class, 'storeWorkPlaceWorkdays'])->name('workplace-workdays.store');
     Route::delete('workplace-workdays/{workPlace}', [WorkDaysController::class, 'deleteWorkPlaceWorkdays'])->name('workplace-workdays.delete');
 
-    Route::resource('additional-working-days', AdditionalWorkingDayController::class);
+    Route::controller(AdditionalWorkingDayController::class)->group(function () {
+        Route::post('additional-working-days/{workPlace}', 'storeWorkPlaceWorkdays')->name('additional-working-days.store');
+        Route::delete('additional-working-days/{workPlace}', 'deleteWorkPlaceWorkdays')->name('additional-working-days.delete');
+    });
 });

@@ -23,6 +23,7 @@
                             label="{{ __('attributes.user.name') }}"
                             placeholder="{{ __('attributes.user.name') }}"
                             class="form-control-muted"
+                            value="{{ old('name')}}"
                         />
                     </div>
                 </div>
@@ -35,6 +36,7 @@
                             label="{{ __('attributes.user.address') }}"
                             placeholder="{{ __('attributes.user.address') }}"
                             class="form-control-muted"
+                            value="{{ old('address')}}"
                         />
                     </div>
                 </div>
@@ -47,6 +49,7 @@
                             label="{{ __('attributes.user.zip') }}"
                             placeholder="{{ __('attributes.user.zip') }}"
                             class="form-control-muted"
+                            value="{{ old('zip')}}"
                         />
                     </div>
                 </div>
@@ -59,6 +62,7 @@
                             label="{{ __('attributes.user.city') }}"
                             placeholder="{{ __('attributes.user.city') }}"
                             class="form-control-muted"
+                            value="{{ old('city')}}"
                         />
                     </div>
                 </div>
@@ -71,6 +75,7 @@
                             label="{{ __('attributes.workplaces.number') }}"
                             placeholder="{{ __('attributes.workplaces.number') }}"
                             class="form-control-muted"
+                            value="{{ old('number')}}"
                         />
                     </div>
                 </div>

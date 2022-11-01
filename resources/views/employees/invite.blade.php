@@ -23,6 +23,7 @@
                                 label="{{ __('attributes.user.email') }}"
                                 placeholder="{{ __('attributes.user.email') }}"
                                 class="form-control-muted"
+                                value="{{ old('email') }}"
                             />
                         </div>
                     </div>
@@ -36,6 +37,7 @@
                                 placeholder="{{ __('attributes.user.role') }}"
                                 class="form-select form-control-muted"
                                 :options="$roles"
+                                value="{{ old('role') }}"
                             />
                         </div>
                     </div>

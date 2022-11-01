@@ -21,6 +21,11 @@
                     <!-- Navigation -->
                     <ul class="navbar-nav">
                         <li class="nav-item">
+                            <a class="nav-link" href="{{ route('company.workdays') }}">
+                                <i class="bi bi-calendar-date"></i> {{ __('page.company.workdays') }}
+                            </a>
+                        </li>
+                        <li class="nav-item">
                             <a class="nav-link" href="{{ route('teams.index') }}">
                                 <i class="bi bi-people"></i> {{ __('page.teams.title') }}
                             </a>

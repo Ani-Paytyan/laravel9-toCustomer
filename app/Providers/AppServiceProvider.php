@@ -15,6 +15,8 @@ use App\Services\UniqueItem\UniqueItemService;
 use App\Services\UniqueItem\UniqueItemServiceInterface;
 use App\Services\Team\TeamService;
 use App\Services\Team\TeamServiceInterface;
+use App\Services\WorkDays\WorkDaysService;
+use App\Services\WorkDays\WorkDaysServiceInterface;
 use App\Services\WorkPlace\WorkPlaceService;
 use App\Services\WorkPlace\WorkPlaceServiceInterface;
 use Illuminate\Contracts\Auth\UserProvider as UserProviderInterface;
@@ -37,6 +39,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->singleton(WorkPlaceServiceInterface::class, WorkPlaceService::class);
         $this->app->singleton(TeamServiceInterface::class, TeamService::class);
         $this->app->singleton(TeamContactServiceInterface::class, TeamContactService::class);
+        $this->app->singleton(WorkDaysServiceInterface::class, WorkDaysService::class);
     }
 
     /**

@@ -1,4 +1,5 @@
 @if($additionalWorkingDays->count() !== 0)
+    <br>
     <div class="table-responsive">
         <table class="table table-hover table-nowrap">
             <thead class="table-light">
@@ -12,16 +13,15 @@
             <tbody>
             @foreach($additionalWorkingDays as $key => $workingDay)
                 <tr>
-                    <input type="hidden" name="data[{{ $key }}][uuid]" value="{{ $workingDay->uuid }}">
                     <td>
                         <x-form.input
                             name="data[{{ $key }}][date]"
                             type="date"
-                            id="from"
+                            id="date"
                             required
-                            label="{{ __('page.company.date') }}"
-                            placeholder="{{ __('page.company.date') }}"
-                            class="form-control-muted"
+                            label="{{ __('page.company.day') }}"
+                            placeholder="{{ __('page.company.day') }}"
+                            class="form-control-muted input_date"
                             value="{{ $workingDay->date }}"
                         />
                     </td>
@@ -33,7 +33,7 @@
                             required
                             label="{{ __('page.company.from') }}"
                             placeholder="{{ __('page.company.from') }}"
-                            class="form-control-muted"
+                            class="form-control-muted input_from"
                             value="{{ $workingDay->from }}"
                         />
                     </td>
@@ -45,19 +45,23 @@
                             required
                             label="{{ __('page.company.to') }}"
                             placeholder="{{ __('page.company.to') }}"
-                            class="form-control-muted"
+                            class="form-control-muted input_to"
                             value="{{ $workingDay->to }}"
                         />
                     </td>
                     <td>
-                        <a href="{{ route('team-contacts.update', $workingDay->uuid) }}"
-                           class="btn btn-sm btn-neutral updateContact">
-                            <i class="bi bi-save"></i>
-                        </a>
-                        <a href="{{ route('team-contacts.destroy', $workingDay->uuid) }}"
-                           class="btn btn-sm btn-neutral destroyContact">
-                            <i class="bi bi-trash"></i>
-                        </a>
+                        @if (Gate::allows('create-working-days'))
+                            <a href="{{ route('additional-working-days.update', $workingDay->uuid) }}"
+                               class="btn btn-sm btn-neutral updateWorkingDay">
+                                <i class="bi bi-save"></i>
+                            </a>
+                        @endif
+                        @if (Gate::allows('destroy-working-days'))
+                            <a href="{{ route('additional-working-days.delete', $workingDay->uuid) }}"
+                               class="btn btn-sm btn-neutral destroyWorkingDay">
+                                <i class="bi bi-trash"></i>
+                            </a>
+                        @endif
                     </td>
                 </tr>
             @endforeach
@@ -65,7 +69,6 @@
         </table>
     </div>
 @endif
-
 @if (Gate::allows('create-working-days'))
     <div class="mt-4 mb-4">
         <h5>{{ __('page.additional_working_days.add_date')}}</h5>

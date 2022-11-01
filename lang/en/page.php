@@ -83,5 +83,11 @@ return [
     'additional_working_days' => [
         'add_date' => 'Add date to additional working days',
         'add_date_btn' => 'Add date',
+        'created_successfully' => 'Additional Working Day created successfully',
+        'created_error' => 'Additional Working Day not created',
+        'updated_successfully' => 'Additional Working Day updated successfully',
+        'updated_error' => 'Additional Working Day not updated',
+        'deleted_successfully' => 'Additional Working Day deleted successfully',
+        'deleted_error' => 'Additional Working Day not deleted',
     ],
 ];

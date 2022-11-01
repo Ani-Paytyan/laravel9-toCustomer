@@ -10,7 +10,6 @@ $(document).ready(function() {
         let formData = {
             _method: 'POST',
             _token: $('meta[name="csrf-token"]').attr('content'),
-            workplace_id: $('#workplace_id').val(),
             contact_id: $('#contact_id option:selected').val()
         };
 
@@ -28,7 +27,6 @@ $(document).ready(function() {
         let formData = {
             _method: 'POST',
             _token: $('meta[name="csrf-token"]').attr('content'),
-            contact_id: $('#contact_id').val(),
             workplace_id: $('#workplace_id option:selected').val()
         };
 

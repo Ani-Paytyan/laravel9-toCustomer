@@ -3,30 +3,40 @@
 namespace App\Services\WorkPlaceContact;
 
 use App\Dto\WorkPlaceContact\WorkPlaceContactCreateDto;
-use App\Models\WorkPlaceContact;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Model;
+use App\Models\Contact;
+use App\Models\WorkPlace;
 use Illuminate\Support\Str;
 
 class WorkPlaceContactService implements WorkPlaceContactServiceInterface
 {
+
     /**
+     * @param WorkPlace $workPlace
      * @param WorkPlaceContactCreateDto $dto
-     * @return Builder|Model|\Illuminate\Database\Query\Builder
+     * @return void
      */
-    public function create(WorkPlaceContactCreateDto $dto)
+    public function storeWorkPlaceEmployees(WorkPlace $workPlace, WorkPlaceContactCreateDto $dto): void
     {
-        return WorkPlaceContact::withTrashed()->updateOrCreate([
-            'contact_id' => $dto->getContactId(),
-            'workplace_id' => $dto->getWorkPlaceId(),
-        ], [
-            'uuid' => Str::uuid()->toString(),
-            'deleted_at' => null
-        ]);
+        $workPlace->contacts()->attach($dto->getContactId(), ["uuid" => Str::uuid()->toString()]);
     }
 
-    public function destroy(WorkPlaceContact $workPlaceContact): bool
+    /**
+     * @param Contact $employee
+     * @param WorkPlaceContactCreateDto $dto
+     * @return void
+     */
+    public function storeEmployeeWorkplaces(Contact $employee, WorkPlaceContactCreateDto $dto): void
     {
-        return $workPlaceContact->delete();
+        $employee->workplaces()->attach($dto->getWorkPlaceId(), ["uuid" => Str::uuid()->toString()]);
+    }
+
+    /**
+     * @param WorkPlace $workPlace
+     * @param Contact $employee
+     * @return bool
+     */
+    public function destroy(WorkPlace $workPlace, Contact $employee): bool
+    {
+        return $workPlace->contacts()->detach($employee);
     }
 }

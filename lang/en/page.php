@@ -43,9 +43,12 @@ return [
         'contact' => 'Contact',
         'contacts' => 'Contacts',
         'created_successfully' => 'Contact added to workplace successfully',
+        'created_workplace_successfully' => 'Workplace added to Contact successfully',
         'created_error' => 'Contact not added',
         'deleted_successfully' => 'Contact deleted from workplace successfully',
+        'deleted_workplace_successfully' => 'Workplace deleted from Contact successfully',
         'deleted_error' => 'Contact not deleted',
+        'deleted_workplace_error' => 'Workplace not deleted',
     ],
     'teams' => [
         'title' => 'Teams',

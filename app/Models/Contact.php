@@ -39,4 +39,9 @@ class Contact extends Model
     {
         return ucfirst($this->first_name) . ' ' . ucfirst($this->last_name);
     }
+
+    public function workplaces()
+    {
+        return $this->belongsToMany(WorkPlace::class, 'work_place_contacts', 'contact_id', 'workplace_id')->withPivot('uuid');
+    }
 }

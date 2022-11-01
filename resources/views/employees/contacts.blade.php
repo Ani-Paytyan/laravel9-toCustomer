@@ -29,14 +29,14 @@
                                 <tbody>
                                 @foreach($contactWorkPlaces as $contactWorkPlace)
                                     <tr>
-                                        <td>{{ $contactWorkPlace->workPlace->name }}</td>
-                                        <td>{{ $contactWorkPlace->workPlace->address }}</td>
-                                        <td>{{ $contactWorkPlace->workPlace->zip }}</td>
-                                        <td>{{ $contactWorkPlace->workPlace->number }}</td>
-                                        <td>{{ $contactWorkPlace->workPlace->city }}</td>
+                                        <td>{{ $contactWorkPlace->name }}</td>
+                                        <td>{{ $contactWorkPlace->address }}</td>
+                                        <td>{{ $contactWorkPlace->zip }}</td>
+                                        <td>{{ $contactWorkPlace->number }}</td>
+                                        <td>{{ $contactWorkPlace->city }}</td>
                                         @if (Gate::allows('destroy-workplace-contacts'))
                                             <td>
-                                                <a href="{{ route('workplace-contacts.destroy', $contactWorkPlace->uuid) }}"
+                                                <a href="{{ route('employee-workplaces.delete', [$employee->uuid, $contactWorkPlace->uuid]) }}"
                                                    class="btn btn-sm btn-neutral destroyContact">
                                                     <i class="bi bi-trash"></i>
                                                 </a>
@@ -48,15 +48,17 @@
                             </table>
                         </div>
                     </div>
+                    <div class="navigation navigation-employee">
+                        {{ $contactWorkPlaces->links() }}
+                    </div>
                 @endif
                 @if (Gate::allows('create-workplace-contacts'))
                     <div class="mt-4 mb-4">
                         <h5>{{ __('page.workplace.add_workplace')}}</h5>
                     </div>
-                    <form class="contact-workplaces-form" method="POST" action="{{ route("workplace-contacts.store") }}">
+                    <form class="contact-workplaces-form" method="POST" action="{{ route("employee-workplaces.store", $employee->uuid) }}">
                         @csrf
                         @method('POST')
-                        <input type="hidden" id="contact_id" value="{{ $employee->uuid }}">
                         <div class="row">
                             <div class="col-md-3">
                                 <x-form.select

@@ -11,7 +11,6 @@ use App\Models\Contact;
 use App\Models\Team;
 use App\Models\TeamContact;
 use App\Models\WorkPlace;
-use App\Models\WorkPlaceContact;
 use App\Services\Facades\IwmsContactFacade;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
@@ -168,12 +167,12 @@ class EmployeeController extends Controller
      * @param Contact $employee
      * @return Application|Factory|View
      */
-    public function employeWorkPlaces(Contact $employee)
+    public function employeeWorkPlaces(Contact $employee)
     {
-        $contactWorkPlaces = WorkPlaceContact::with('workPlace')->where('contact_id', $employee->uuid)->get();
+        $contactWorkPlaces = $employee->workplaces()->orderBy('name', 'ASC')->paginate(10);
 
         $workPlaceList = WorkPlace::where('company_id', $this->companyId)
-            ->whereNotIn('uuid', $contactWorkPlaces->pluck('workplace_id')->toArray())
+            ->whereNotIn('uuid', $contactWorkPlaces->pluck('uuid')->toArray())
             ->orderBy('name', 'ASC')
             ->pluck('name','uuid')
             ->toArray();

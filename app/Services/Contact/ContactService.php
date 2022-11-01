@@ -64,6 +64,9 @@ class ContactService implements ContactServiceInterface
 
     public function destroy(Contact $contact): bool
     {
+        // detach all work place contacts
+        $contact->workplaces()->detach();
+
         return $contact->delete();
     }
 }

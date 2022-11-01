@@ -10,14 +10,14 @@ class WorkPlaceContactCreateDto
     private string $workplace_id;
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getContactId(): string
+    public function getContactId(): ?string
     {
         return $this->contact_id;
     }
 
-    public function setContactId(string $contact_id): self
+    public function setContactId(?string $contact_id): self
     {
         $this->contact_id = $contact_id;
 
@@ -25,14 +25,14 @@ class WorkPlaceContactCreateDto
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getWorkPlaceId(): string
+    public function getWorkPlaceId(): ?string
     {
         return $this->workplace_id;
     }
 
-    public function setWorkPlaceId(string $workplace_id): self
+    public function setWorkPlaceId(?string $workplace_id): self
     {
         $this->workplace_id = $workplace_id;
 
@@ -46,7 +46,7 @@ class WorkPlaceContactCreateDto
     public static function createFromRequest(WorkPlaceContactStoreRequest $request): self
     {
         return (new self())
-            ->setContactId($request->get('contact_id'))
-            ->setWorkPlaceId($request->get('workplace_id'));
+            ->setContactId($request->get('contact_id') ?? '')
+            ->setWorkPlaceId($request->get('workplace_id') ?? '');
     }
 }

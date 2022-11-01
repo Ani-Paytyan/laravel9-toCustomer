@@ -1,10 +1,9 @@
 <div class="mt-4 mb-4">
     <h5>{{ __('page.workplace.add_contact')}}</h5>
 </div>
-<form class="workplace-contacts-form" method="POST" action="{{ route("workplace-contacts.store") }}">
+<form class="workplace-contacts-form" method="POST" action="{{ route("workplace-employees.store", $workplace->uuid) }}">
     @csrf
     @method('POST')
-    <input type="hidden" id="workplace_id" value="{{ $workplace->uuid }}">
     <div class="row">
         <div class="col-md-6">
             <x-form.select

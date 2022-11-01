@@ -78,6 +78,9 @@ class WorkPlaceService implements WorkPlaceServiceInterface
      */
     public function destroy(WorkPlace $workplace): bool
     {
+        // detach all work place contacts
+        $workplace->contacts()->detach();
+
         return $workplace->delete();
     }
 }

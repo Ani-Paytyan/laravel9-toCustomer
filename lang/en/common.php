@@ -7,4 +7,5 @@ return [
     'actions' => 'Actions',
     'invite' => 'Invite',
     'create' => 'Create',
+    'save' => 'Save',
 ];

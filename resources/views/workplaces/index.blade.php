@@ -34,6 +34,10 @@
                                 <td>{{ $workPlace->name }}</td>
                                 <td>{{ $workPlace->address }}</td>
                                 <td>
+                                    <a href="{{ route('workplace.workdays', $workPlace->uuid) }}"
+                                       class="btn btn-sm btn-neutral">
+                                        <i class="bi bi-calendar-date"></i>
+                                    </a>
                                     @if (Gate::allows('edit-workplace'))
                                         <a href="{{ route('workplaces.edit', $workPlace->uuid) }}"
                                            class="btn btn-sm btn-neutral">

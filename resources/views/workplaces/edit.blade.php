@@ -23,7 +23,7 @@
                                 label="{{ __('attributes.user.name') }}"
                                 placeholder="{{ __('attributes.user.name') }}"
                                 class="form-control-muted"
-                                value="{{ $workplace->name }}"
+                                value="{{ old('name') ?? $workplace->name }}"
                             />
                         </div>
                     </div>
@@ -36,7 +36,7 @@
                                 label="{{ __('attributes.user.address') }}"
                                 placeholder="{{ __('attributes.user.address') }}"
                                 class="form-control-muted"
-                                value="{{ $workplace->address }}"
+                                value="{{ old('address') ?? $workplace->address }}"
                             />
                         </div>
                     </div>
@@ -49,7 +49,7 @@
                                 label="{{ __('attributes.user.zip') }}"
                                 placeholder="{{ __('attributes.user.zip') }}"
                                 class="form-control-muted"
-                                value="{{ $workplace->zip }}"
+                                value="{{ old('zip') ?? $workplace->zip }}"
                             />
                         </div>
                     </div>
@@ -62,7 +62,7 @@
                                 label="{{ __('attributes.user.city') }}"
                                 placeholder="{{ __('attributes.user.city') }}"
                                 class="form-control-muted"
-                                value="{{ $workplace->city }}"
+                                value="{{ old('city') ?? $workplace->city }}"
                             />
                         </div>
                     </div>
@@ -75,7 +75,7 @@
                                 label="{{ __('attributes.workplaces.number') }}"
                                 placeholder="{{ __('attributes.workplaces.number') }}"
                                 class="form-control-muted"
-                                value="{{ $workplace->number }}"
+                                value="{{ old('number') ?? $workplace->number }}"
                             />
                         </div>
                     </div>

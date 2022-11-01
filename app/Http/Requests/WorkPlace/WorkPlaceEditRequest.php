@@ -15,7 +15,7 @@ class WorkPlaceEditRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'string|required',
+            'name' => 'unique:workplaces,name,'. $this->workplace->uuid.',uuid',
         ];
     }
 

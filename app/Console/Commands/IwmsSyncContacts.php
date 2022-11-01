@@ -5,6 +5,7 @@ use App\Exceptions\Iwms\IwmsApiError;
 use App\Models\Company;
 use App\Services\Contact\ContactServiceInterface;
 use App\Services\IwmsApi\Contact\IwmsApiContactServiceInterface;
+use Exception;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Log;
@@ -56,7 +57,6 @@ class IwmsSyncContacts extends Command
         $contacts = [];
         // get contacts
         foreach ($companies as $company) {
-            // Hotfix
             try {
                 $result = $apiService->getContacts($company, 1);
                 if ($result) {
@@ -72,8 +72,9 @@ class IwmsSyncContacts extends Command
                         }
                     }
                 }
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
                 if (get_class($e) === IwmsApiError::class) {
+                    Log::error("IwmsSyncContacts - Code: " . $e->getCode() . " File:" . $e->getFile() .  " Message: " . $e->getMessage());
                     $this->error($e->getMessage());
                 } else {
                     throw $e;

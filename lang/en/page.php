@@ -64,6 +64,7 @@ return [
         'workdays' => 'Company Working Days',
         'from' => 'From',
         'to' => 'To',
+        'day' => 'Day',
         'working_day' => 'Working day',
         'set_default_working_days' => 'Set default working days',
     ],
@@ -78,5 +79,9 @@ return [
         'updated_error' => 'Work Place Working Days not updated',
         'deleted_successfully' => 'Work Place Working Days set default time successfully',
         'deleted_error' => 'Work Place Working Days default time not set',
-    ]
+    ],
+    'additional_working_days' => [
+        'add_date' => 'Add date to additional working days',
+        'add_date_btn' => 'Add date',
+    ],
 ];

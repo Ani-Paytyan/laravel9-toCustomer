@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdditionalWorkingDayController;
 use App\Http\Controllers\WorkDaysController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardController;
@@ -42,4 +43,6 @@ Route::group(['middleware' => ['auth', 'SetIwmsApiToken']], static function () {
     Route::get('workplace-workdays/{workPlace}', [WorkDaysController::class, 'workPlaceWorkdays'])->name('workplace.workdays');
     Route::post('workplace-workdays/{workPlace}', [WorkDaysController::class, 'storeWorkPlaceWorkdays'])->name('workplace-workdays.store');
     Route::delete('workplace-workdays/{workPlace}', [WorkDaysController::class, 'deleteWorkPlaceWorkdays'])->name('workplace-workdays.delete');
+
+    Route::resource('additional-working-days', AdditionalWorkingDayController::class);
 });

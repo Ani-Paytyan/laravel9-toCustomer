@@ -82,8 +82,9 @@ class WorkDaysController extends Controller
     {
         $weekdays = Carbon::getDays();
         $workingDays = $this->workingDaysRepository->getWorkPlaceWorkingDays($workPlace->uuid);
+        $additionalWorkingDays = $workPlace->additionalWorkingDays()->get();
 
-        return view('workplaces.workdays', compact('workingDays', 'weekdays', 'workPlace'));
+        return view('workplaces.workdays', compact('workingDays', 'weekdays', 'workPlace', 'additionalWorkingDays'));
     }
 
     public function storeWorkPlaceWorkdays(Request $request, WorkPlace $workPlace, WorkDaysServiceInterface $workDaysService): RedirectResponse

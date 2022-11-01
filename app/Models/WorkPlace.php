@@ -32,4 +32,9 @@ class WorkPlace extends Model
     protected $casts = [
         'uuid' => 'string'
     ];
+
+    public function additionalWorkingDays()
+    {
+        return $this->belongsTo(AdditionalWorkingDay::class, 'uuid', 'workplace_id');
+    }
 }

@@ -9,7 +9,8 @@ class WorkDaysCreateDto
     private string $day_of_week;
     private string $from;
     private string $to;
-    private string $is_active;
+    private bool $is_active;
+    private bool $default;
 
     public function getId(): string
     {
@@ -55,14 +56,25 @@ class WorkDaysCreateDto
         return $this;
     }
 
-    public function getIsActive(): ?string
+    public function getIsActive(): ?bool
     {
         return $this->is_active;
     }
 
-    public function setIsActive(?string $is_active): self
+    public function setIsActive(?bool $is_active): self
     {
         $this->is_active = $is_active;
+        return $this;
+    }
+
+    public function getDefault(): ?bool
+    {
+        return $this->default;
+    }
+
+    public function setDefault(?bool $default): self
+    {
+        $this->default = $default;
         return $this;
     }
 
@@ -73,6 +85,7 @@ class WorkDaysCreateDto
             ->setDay($data['day_of_week'])
             ->setFrom($data['from'])
             ->setTo($data['to'])
-            ->setIsActive($data['is_active'] ?? 0);
+            ->setIsActive($data['is_active'] ?? 0)
+            ->setDefault($data['default'] ?? 0);
     }
 }

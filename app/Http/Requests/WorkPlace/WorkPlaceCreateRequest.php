@@ -15,7 +15,7 @@ class WorkPlaceCreateRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'string|required|unique:workplaces',
+            'name' => 'required|string|required|unique:workplaces',
         ];
     }
 
@@ -23,6 +23,13 @@ class WorkPlaceCreateRequest extends FormRequest
     {
         return [
             'name' => trans('attributes.user.name'),
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'name.unique' => trans('validation.custom.unique_workplace'),
         ];
     }
 }

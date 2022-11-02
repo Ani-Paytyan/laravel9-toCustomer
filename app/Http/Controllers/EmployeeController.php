@@ -10,6 +10,7 @@ use App\Http\Requests\Employee\EmployeeEditRequest;
 use App\Models\Contact;
 use App\Models\Team;
 use App\Models\TeamContact;
+use App\Models\WorkPlace;
 use App\Models\UniqueItem;
 use App\Models\UniqueItemContact;
 use App\Services\Facades\IwmsContactFacade;
@@ -165,7 +166,24 @@ class EmployeeController extends Controller
     }
 
     /**
-     * @param $id
+     * @param Contact $employee
+     * @return Application|Factory|View
+     */
+    public function employeeWorkPlaces(Contact $employee)
+    {
+        $contactWorkPlaces = $employee->workplaces()->orderBy('name', 'ASC')->paginate(10);
+
+        $workPlaceList = WorkPlace::where('company_id', $this->companyId)
+            ->whereNotIn('uuid', $contactWorkPlaces->pluck('uuid')->toArray())
+            ->orderBy('name', 'ASC')
+            ->pluck('name','uuid')
+            ->toArray();
+
+        return view('employees.contacts', compact('employee','contactWorkPlaces', 'workPlaceList'));
+    }
+
+    /**
+     * @param Contact $employee
      * @return Application|Factory|View
      */
     public function employeeUniqueItems(Contact $employee)

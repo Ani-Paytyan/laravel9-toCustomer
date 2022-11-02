@@ -38,6 +38,10 @@
                                        class="btn btn-sm btn-neutral">
                                         <i class="bi bi-calendar-date"></i>
                                     </a>
+                                    <a href="{{ route('workplaces.show', $workPlace->uuid) }}"
+                                       class="btn btn-sm btn-neutral">
+                                        <i class="bi bi-eye-fill"></i>
+                                    </a>
                                     @if (Gate::allows('edit-workplace'))
                                         <a href="{{ route('workplaces.edit', $workPlace->uuid) }}"
                                            class="btn btn-sm btn-neutral">

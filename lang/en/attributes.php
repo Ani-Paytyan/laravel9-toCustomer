@@ -21,6 +21,10 @@ return [
     'workplaces' => [
         'number' => 'Number',
     ],
+    'workplace' => [
+        'name' => 'Name',
+        'address' => 'Address',
+    ],
     'team' => [
         'name' => 'Team name',
         'contact_role' => 'Contact role',

@@ -37,6 +37,9 @@
                                 <td>{{ $employee->status }} </td>
                                 <td>
                                     @if($employee->status != $statusDeleted)
+                                        <a href="{{ route('employee.employee-workplaces', $employee->uuid) }}" class="btn btn-sm btn-neutral">
+                                            <i class="bi bi-person-workspace"></i>
+                                        </a>
                                         <a href="{{ route('employee.unique-items', $employee->uuid) }}" class="btn btn-sm btn-neutral">
                                             <i class="bi bi-handbag"></i>
                                         </a>

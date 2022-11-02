@@ -32,4 +32,9 @@ class WorkPlace extends Model
     protected $casts = [
         'uuid' => 'string'
     ];
+
+    public function contacts()
+    {
+        return $this->belongsToMany(Contact::class, 'work_place_contacts', 'workplace_id', 'contact_id')->withPivot('uuid');
+    }
 }

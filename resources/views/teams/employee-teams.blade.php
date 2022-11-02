@@ -24,7 +24,7 @@
                                 <tbody>
                                 @foreach($contactTeams as $teamContact)
                                     <tr>
-                                        <td>{{ $teamContact->team->name }}</td>
+                                        <td>{{ $teamContact->team->name ?? $teamContact->team->uuid }}</td>
                                         <td>
                                             <x-form.select
                                                 name="role"

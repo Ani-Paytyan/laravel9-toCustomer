@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Dto\IwmsApi\Contact\IwmsApiContactDto;
 use App\Dto\Team\TeamCreateDto;
 use App\Dto\Team\TeamUpdateDto;
 use App\Http\Requests\Team\TeamStoreRequest;
@@ -80,6 +81,7 @@ class TeamController extends Controller
 
         $contacts = Contact::where('company_id', $this->companyId)
             ->orderBy(DB::raw('ISNULL(first_name), first_name'), 'ASC')
+            ->where('status' , '!=' , IwmsApiContactDto::STATUS_DELETED)
             ->whereNotIn('uuid', $teamContacts->pluck('contact_id')->toArray())
             ->select('uuid', 'first_name', 'last_name', 'email')
             ->get()

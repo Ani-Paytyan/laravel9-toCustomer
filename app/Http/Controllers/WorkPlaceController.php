@@ -6,6 +6,7 @@ use App\Dto\IwmsApi\WorkPlace\IwmsApiWorkPlaceDto;
 use App\Dto\IwmsApi\WorkPlace\IwmsApiWorkPlaceEditDto;
 use App\Http\Requests\WorkPlace\WorkPlaceCreateRequest;
 use App\Http\Requests\WorkPlace\WorkPlaceEditRequest;
+use App\Models\UniqueItem;
 use App\Models\WorkPlace;
 use App\Services\Facades\IwmsWorkPlaceFacade;
 use App\Traits\ContactTrait;
@@ -62,8 +63,12 @@ class WorkPlaceController extends Controller
             ->paginate(10);
 
         $contactList = $this->getContactList($this->companyId, $workPlaceContacts->pluck('uuid')->toArray());
+        // get all workplace unique items
+        $uniqueItems = UniqueItem::with('contacts')
+            ->where('workplace_id', $workplace->uuid)
+            ->paginate(10);
 
-        return view('workplaces.show', compact('workplace', 'workPlaceContacts', 'contactList'));
+        return view('workplaces.show', compact('workplace', 'workPlaceContacts', 'contactList', 'uniqueItems'));
     }
 
     /**

@@ -15,7 +15,7 @@ class WorkPlaceEditRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'unique:workplaces,name,'. $this->workplace->uuid.',uuid',
+            'name' => 'required|unique:workplaces,name,'. $this->workplace->uuid.',uuid',
         ];
     }
 
@@ -23,6 +23,13 @@ class WorkPlaceEditRequest extends FormRequest
     {
         return [
             'name' => trans('attributes.user.name'),
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'name.unique' => trans('validation.custom.unique_workplace'),
         ];
     }
 }

@@ -26,6 +26,15 @@ return [
         'contact_role' => 'Contact role',
         'description' => 'Description',
     ],
+    'days' => [
+        'monday' => 'Monday',
+        'tuesday' => 'Tuesday',
+        'wednesday' => 'Wednesday',
+        'thursday' => 'Thursday',
+        'friday' => 'Friday',
+        'saturday' => 'Saturday',
+        'sunday' => 'Sunday',
+    ],
     'unique-items' => [
         'item_name' => 'Item Name',
         'item_serial_number' => 'Item serial number',

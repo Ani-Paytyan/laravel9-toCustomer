@@ -155,6 +155,7 @@ return [
         'attribute-name' => [
             'rule-name' => 'custom-message',
         ],
+        'unique_workplace' => 'Work Place with that :attribute ":input" already exists'
     ],
 
     /*

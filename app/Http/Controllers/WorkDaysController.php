@@ -4,13 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Dto\WorkDays\WorkDaysCreateDto;
 use App\Interfaces\WorkingDaysRepositoryInterface;
+use App\Models\WorkDays;
 use App\Models\WorkPlace;
 use App\Services\WorkDays\WorkDaysServiceInterface;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
-use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Gate;
@@ -37,7 +37,9 @@ class WorkDaysController extends Controller
      */
     public function companyWorkdays()
     {
-        $weekdays = Carbon::getDays();
+        Gate::authorize('create-working-days');
+
+        $weekdays = WorkDays::getDays();
         $workingDays = $this->workingDaysRepository->getCompanyWorkingDays($this->companyId);
 
         return view('workdays.index', compact('workingDays', 'weekdays'));
@@ -80,7 +82,7 @@ class WorkDaysController extends Controller
 
     public function workPlaceWorkdays(WorkPlace $workPlace)
     {
-        $weekdays = Carbon::getDays();
+        $weekdays = WorkDays::getDays();
         $workingDays = $this->workingDaysRepository->getWorkPlaceWorkingDays($workPlace->uuid);
 
         return view('workplaces.workdays', compact('workingDays', 'weekdays', 'workPlace'));

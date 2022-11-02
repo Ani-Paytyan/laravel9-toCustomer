@@ -20,11 +20,13 @@
                 <div class="collapse navbar-collapse" id="sidebarCollapse">
                     <!-- Navigation -->
                     <ul class="navbar-nav">
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('company.workdays') }}">
-                                <i class="bi bi-calendar-date"></i> {{ __('page.company.workdays') }}
-                            </a>
-                        </li>
+                        @if (Gate::allows('create-working-days'))
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('company.workdays') }}">
+                                    <i class="bi bi-calendar-date"></i> {{ __('page.company.workdays') }}
+                                </a>
+                            </li>
+                        @endif
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('teams.index') }}">
                                 <i class="bi bi-people"></i> {{ __('page.teams.title') }}

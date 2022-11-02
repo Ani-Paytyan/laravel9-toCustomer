@@ -29,24 +29,38 @@
                     @foreach($workingDays as $key => $workingDay)
                         <div class="row pb-6 g-2">
                             <h3>{{ $weekdays[$workingDay->day_of_week] ?? '' }} :</h3>
+                            @if (empty($workingDay->workplace_id))
+                                <input type="hidden" name="data[{{ $key }}][default]" value="true">
+                            @endif
                             <input type="hidden" name="data[{{ $key }}][uuid]" value="{{ $workingDay->uuid }}">
                             <input type="hidden" name="data[{{ $key }}][day_of_week]" value="{{ $workingDay->day_of_week }}">
                             <div class="col-md-2">
-                                <x-form.checkbox
-                                    name="data[{{ $key }}][is_active]"
-                                    type="text"
-                                    id="is_active"
-                                    label="{{ __('page.company.working_day') }}"
-                                    placeholder="{{ __('page.company.working_day') }}"
-                                    class="form-control-muted"
-                                    value="{{ $workingDay->is_active }}"
-                                />
+                                @if($workingDay->is_active)
+                                    <x-form.checkbox
+                                        name="data[{{ $key }}][is_active]"
+                                        type="text"
+                                        id="is_active_{{ $key }}"
+                                        label="{{ __('page.company.working_day') }}"
+                                        placeholder="{{ __('page.company.working_day') }}"
+                                        class="form-control-muted"
+                                        checked
+                                    />
+                                @else
+                                    <x-form.checkbox
+                                        name="data[{{ $key }}][is_active]"
+                                        type="text"
+                                        id="is_active_{{ $key }}"
+                                        label="{{ __('page.company.working_day') }}"
+                                        placeholder="{{ __('page.company.working_day') }}"
+                                        class="form-control-muted"
+                                    />
+                                @endif
                             </div>
                             <div class="col-md">
                                 <x-form.input
                                     name="data[{{ $key }}][from]"
                                     type="time"
-                                    id="from"
+                                    id="from_{{ $key }}"
                                     required
                                     label="{{ __('page.company.from') }}"
                                     placeholder="{{ __('page.company.from') }}"
@@ -58,7 +72,7 @@
                                 <x-form.input
                                     name="data[{{ $key }}][to]"
                                     type="time"
-                                    id="to"
+                                    id="to_{{ $key }}"
                                     required
                                     label="{{ __('page.company.to') }}"
                                     placeholder="{{ __('page.company.to') }}"

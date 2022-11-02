@@ -14,9 +14,9 @@ class WorkDaysSeeder extends Seeder
      */
     public function run()
     {
-        for ($i = 0; $i <= 6; $i++) {
+        for ($i = 1; $i <= 7; $i++) {
             $is_active = true;
-            if ($i === 0 || $i === 6) {
+            if ($i === 6 || $i === 7) {
                 $is_active = false;
             }
 

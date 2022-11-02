@@ -2,6 +2,7 @@
 
 namespace App\Traits;
 
+use App\Dto\IwmsApi\Contact\IwmsApiContactDto;
 use App\Models\Contact;
 use DB;
 
@@ -11,6 +12,7 @@ trait ContactTrait
     {
         return Contact::where('company_id', $companyId)
             ->orderBy(DB::raw('ISNULL(first_name), first_name'), 'ASC')
+            ->where('status' , '!=' , IwmsApiContactDto::STATUS_DELETED)
             ->whereNotIn('uuid', $contactsId)
             ->select('uuid', 'first_name', 'last_name', 'email')
             ->get()

@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Dto\IwmsApi\Contact\IwmsApiContactDto;
 use App\Dto\Team\TeamCreateDto;
 use App\Dto\Team\TeamUpdateDto;
 use App\Http\Requests\Team\TeamStoreRequest;

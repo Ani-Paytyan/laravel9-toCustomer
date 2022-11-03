@@ -8,6 +8,8 @@ use App\Http\Requests\WorkPlace\WorkPlaceCreateRequest;
 use App\Http\Requests\WorkPlace\WorkPlaceEditRequest;
 use App\Models\WorkPlace;
 use App\Services\Facades\IwmsWorkPlaceFacade;
+use App\Traits\ContactTrait;
+use DB;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -17,6 +19,8 @@ use Illuminate\Support\Facades\Gate;
 
 class WorkPlaceController extends Controller
 {
+    use ContactTrait;
+
     protected $user;
     protected $companyId;
 
@@ -48,6 +52,18 @@ class WorkPlaceController extends Controller
         Gate::authorize('create-workplace');
 
         return view('workplaces.create');
+    }
+
+    public function show(WorkPlace $workplace)
+    {
+        $workPlaceContacts = $workplace->contacts()
+            ->orderBy(DB::raw('ISNULL(first_name), first_name'), 'ASC')
+            ->orderBy(DB::raw('ISNULL(last_name), last_name'), 'ASC')
+            ->paginate(10);
+
+        $contactList = $this->getContactList($this->companyId, $workPlaceContacts->pluck('uuid')->toArray());
+
+        return view('workplaces.show', compact('workplace', 'workPlaceContacts', 'contactList'));
     }
 
     /**

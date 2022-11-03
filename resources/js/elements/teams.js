@@ -9,22 +9,8 @@ $(document).ready(function() {
             role: $(this).parent().parent().find('.role option:selected').val()
         };
 
-        $.ajax({
-            type: "POST",
-            url: $(this).attr('href'),
-            data: formData,
-            dataType: 'json',
-            success: function (data) {
-                $('#loading').hide();
-                swalAlert(data.status, data.message);
-            },
-            error: function (data) {
-                $('.preloader').hide();
-                console.log(data);
-            }
-        });
+        sendAjax("PUT", $(this).attr('href'), formData);
     });
-
 
     $(".destroyContact").click(function (e) {
         e.preventDefault();
@@ -74,25 +60,7 @@ $(document).ready(function() {
             role: $('#contact_role option:selected').val()
         };
 
-        $.ajax({
-            type: "POST",
-            url: $('.team-contact-form').attr('action'),
-            data: formData,
-            dataType: 'json',
-            success: function (data) {
-                if (data.status == 'success') {
-                    location.reload();
-                } else {
-                    $('#loading').hide();
-                }
-
-                swalAlert(data.status, data.message);
-            },
-            error: function (data) {
-                $('.preloader').hide();
-                console.log(data);
-            }
-        });
+        sendAjax("POST", $('.team-contact-form').attr('action'), formData);
     });
 
     $(".addTeamToContact").click(function (e) {
@@ -111,9 +79,13 @@ $(document).ready(function() {
             role: $('#contact_role option:selected').val()
         };
 
+        sendAjax("POST", $('.contact-team-form').attr('action'), formData);
+    });
+
+    function sendAjax(type, url, formData) {
         $.ajax({
-            type: "POST",
-            url: $('.contact-team-form').attr('action'),
+            type: type,
+            url: url,
             data: formData,
             dataType: 'json',
             success: function (data) {
@@ -130,7 +102,8 @@ $(document).ready(function() {
                 console.log(data);
             }
         });
-    });
+    }
+
 
     function swalAlert(status, message, toast = true, position = 'top-right') {
         Swal.fire({

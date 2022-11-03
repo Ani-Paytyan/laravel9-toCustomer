@@ -70,5 +70,14 @@ Route::group(['middleware' => ['auth', 'SetIwmsApiToken']], static function () {
     });
 
     Route::resource('unique-items', UniqueItemController::class);
-    Route::resource('unique-item-contacts', UniqueItemContactController::class);
+    Route::controller(UniqueItemContactController::class)->group(function () {
+        Route::post('unique-item-employees/{uniqueItem}', 'storeUniqueItemEmployees')->name('unique-item-employees.store');
+        Route::delete('unique-item-employees/{uniqueItem}/{employee}', 'deleteUniqueItemEmployees')->name('unique-item-employees.delete');
+
+        Route::post('employee-unique-items/{employee}', 'storeEmployeeUniqueItems')->name('employee-unique-items.store');
+        Route::delete('employee-unique-items/{employee}/{uniqueItem}', 'deleteEmployeeUniqueItems')->name('employee-unique-items.delete');
+    });
+
+
+
 });

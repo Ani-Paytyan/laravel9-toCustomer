@@ -59,14 +59,15 @@ class WorkPlaceController extends Controller
     {
         $workPlaceContacts = $workplace->contacts()
             ->orderBy(DB::raw('ISNULL(first_name), first_name'), 'ASC')
-            ->orderBy(DB::raw('ISNULL(last_name), last_name'), 'ASC')
-            ->paginate(10);
+            ->orderBy(DB::raw('ISNULL(last_name), last_name'), 'ASC');
 
-        $contactList = $this->getContactList($this->companyId, $workPlaceContacts->pluck('uuid')->toArray());
+        $contactList = $this->getContactList($this->companyId, $workPlaceContacts->get()->pluck('uuid')->toArray());
         // get all workplace unique items
         $uniqueItems = UniqueItem::with('contacts')
             ->where('workplace_id', $workplace->uuid)
             ->paginate(10);
+
+        $workPlaceContacts = $workPlaceContacts->paginate(10);
 
         return view('workplaces.show', compact('workplace', 'workPlaceContacts', 'contactList', 'uniqueItems'));
     }

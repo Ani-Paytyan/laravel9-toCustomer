@@ -44,4 +44,9 @@ class Contact extends Model
     {
         return $this->belongsToMany(WorkPlace::class, 'work_place_contacts', 'contact_id', 'workplace_id')->withPivot('uuid');
     }
+
+    public function uniqueItems()
+    {
+        return $this->belongsToMany(UniqueItem::class, 'unique_item_contacts', 'contact_id', 'unique_item_id')->withPivot('uuid');
+    }
 }

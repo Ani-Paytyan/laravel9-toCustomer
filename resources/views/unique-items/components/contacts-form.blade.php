@@ -1,10 +1,9 @@
 <div class="mt-4 mb-4">
     <h5>{{ __('page.unique-item.add_contact')}}</h5>
 </div>
-<form class="unique-item-contacts-form" method="POST" action="{{ route("unique-item-contacts.store") }}">
+<form class="unique-item-contacts-form" method="POST" action="{{ route("unique-item-employees.store", $uniqueItem->uuid) }}">
     @csrf
     @method('POST')
-    <input type="hidden" id="unique_item_id" value="{{ $uniqueItem->uuid }}">
     <div class="row">
         <div class="col-md-6">
             <x-form.select

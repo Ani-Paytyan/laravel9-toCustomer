@@ -2,9 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Contact;
 use App\Models\UniqueItem;
-use App\Models\UniqueItemContact;
+use App\Traits\ContactTrait;
 use DB;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
@@ -13,6 +12,8 @@ use Illuminate\Support\Facades\Auth;
 
 class UniqueItemController extends Controller
 {
+    use ContactTrait;
+
     protected $user;
     protected $companyId;
 
@@ -42,20 +43,13 @@ class UniqueItemController extends Controller
      */
     public function show(UniqueItem $uniqueItem)
     {
-        $uniqueItemContacts = UniqueItemContact::with('contact')
-            ->where('unique_item_id', $uniqueItem->uuid)->get();
-
-        $contactList = Contact::where('company_id', $this->companyId)
+        $uniqueItemContacts = $uniqueItem->contacts()
             ->orderBy(DB::raw('ISNULL(first_name), first_name'), 'ASC')
-            ->whereNotIn('uuid', $uniqueItemContacts->pluck('contact_id')->toArray())
-            ->select('uuid', 'first_name', 'last_name', 'email')
-            ->get()
-            ->mapWithKeys(function ($item) {
-                return [$item['uuid'] => $item['first_name'] && $item['last_name']
-                    ? ($item->getFullNameAttribute())
-                    : $item['email']];
-            })->toArray();
+            ->orderBy(DB::raw('ISNULL(last_name), last_name'), 'ASC');
 
+        $contactList = $this->getContactList($this->companyId, $uniqueItemContacts->get()->pluck('uuid')->toArray());
+
+        $uniqueItemContacts = $uniqueItemContacts->paginate(10);
 
         return view('unique-items.show', compact('uniqueItem', 'uniqueItemContacts', 'contactList'));
     }

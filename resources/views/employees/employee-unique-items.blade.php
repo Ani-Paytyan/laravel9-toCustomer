@@ -1,6 +1,6 @@
 @extends('layout.dashboard')
 @section('title')
-    {{ __('page.contact.contact_teams')}}
+    {{ __('page.unique-item.unique_items_contact')}}
 @endsection
 @section('content')
     <div class="container-fluid">
@@ -8,9 +8,9 @@
         <div class="card mb-7">
             <div class="row card-header align-items-center">
                 <div class="page-title">
-                    <h3>{{ $contact->getFullNameAttribute() }} - {{ __('page.teams.title')}} </h3>
+                    <h3>{{ __('page.unique-item.unique_items_contact')}} : {{ $employee->getFullNameAttribute() }} </h3>
                 </div>
-                @if(!empty($uniqueItemContacts))
+                @if($uniqueItemContacts->count() !== 0)
                     <div class="card">
                         <div class="table-responsive">
                             <table class="table table-hover table-nowrap">
@@ -28,13 +28,13 @@
                                 <tbody>
                                 @foreach($uniqueItemContacts as $uniqueItem)
                                     <tr>
-                                        <td>{{ $uniqueItem->item->item->name }}</td>
-                                        <td>{{ $uniqueItem->item->item->serial_number }}</td>
                                         <td>{{ $uniqueItem->item->name }}</td>
-                                        <td>{{ $uniqueItem->item->article }}</td>
+                                        <td>{{ $uniqueItem->item->serial_number }}</td>
+                                        <td>{{ $uniqueItem->name }}</td>
+                                        <td>{{ $uniqueItem->article }}</td>
                                         @if (Gate::allows('destroy-unique-items'))
                                             <td>
-                                                <a href="{{ route('unique-item-contacts.destroy', $uniqueItem->uuid) }}"
+                                                <a href="{{ route('employee-unique-items.delete', [$employee->uuid, $uniqueItem->uuid]) }}"
                                                    class="btn btn-sm btn-neutral unique-item-contacts-destroy">
                                                     <i class="bi bi-trash"></i>
                                                 </a>
@@ -46,15 +46,17 @@
                             </table>
                         </div>
                     </div>
+                    <div class="navigation navigation-employee">
+                        {{ $uniqueItemContacts->links() }}
+                    </div>
                 @endif
                 @if (Gate::allows('create-unique-items'))
                     <div class="mt-4 mb-4">
                         <h5>{{ __('page.unique-item.unique_item_add')}}</h5>
                     </div>
-                    <form class="contacts-unique-item-form" method="POST" action="{{ route("unique-item-contacts.store") }}">
+                    <form class="contacts-unique-item-form" method="POST" action="{{ route('employee-unique-items.store', $employee->uuid) }}">
                         @csrf
                         @method('POST')
-                        <input type="hidden" id="contact_id" value="{{ $employee->uuid }}">
                         <div class="row">
                             <div class="col-md-6">
                                 <x-form.select

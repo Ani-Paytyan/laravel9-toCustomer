@@ -14,8 +14,8 @@ class UniqueItemStoreRequest extends FormRequest
     public function rules()
     {
         return [
-            'contact_id' => 'required',
-            'unique_item_id' => 'required',
+            'contact_id' => 'required_without:unique_item_id',
+            'unique_item_id' => 'required_without:contact_id',
         ];
     }
 }

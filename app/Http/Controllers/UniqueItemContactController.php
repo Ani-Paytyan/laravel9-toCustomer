@@ -3,47 +3,73 @@
 namespace App\Http\Controllers;
 
 
+use App\Dto\UniqueItemContact\UniqueItemContactCreateDto;
 use App\Http\Requests\UniqueItem\UniqueItemStoreRequest;
-use App\Models\UniqueItemContact;
+use App\Models\Contact;
+use App\Models\UniqueItem;
+use App\Services\UniqueItemContact\UniqueItemContactServiceInterface;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Str;
 
 class UniqueItemContactController extends Controller
 {
     /**
+     * @param UniqueItem $uniqueItem
      * @param UniqueItemStoreRequest $request
+     * @param UniqueItemContactServiceInterface $uniqueItemContactService
      * @return JsonResponse
      */
-    public function store(UniqueItemStoreRequest $request): JsonResponse
+    public function storeUniqueItemEmployees(
+        UniqueItem $uniqueItem,
+        UniqueItemStoreRequest $request,
+        UniqueItemContactServiceInterface $uniqueItemContactService
+    ) : JsonResponse
     {
-        $data = $request->only('contact_id', 'unique_item_id');
+        $dto = UniqueItemContactCreateDto::createFromRequest($request);
 
-        $result = UniqueItemContact::withTrashed()->updateOrCreate([
-            'contact_id' => trim($data['contact_id']),
-            'unique_item_id' => trim($data['unique_item_id']),
-        ], [
-            'uuid' => Str::uuid()->toString(),
-            'deleted_at' => null
-        ]);
-
-        if ($result) {
-            return response()->json([
-                'data' => $result,
-                'status' => 'success',
-                'message' => __('page.unique-item.created_successfully')
-            ]);
-        }
+        $uniqueItemContactService->storeUniqueItemEmployees($uniqueItem, $dto);
 
         return response()->json([
             'data' => [],
-            'status' => 'error',
-            'message' => __('page.unique-item.created_error')
+            'status' => 'success',
+            'message' => __('page.unique-item.created_successfully')
         ]);
     }
 
-    public function destroy(UniqueItemContact $uniqueItemContact): JsonResponse
+    /**
+     * @param Contact $employee
+     * @param UniqueItemStoreRequest $request
+     * @param UniqueItemContactServiceInterface $uniqueItemContactService
+     * @return JsonResponse
+     */
+    public function storeEmployeeUniqueItems(
+        Contact $employee,
+        UniqueItemStoreRequest $request,
+        UniqueItemContactServiceInterface $uniqueItemContactService
+    ): JsonResponse
     {
-        if ($uniqueItemContact->delete()) {
+        $dto = UniqueItemContactCreateDto::createFromRequest($request);
+
+        $uniqueItemContactService->storeEmployeeUniqueItems($employee, $dto);
+
+        return response()->json([
+            'data' => [],
+            'status' => 'success',
+            'message' => __('page.unique-item.created_unique_successfully')
+        ]);
+    }
+    /**
+     * @param Contact $employee
+     * @param UniqueItem $uniqueItem
+     * @param UniqueItemContactServiceInterface $uniqueItemContactService
+     * @return JsonResponse
+     */
+    public function deleteUniqueItemEmployees(
+        UniqueItem $uniqueItem,
+        Contact $employee,
+        UniqueItemContactServiceInterface $uniqueItemContactService
+    ): JsonResponse
+    {
+        if ($uniqueItemContactService->destroy($uniqueItem, $employee)) {
             return response()->json([
                 'data' => [],
                 'status' => 'success',
@@ -57,4 +83,32 @@ class UniqueItemContactController extends Controller
             'message' => __('page.unique-item.deleted_error')
         ]);
     }
+
+    /**
+     * @param UniqueItem $uniqueItem
+     * @param Contact $employee
+     * @param UniqueItemContactServiceInterface $uniqueItemContactService
+     * @return JsonResponse
+     */
+    public function deleteEmployeeUniqueItems(
+        Contact $employee,
+        UniqueItem $uniqueItem,
+        UniqueItemContactServiceInterface $uniqueItemContactService
+    ): JsonResponse
+    {
+        if ($uniqueItemContactService->destroy($uniqueItem, $employee)) {
+            return response()->json([
+                'data' => [],
+                'status' => 'success',
+                'message' => __('page.unique-item.deleted_unique_successfully')
+            ]);
+        }
+
+        return response()->json([
+            'data' => [],
+            'status' => 'error',
+            'message' => __('page.unique-item.deleted_unique_error')
+        ]);
+    }
+
 }

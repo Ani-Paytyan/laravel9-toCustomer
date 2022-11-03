@@ -15,3 +15,5 @@ yarn-error.log
 /.idea
 /.vscode
 /.docker/node/.npm/_logs
+/storage/debugbar
+/public/mix-manifest.json

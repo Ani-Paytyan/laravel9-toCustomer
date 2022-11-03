@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdditionalWorkingDayController;
 use App\Http\Controllers\UniqueItemContactController;
 use App\Http\Controllers\WorkPlaceController;
 use App\Http\Controllers\WorkDaysController;
@@ -60,6 +61,12 @@ Route::group(['middleware' => ['auth', 'SetIwmsApiToken']], static function () {
         Route::get('workplace-workdays/{workPlace}', 'workPlaceWorkdays')->name('workplace.workdays');
         Route::post('workplace-workdays/{workPlace}', 'storeWorkPlaceWorkdays')->name('workplace-workdays.store');
         Route::delete('workplace-workdays/{workPlace}', 'deleteWorkPlaceWorkdays')->name('workplace-workdays.delete');
+    });
+
+    Route::controller(AdditionalWorkingDayController::class)->group(function () {
+        Route::post('additional-working-days-store/{workPlace}', 'storeWorkPlaceWorkdays')->name('additional-working-days.store');
+        Route::put('additional-working-days-update/{additionalWorkingDay}', 'updateWorkPlaceWorkdays')->name('additional-working-days.update');
+        Route::delete('additional-working-days-delete/{additionalWorkingDay}', 'deleteWorkPlaceWorkdays')->name('additional-working-days.delete');
     });
 
     Route::resource('unique-items', UniqueItemController::class);

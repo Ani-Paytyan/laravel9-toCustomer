@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Services\AdditionalWorkingDay\AdditionalWorkingDayService;
+use App\Services\AdditionalWorkingDay\AdditionalWorkingDayServiceInterface;
 use App\Services\Auth\UserProvider;
 use App\Services\Company\CompanyService;
 use App\Services\Company\CompanyServiceInterface;
@@ -33,6 +35,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
+        $this->app->singleton(AdditionalWorkingDayServiceInterface::class, AdditionalWorkingDayService::class);
         $this->app->singleton(ContactServiceInterface::class, ContactService::class);
         $this->app->singleton(CompanyServiceInterface::class, CompanyService::class);
         $this->app->singleton(ItemServiceInterface::class, ItemService::class);

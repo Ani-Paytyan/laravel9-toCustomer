@@ -13,17 +13,14 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('work_days', function (Blueprint $table) {
+        Schema::create('additional_working_days', function (Blueprint $table) {
             $table->uuid()->primary();
-            $table->uuid('company_id')->nullable();
-            $table->uuid('workplace_id')->nullable();
-            $table->integer('day_of_week');
+            $table->date('date');
             $table->time('from');
             $table->time('to');
-            $table->boolean('is_active')->default(0);
+            $table->uuid('workplace_id')->nullable();
             $table->timestamps();
 
-            $table->foreign('company_id')->references('uuid')->on('companies');
             $table->foreign('workplace_id')->references('uuid')->on('workplaces');
         });
     }
@@ -35,6 +32,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('work_days');
+        Schema::dropIfExists('additional_working_days');
     }
 };

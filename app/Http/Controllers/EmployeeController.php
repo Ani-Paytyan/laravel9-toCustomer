@@ -11,6 +11,7 @@ use App\Models\Contact;
 use App\Models\Team;
 use App\Models\TeamContact;
 use App\Models\WorkPlace;
+use App\Models\UniqueItem;
 use App\Services\Facades\IwmsContactFacade;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
@@ -169,14 +170,37 @@ class EmployeeController extends Controller
      */
     public function employeeWorkPlaces(Contact $employee)
     {
-        $contactWorkPlaces = $employee->workplaces()->orderBy('name', 'ASC')->paginate(10);
+        $contactWorkPlaces = $employee->workplaces()->orderBy('name', 'ASC');
 
         $workPlaceList = WorkPlace::where('company_id', $this->companyId)
-            ->whereNotIn('uuid', $contactWorkPlaces->pluck('uuid')->toArray())
+            ->whereNotIn('uuid', $contactWorkPlaces->get()->pluck('uuid')->toArray())
             ->orderBy('name', 'ASC')
             ->pluck('name','uuid')
             ->toArray();
 
+        $contactWorkPlaces = $contactWorkPlaces->paginate(10);
+
         return view('employees.contacts', compact('employee','contactWorkPlaces', 'workPlaceList'));
+    }
+
+    /**
+     * @param Contact $employee
+     * @return Application|Factory|View
+     */
+    public function employeeUniqueItems(Contact $employee)
+    {
+        $uniqueItemContacts = $employee->uniqueItems()->orderBy('name', 'ASC');
+
+        $uniqueItemList = UniqueItem::whereNotIn('uuid', $uniqueItemContacts->get()->pluck('uuid')->toArray())
+            ->orderBy('article', 'ASC')
+            ->select('uuid', 'name', 'article')
+            ->get()
+            ->mapWithKeys(function ($item) {
+                return [$item['uuid'] => $item['name'] ?? $item['article']];
+            })->toArray();
+
+        $uniqueItemContacts = $uniqueItemContacts->paginate(10);
+
+        return view('employees.employee-unique-items', compact('employee','uniqueItemContacts', 'uniqueItemList'));
     }
 }

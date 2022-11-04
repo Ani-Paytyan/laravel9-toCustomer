@@ -6,6 +6,7 @@ use App\Dto\IwmsApi\WorkPlace\IwmsApiWorkPlaceDto;
 use App\Dto\IwmsApi\WorkPlace\IwmsApiWorkPlaceEditDto;
 use App\Http\Requests\WorkPlace\WorkPlaceCreateRequest;
 use App\Http\Requests\WorkPlace\WorkPlaceEditRequest;
+use App\Models\UniqueItem;
 use App\Models\WorkPlace;
 use App\Services\Facades\IwmsWorkPlaceFacade;
 use App\Traits\ContactTrait;
@@ -58,12 +59,17 @@ class WorkPlaceController extends Controller
     {
         $workPlaceContacts = $workplace->contacts()
             ->orderBy(DB::raw('ISNULL(first_name), first_name'), 'ASC')
-            ->orderBy(DB::raw('ISNULL(last_name), last_name'), 'ASC')
+            ->orderBy(DB::raw('ISNULL(last_name), last_name'), 'ASC');
+
+        $contactList = $this->getContactList($this->companyId, $workPlaceContacts->get()->pluck('uuid')->toArray());
+        // get all workplace unique items
+        $uniqueItems = UniqueItem::with('contacts')
+            ->where('workplace_id', $workplace->uuid)
             ->paginate(10);
 
-        $contactList = $this->getContactList($this->companyId, $workPlaceContacts->pluck('uuid')->toArray());
+        $workPlaceContacts = $workPlaceContacts->paginate(10);
 
-        return view('workplaces.show', compact('workplace', 'workPlaceContacts', 'contactList'));
+        return view('workplaces.show', compact('workplace', 'workPlaceContacts', 'contactList', 'uniqueItems'));
     }
 
     /**

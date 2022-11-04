@@ -28,4 +28,19 @@ class UniqueItem extends Model
     protected $casts = [
         'uuid' => 'string'
     ];
+
+    public function item()
+    {
+        return $this->belongsTo(Item::class, 'item_id', 'uuid');
+    }
+
+    public function workPlace()
+    {
+        return $this->belongsTo(WorkPlace::class, 'workplace_id', 'uuid');
+    }
+
+    public function contacts()
+    {
+        return $this->belongsToMany(Contact::class, 'unique_item_contacts', 'unique_item_id', 'contact_id')->withPivot('uuid');
+    }
 }

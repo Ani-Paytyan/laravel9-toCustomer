@@ -27,8 +27,8 @@
                     @csrf
                     @method('POST')
                     @foreach($workingDays as $key => $workingDay)
-                        <div class="row pb-6 g-2">
-                            <h3>{{ $weekdays[$workingDay->day_of_week] ?? '' }} :</h3>
+                        <div class="row g-2">
+                            <h4>{{ $weekdays[$workingDay->day_of_week] ?? '' }} :</h4>
                             @if (empty($workingDay->workplace_id))
                                 <input type="hidden" name="data[{{ $key }}][default]" value="true">
                             @endif
@@ -88,6 +88,9 @@
                         </button>
                     @endif
                 </form>
+                <div>
+                    @include('workplaces.components.additional-working-days')
+                </div>
             </div>
         </div>
     </div>

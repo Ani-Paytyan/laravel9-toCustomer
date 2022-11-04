@@ -1,5 +1,8 @@
 <?php
 
+use App\Http\Controllers\AdditionalWorkingDayController;
+use App\Http\Controllers\UniqueItemContactController;
+use App\Http\Controllers\WorkPlaceController;
 use App\Http\Controllers\WorkDaysController;
 use App\Http\Controllers\WorkPlaceContactController;
 use Illuminate\Support\Facades\Route;
@@ -7,7 +10,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\TeamController;
 use App\Http\Controllers\TeamContactController;
-use App\Http\Controllers\WorkPlaceController;
+use App\Http\Controllers\UniqueItemController;
 
 /*
 |--------------------------------------------------------------------------
@@ -34,6 +37,7 @@ Route::group(['middleware' => ['auth', 'SetIwmsApiToken']], static function () {
     Route::controller(EmployeeController::class)->group(function () {
         Route::get('/employee-teams/{employee}', 'employeeTeams')->name('teams.employee-teams');
         Route::get('/employee-workplaces/{employee}', 'employeeWorkPlaces')->name('employee.employee-workplaces');
+        Route::get('/employee-unique-items/{employee}', [EmployeeController::class, 'employeeUniqueItems'])->name('employee.unique-items');
     });
 
     Route::resource('workplaces', WorkPlaceController::class);
@@ -58,4 +62,22 @@ Route::group(['middleware' => ['auth', 'SetIwmsApiToken']], static function () {
         Route::post('workplace-workdays/{workPlace}', 'storeWorkPlaceWorkdays')->name('workplace-workdays.store');
         Route::delete('workplace-workdays/{workPlace}', 'deleteWorkPlaceWorkdays')->name('workplace-workdays.delete');
     });
+
+    Route::controller(AdditionalWorkingDayController::class)->group(function () {
+        Route::post('additional-working-days-store/{workPlace}', 'storeWorkPlaceWorkdays')->name('additional-working-days.store');
+        Route::put('additional-working-days-update/{additionalWorkingDay}', 'updateWorkPlaceWorkdays')->name('additional-working-days.update');
+        Route::delete('additional-working-days-delete/{additionalWorkingDay}', 'deleteWorkPlaceWorkdays')->name('additional-working-days.delete');
+    });
+
+    Route::resource('unique-items', UniqueItemController::class);
+    Route::controller(UniqueItemContactController::class)->group(function () {
+        Route::post('unique-item-employees/{uniqueItem}', 'storeUniqueItemEmployees')->name('unique-item-employees.store');
+        Route::delete('unique-item-employees/{uniqueItem}/{employee}', 'deleteUniqueItemEmployees')->name('unique-item-employees.delete');
+
+        Route::post('employee-unique-items/{employee}', 'storeEmployeeUniqueItems')->name('employee-unique-items.store');
+        Route::delete('employee-unique-items/{employee}/{uniqueItem}', 'deleteEmployeeUniqueItems')->name('employee-unique-items.delete');
+    });
+
+
+
 });

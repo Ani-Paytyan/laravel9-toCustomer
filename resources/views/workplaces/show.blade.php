@@ -16,6 +16,7 @@
                     @if (Gate::allows('create-workplace-contacts'))
                         @include('workplaces.components.contacts-form')
                     @endif
+                    @include('workplaces.components.unique-items-table')
                 </div>
             </div>
         </div>

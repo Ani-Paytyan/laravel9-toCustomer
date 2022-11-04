@@ -10,7 +10,7 @@
                 <div class="page-title">
                     <h3>{{ $employee->getFullNameAttribute() }} - {{ __('page.teams.title')}} </h3>
                 </div>
-                @if(!empty($contactTeams))
+                @if($contactTeams->count() !== 0)
                     <div class="card">
                         <div class="table-responsive">
                             <table class="table table-hover table-nowrap">

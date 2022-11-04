@@ -37,4 +37,9 @@ class WorkPlace extends Model
     {
         return $this->belongsToMany(Contact::class, 'work_place_contacts', 'workplace_id', 'contact_id')->withPivot('uuid');
     }
+
+    public function additionalWorkingDays()
+    {
+        return $this->belongsTo(AdditionalWorkingDay::class, 'uuid', 'workplace_id');
+    }
 }

@@ -22,7 +22,7 @@ class CompanyService implements CompanyServiceInterface
                 'name' => $company->getName(),
                 'type' => $company->getType(),
                 'address' => $company->getAddress() ?? '',
-                'deleted_at' => null
+                'deleted_at' => $company->getIsDeleted() ? now() : null
             ]);
         }
         // delete from db if not listed via API

@@ -21,6 +21,7 @@ class IwmsApiContactDto
     private ?string $address;
     private ?string $city;
     private ?string $zip;
+    private bool $isDeleted;
 
     /**
      * @return string
@@ -256,6 +257,29 @@ class IwmsApiContactDto
         return $this;
     }
 
+    /**
+     * @return bool
+     */
+    public function getIsDeleted(): bool
+    {
+        return $this->isDeleted;
+    }
+
+    /**
+     * @param string $status
+     * @return $this
+     */
+    public function setIsDeleted(string $status): self
+    {
+        $this->isDeleted = false;
+
+        if ($status === self::STATUS_DELETED) {
+            $this->isDeleted = true;
+        }
+
+        return $this;
+    }
+
     public static function createFromApiResponse(array $data): self
     {
         return (new self())
@@ -271,6 +295,7 @@ class IwmsApiContactDto
             ->setZip($data['zip'])
             ->setFullName($data['full_name'])
             ->setStatus($data['status'])
+            ->setIsDeleted($data['status'])
             ->setPortalAccess($data['portal_access']);
     }
 

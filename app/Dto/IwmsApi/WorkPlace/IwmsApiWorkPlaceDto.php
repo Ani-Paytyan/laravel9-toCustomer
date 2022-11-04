@@ -13,6 +13,9 @@ class IwmsApiWorkPlaceDto
     private ?string $number;
     private ?string $status;
     private ?string $sum_price;
+    private bool $isDeleted;
+
+    const STATUS_DELETED = "Deleted";
 
     public function getId(): string
     {
@@ -167,6 +170,29 @@ class IwmsApiWorkPlaceDto
         return $this;
     }
 
+    /**
+     * @return bool
+     */
+    public function getIsDeleted(): bool
+    {
+        return $this->isDeleted;
+    }
+
+    /**
+     * @param string $status
+     * @return $this
+     */
+    public function setIsDeleted(string $status): self
+    {
+        $this->isDeleted = false;
+
+        if ($status === self::STATUS_DELETED) {
+            $this->isDeleted = true;
+        }
+
+        return $this;
+    }
+
     public static function createFromApiResponse(array $data, string $companyId): self
     {
         return (new self())
@@ -178,6 +204,7 @@ class IwmsApiWorkPlaceDto
             ->setNumber($data['number'])
             ->setCity($data['city'])
             ->setStatus($data['status'])
+            ->setIsDeleted($data['status'])
             ->setSumPrice($data['sum_price']);
     }
 

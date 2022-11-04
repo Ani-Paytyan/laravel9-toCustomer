@@ -7,6 +7,10 @@ class IwmsApiItemDto
     private string $id;
     private string $name;
     private ?string $serial_number;
+    private bool $isDeleted;
+
+    const STATUS_ACTIVE = "Active";
+    const STATUS_DELETED = "Deleted";
 
     /**
      * @return string
@@ -57,11 +61,35 @@ class IwmsApiItemDto
         return $this;
     }
 
+    /**
+     * @return bool
+     */
+    public function getIsDeleted(): bool
+    {
+        return $this->isDeleted;
+    }
+
+    /**
+     * @param string $status
+     * @return $this
+     */
+    public function setIsDeleted(string $status): self
+    {
+        $this->isDeleted = false;
+
+        if ($status === self::STATUS_DELETED) {
+            $this->isDeleted = true;
+        }
+
+        return $this;
+    }
+
     public static function createFromApiResponse(array $data): self
     {
         return (new self())
             ->setId($data['id'])
             ->setName($data['name'])
+            ->setIsDeleted($data['status'])
             ->setSerialNumber($data['serial_number']);
     }
 }

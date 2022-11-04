@@ -8,6 +8,9 @@ class IwmsApiCompanyDto
     private string $name;
     private ?string $address;
     private string $type;
+    private bool $isDeleted;
+
+    const STATUS_DELETED = "Deleted";
 
     public function getId(): string
     {
@@ -68,12 +71,36 @@ class IwmsApiCompanyDto
         return $this;
     }
 
+    /**
+     * @return bool
+     */
+    public function getIsDeleted(): bool
+    {
+        return $this->isDeleted;
+    }
+
+    /**
+     * @param string $status
+     * @return $this
+     */
+    public function setIsDeleted(string $status): self
+    {
+        $this->isDeleted = false;
+
+        if ($status === self::STATUS_DELETED) {
+            $this->isDeleted = true;
+        }
+
+        return $this;
+    }
+
     public static function createFromApiResponse(array $data): self
     {
         return (new self())
             ->setId($data['id'])
             ->setName($data['name'])
             ->setType($data['type'])
+            ->setIsDeleted($data['status'])
             ->setAddress($data['address']);
     }
 }

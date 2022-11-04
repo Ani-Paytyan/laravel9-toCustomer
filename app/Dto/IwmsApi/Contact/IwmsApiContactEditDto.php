@@ -15,6 +15,9 @@ class IwmsApiContactEditDto
     private ?string $address;
     private ?string $city;
     private ?string $zip;
+    private bool $isDeleted;
+
+    const STATUS_DELETED = "Deleted";
 
     /**
      * @return string
@@ -214,6 +217,29 @@ class IwmsApiContactEditDto
         return $this;
     }
 
+    /**
+     * @return bool
+     */
+    public function getIsDeleted(): bool
+    {
+        return $this->isDeleted;
+    }
+
+    /**
+     * @param string $status
+     * @return $this
+     */
+    public function setIsDeleted(string $status): self
+    {
+        $this->isDeleted = false;
+
+        if ($status === self::STATUS_DELETED) {
+            $this->isDeleted = true;
+        }
+
+        return $this;
+    }
+
     public static function createFromApiResponse(array $data): self
     {
         return (new self())
@@ -225,6 +251,7 @@ class IwmsApiContactEditDto
             ->setCompanyId($data['company_id'])
             ->setZip($data['zip'])
             ->setStatus($data['status'])
+            ->setIsDeleted($data['status'])
             ->setRole($data['role'])
             ->setFirstName($data['first_name'])
             ->setLastName($data['last_name']);

@@ -42,6 +42,11 @@
                                 <i class="bi bi-people"></i> {{ __('page.employees.title')}}
                             </a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('unique-items.index') }}">
+                                <i class="bi bi-handbag"></i> {{ __('page.unique-items.title')}}
+                            </a>
+                        </li>
                     </ul>
                 </div>
             </div>

@@ -38,5 +38,11 @@ return [
         'friday' => 'Friday',
         'saturday' => 'Saturday',
         'sunday' => 'Sunday',
+    ],
+    'unique-items' => [
+        'item_name' => 'Item Name',
+        'item_serial_number' => 'Item serial number',
+        'unique_item_name' => 'Unique item Name',
+        'unique_item_article' => 'Unique item Article',
     ]
 ];

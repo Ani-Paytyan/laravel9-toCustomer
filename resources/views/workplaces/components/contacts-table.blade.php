@@ -1,4 +1,4 @@
-@if ($workPlaceContacts)
+@if ($workPlaceContacts->count() !== 0)
     <div class="mt-4 mb-4">
         <h4>{{ __('page.workplace.contacts')}} :</h4>
     </div>

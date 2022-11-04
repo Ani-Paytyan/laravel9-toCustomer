@@ -1,6 +1,5 @@
 <?php
 
-use Database\Seeders\WorkDaysSeeder;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -27,10 +26,6 @@ return new class extends Migration
             $table->foreign('company_id')->references('uuid')->on('companies');
             $table->foreign('workplace_id')->references('uuid')->on('workplaces');
         });
-
-        Artisan::call('db:seed', [
-            '--class' => WorkDaysSeeder::class,
-        ]);
     }
 
     /**

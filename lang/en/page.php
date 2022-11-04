@@ -9,7 +9,6 @@ return [
         'title' => 'Login',
         'sign_in_button' => 'Sign in',
     ],
-
     'employees' => [
         'title' => 'Employees',
         'edit_employee' => 'Edit employee',
@@ -105,5 +104,26 @@ return [
         'updated_error' => 'Additional Working Day not updated',
         'deleted_successfully' => 'Additional Working Day deleted successfully',
         'deleted_error' => 'Additional Working Day not deleted',
+    ],
+    'unique-items' => [
+        'title' => 'Unique items',
+    ],
+    'unique-item' => [
+        'title' => 'Unique item',
+        'add_contact' => 'Add contact to Unique Item',
+        'add_contact_btn' => 'Add contact',
+        'contact' => 'Contact',
+        'unique_items_contact' => 'Unique items of contact',
+        'contacts' => 'Unique item contacts',
+        'created_successfully' => 'Contact added to Unique item successfully',
+        'created_error' => 'Contact not added',
+        'deleted_successfully' => 'Contact deleted from Unique item successfully',
+        'deleted_error' => 'Contact not deleted',
+        'unique_item_add' => 'Add unique item to contact',
+        'unique_item_add_btn' => 'Add unique item',
+        'created_unique_successfully' => 'Unique item added to Contact successfully',
+        'created_unique_error' => 'Unique item not added',
+        'deleted_unique_successfully' => 'Unique item deleted from Contact successfully',
+        'deleted_unique_error' => 'Unique item not deleted',
     ],
 ];

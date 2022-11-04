@@ -12,21 +12,21 @@ use Psr\Http\Message\ResponseInterface;
 
 abstract class AbstractToolMetricaApi
 {
-    private ?string $userToken = null;
+    private ?string $token = null;
 
-    public function setUserToken(?string $token): static
+    public function setToken(?string $token): static
     {
-        $this->userToken = $token;
+        $this->token = $token;
         return $this;
     }
 
-    protected function getUserToken(): ?string
+    protected function getToken(): ?string
     {
-        if (empty($this->userToken)) {
-            $this->setUserToken(Config::get('toolmetrica.current_user_token'));
+        if (empty($this->token)) {
+            $this->setToken(Config::get('toolmetrica.current_token'));
         }
 
-        return $this->userToken;
+        return $this->token;
     }
 
     protected function getRequestBuilder(): PendingRequest
@@ -45,8 +45,8 @@ abstract class AbstractToolMetricaApi
             'Accept' => 'application/json',
         ];
 
-        if ($this->getUserToken()) {
-            $headers['Authorization'] = 'Bearer ' . $this->getUserToken();
+        if ($this->getToken()) {
+            $headers['apikey'] = $this->getToken();
         }
 
         $request->withHeaders($headers);
@@ -57,7 +57,7 @@ abstract class AbstractToolMetricaApi
     protected function handleError(Response $response)
     {
         if (!$response->successful()) {
-            $message = $response->json()['errors'] ? implode(' ', $response->json()['errors']) : [];
+            $message = $response->json()['error'] ?? '';
 
             throw new ToolMetricaApiError($message, $response->status());
         }

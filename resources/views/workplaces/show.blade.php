@@ -9,6 +9,7 @@
                 <h4>{{ __('page.workplace.title') }}</h4>
                 <p>{{ __('attributes.workplace.name') }} : {{ $workplace->name }}</p>
                 <p>{{ __('attributes.workplace.address') }} : {{ $workplace->address }}</p>
+                <p>{{ __('attributes.user.city') }} : {{ $workplace->city }}</p>
             </div>
             <div class="card mb-8">
                 <div class="row card-header align-items-center">

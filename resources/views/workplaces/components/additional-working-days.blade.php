@@ -52,13 +52,21 @@
                     <td>
                         @if (Gate::allows('create-workplace-working-days'))
                             <a href="{{ route('additional-working-days.update', $workingDay->uuid) }}"
-                               class="btn btn-sm btn-neutral updateWorkingDay">
+                               class="btn btn-sm btn-neutral updateWorkingDay"
+                               data-toggle="tooltip"
+                               data-placement="top"
+                               title="{{ __('page.additional_working_days.update') }}"
+                            >
                                 <i class="bi bi-save"></i>
                             </a>
                         @endif
                         @if (Gate::allows('delete-workplace-working-days'))
                             <a href="{{ route('additional-working-days.delete', $workingDay->uuid) }}"
-                               class="btn btn-sm btn-neutral destroyWorkingDay">
+                               class="btn btn-sm btn-neutral destroyWorkingDay"
+                               data-toggle="tooltip"
+                               data-placement="top"
+                               title="{{ __('page.additional_working_days.delete') }}"
+                            >
                                 <i class="bi bi-trash"></i>
                             </a>
                         @endif

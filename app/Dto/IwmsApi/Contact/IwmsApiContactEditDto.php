@@ -214,6 +214,11 @@ class IwmsApiContactEditDto
     public function setStatus(string $status): self
     {
         $this->status = $status;
+
+        if ($status === self::STATUS_DELETED) {
+            $this->setIsDeleted(true);
+        }
+
         return $this;
     }
 
@@ -226,17 +231,12 @@ class IwmsApiContactEditDto
     }
 
     /**
-     * @param string $status
+     * @param bool $isDeleted
      * @return $this
      */
-    public function setIsDeleted(string $status): self
+    public function setIsDeleted(bool $isDeleted = false): self
     {
-        $this->isDeleted = false;
-
-        if ($status === self::STATUS_DELETED) {
-            $this->isDeleted = true;
-        }
-
+        $this->isDeleted = $isDeleted;
         return $this;
     }
 
@@ -251,7 +251,6 @@ class IwmsApiContactEditDto
             ->setCompanyId($data['company_id'])
             ->setZip($data['zip'])
             ->setStatus($data['status'])
-            ->setIsDeleted($data['status'])
             ->setRole($data['role'])
             ->setFirstName($data['first_name'])
             ->setLastName($data['last_name']);

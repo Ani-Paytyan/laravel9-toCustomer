@@ -150,24 +150,6 @@ class IwmsApiContactDto
     }
 
     /**
-     * @return string
-     */
-    public function getStatus(): string
-    {
-        return $this->status;
-    }
-
-    /**
-     * @param string $status
-     * @return $this
-     */
-    public function setStatus(string $status): self
-    {
-        $this->status = $status;
-        return $this;
-    }
-
-    /**
      * @return string|null
      */
     public function getPortalAccess(): ?string
@@ -258,6 +240,29 @@ class IwmsApiContactDto
     }
 
     /**
+     * @return string
+     */
+    public function getStatus(): string
+    {
+        return $this->status;
+    }
+
+    /**
+     * @param string $status
+     * @return $this
+     */
+    public function setStatus(string $status): self
+    {
+        $this->status = $status;
+
+        if ($status === self::STATUS_DELETED) {
+            $this->setIsDeleted(true);
+        }
+
+        return $this;
+    }
+
+    /**
      * @return bool
      */
     public function getIsDeleted(): bool
@@ -266,17 +271,12 @@ class IwmsApiContactDto
     }
 
     /**
-     * @param string $status
+     * @param bool $isDeleted
      * @return $this
      */
-    public function setIsDeleted(string $status): self
+    public function setIsDeleted(bool $isDeleted = false): self
     {
-        $this->isDeleted = false;
-
-        if ($status === self::STATUS_DELETED) {
-            $this->isDeleted = true;
-        }
-
+        $this->isDeleted = $isDeleted;
         return $this;
     }
 
@@ -295,7 +295,6 @@ class IwmsApiContactDto
             ->setZip($data['zip'])
             ->setFullName($data['full_name'])
             ->setStatus($data['status'])
-            ->setIsDeleted($data['status'])
             ->setPortalAccess($data['portal_access']);
     }
 

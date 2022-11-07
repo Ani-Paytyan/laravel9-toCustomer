@@ -8,6 +8,7 @@ class IwmsApiCompanyDto
     private string $name;
     private ?string $address;
     private string $type;
+    private string $status;
     private bool $isDeleted;
 
     const STATUS_DELETED = "Deleted";
@@ -72,6 +73,29 @@ class IwmsApiCompanyDto
     }
 
     /**
+     * @return string
+     */
+    public function getStatus(): string
+    {
+        return $this->status;
+    }
+
+    /**
+     * @param string $status
+     * @return $this
+     */
+    public function setStatus(string $status): self
+    {
+        $this->status = $status;
+
+        if ($status === self::STATUS_DELETED) {
+            $this->setIsDeleted(true);
+        }
+
+        return $this;
+    }
+
+    /**
      * @return bool
      */
     public function getIsDeleted(): bool
@@ -80,17 +104,12 @@ class IwmsApiCompanyDto
     }
 
     /**
-     * @param string $status
+     * @param bool $isDeleted
      * @return $this
      */
-    public function setIsDeleted(string $status): self
+    public function setIsDeleted(bool $isDeleted = false): self
     {
-        $this->isDeleted = false;
-
-        if ($status === self::STATUS_DELETED) {
-            $this->isDeleted = true;
-        }
-
+        $this->isDeleted = $isDeleted;
         return $this;
     }
 
@@ -100,7 +119,7 @@ class IwmsApiCompanyDto
             ->setId($data['id'])
             ->setName($data['name'])
             ->setType($data['type'])
-            ->setIsDeleted($data['status'])
+            ->setStatus($data['status'])
             ->setAddress($data['address']);
     }
 }

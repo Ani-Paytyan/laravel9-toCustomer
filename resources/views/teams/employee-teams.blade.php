@@ -23,7 +23,7 @@
                                 </thead>
                                 <tbody>
                                 @foreach($contactTeams as $teamContact)
-                                    @if(isset($teamContact))
+                                    @if($teamContact->team)
                                         <tr>
                                             <td>{{ $teamContact->team->name ?? $teamContact->team->uuid }}</td>
                                             <td>

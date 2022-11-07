@@ -23,30 +23,32 @@
                                 </thead>
                                 <tbody>
                                 @foreach($contactTeams as $teamContact)
-                                    <tr>
-                                        <td>{{ $teamContact->team->name ?? $teamContact->team->uuid }}</td>
-                                        <td>
-                                            <x-form.select
-                                                name="role"
-                                                required
-                                                placeholder="{{ __('attributes.user.role') }}"
-                                                class="form-select role"
-                                                :hide-default-option="true"
-                                                :options="$roles"
-                                                value="{{ $teamContact->role }}"
-                                            />
-                                        </td>
-                                        <td>
-                                            <a href="{{ route('team-contacts.update', $teamContact->uuid) }}"
-                                               class="btn btn-sm btn-neutral updateContact">
-                                                <i class="bi bi-save"></i>
-                                            </a>
-                                            <a href="{{ route('team-contacts.destroy', $teamContact->uuid) }}"
-                                               class="btn btn-sm btn-neutral destroyContact">
-                                                <i class="bi bi-trash"></i>
-                                            </a>
-                                        </td>
-                                    </tr>
+                                    @if(isset($teamContact))
+                                        <tr>
+                                            <td>{{ $teamContact->team->name ?? $teamContact->team->uuid }}</td>
+                                            <td>
+                                                <x-form.select
+                                                    name="role"
+                                                    required
+                                                    placeholder="{{ __('attributes.user.role') }}"
+                                                    class="form-select role"
+                                                    :hide-default-option="true"
+                                                    :options="$roles"
+                                                    value="{{ $teamContact->role }}"
+                                                />
+                                            </td>
+                                            <td>
+                                                <a href="{{ route('team-contacts.update', $teamContact->uuid) }}"
+                                                   class="btn btn-sm btn-neutral updateContact">
+                                                    <i class="bi bi-save"></i>
+                                                </a>
+                                                <a href="{{ route('team-contacts.destroy', $teamContact->uuid) }}"
+                                                   class="btn btn-sm btn-neutral destroyContact">
+                                                    <i class="bi bi-trash"></i>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    @endif
                                 @endforeach
                                 </tbody>
                             </table>

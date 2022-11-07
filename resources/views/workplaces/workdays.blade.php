@@ -10,7 +10,7 @@
                 <div class="page-title">
                     <h3>{{ __('page.workplaces.workplace')}} "{{ $workPlace->name }} " {{ __('page.workplaces.work_days')}}</h3>
                     <div class="create-button">
-                        @if (Gate::allows('destroy-working-days'))
+                        @if (Gate::allows('delete-workplace-working-days'))
                             <form method="POST"
                                   class="btn btn-sm p-0"
                                   action="{{ route("workplace-workdays.delete", $workPlace->uuid) }}">
@@ -82,7 +82,7 @@
                             </div>
                         </div>
                     @endforeach
-                    @if (Gate::allows('create-working-days'))
+                    @if (Gate::allows('create-workplace-working-days'))
                         <button type="submit" class="btn btn-success">
                             <i class="bi bi-hdd"></i> {{ trans('common.save') }}
                         </button>

@@ -28,8 +28,8 @@
                                 <tbody>
                                 @foreach($uniqueItemContacts as $uniqueItem)
                                     <tr>
-                                        <td>{{ $uniqueItem->item->name }}</td>
-                                        <td>{{ $uniqueItem->item->serial_number }}</td>
+                                        <td>{{ $uniqueItem->item ? $uniqueItem->item->name : ''}}</td>
+                                        <td>{{ $uniqueItem->item ? $uniqueItem->item->serial_number : ''}}</td>
                                         <td>{{ $uniqueItem->name }}</td>
                                         <td>{{ $uniqueItem->article }}</td>
                                         @if (Gate::allows('destroy-unique-items'))

@@ -77,8 +77,10 @@ return [
     ],
     'company' => [
         'workdays' => 'Company Working Days',
+        'time_from' => 'Time from',
         'from' => 'From',
         'to' => 'To',
+        'time_to' => 'Time to',
         'day' => 'Day',
         'working_day' => 'Working day',
         'set_default_working_days' => 'Set default working days',

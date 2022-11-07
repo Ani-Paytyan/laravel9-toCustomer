@@ -34,10 +34,12 @@
                                 <td>{{ $workPlace->name }}</td>
                                 <td>{{ $workPlace->address }}</td>
                                 <td>
-                                    <a href="{{ route('workplace.workdays', $workPlace->uuid) }}"
-                                       class="btn btn-sm btn-neutral">
-                                        <i class="bi bi-calendar-date"></i>
-                                    </a>
+                                    @if (Gate::allows('create-workplace-working-days'))
+                                        <a href="{{ route('workplace.workdays', $workPlace->uuid) }}"
+                                           class="btn btn-sm btn-neutral">
+                                            <i class="bi bi-calendar-date"></i>
+                                        </a>
+                                    @endif
                                     <a href="{{ route('workplaces.show', $workPlace->uuid) }}"
                                        class="btn btn-sm btn-neutral">
                                         <i class="bi bi-eye-fill"></i>

@@ -73,6 +73,14 @@ class AuthServiceProvider extends ServiceProvider
         });
 
         // working days
+        Gate::define('create-workplace-working-days', function (IwmsApiUserDto $user) {
+            return $user->getRole() !== IwmsApiUserDto::ROLE_WORKER;
+        });
+
+        Gate::define('delete-workplace-working-days', function (IwmsApiUserDto $user) {
+            return $user->getRole() !== IwmsApiUserDto::ROLE_WORKER;
+        });
+
         Gate::define('create-working-days', function (IwmsApiUserDto $user) {
             return $user->getRole() === IwmsApiUserDto::ROLE_SUPER_ADMIN
                 || $user->getRole() === IwmsApiUserDto::ROLE_ADMIN;

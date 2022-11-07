@@ -82,6 +82,8 @@ class WorkDaysController extends Controller
 
     public function workPlaceWorkdays(WorkPlace $workPlace)
     {
+        Gate::authorize('create-workplace-working-days');
+
         $weekdays = WorkDays::getDays();
         $workingDays = $this->workingDaysRepository->getWorkPlaceWorkingDays($workPlace->uuid);
         $additionalWorkingDays = $workPlace->additionalWorkingDays()->get();
@@ -91,7 +93,7 @@ class WorkDaysController extends Controller
 
     public function storeWorkPlaceWorkdays(Request $request, WorkPlace $workPlace, WorkDaysServiceInterface $workDaysService): RedirectResponse
     {
-        Gate::authorize('create-working-days');
+        Gate::authorize('create-workplace-working-days');
 
         $workDays = [];
         $data = $request->all();
@@ -111,7 +113,7 @@ class WorkDaysController extends Controller
      */
     public function deleteWorkPlaceWorkdays(WorkPlace $workPlace, WorkDaysServiceInterface $workDaysService): RedirectResponse
     {
-        Gate::authorize('destroy-working-days');
+        Gate::authorize('delete-workplace-working-days');
 
         if ($workDaysService->deleteWorkPlaceWorkdays($workPlace->uuid)) {
             return redirect()->back()->with('toast_success', __('page.workplace_working_days.deleted_successfully'));

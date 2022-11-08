@@ -69,7 +69,7 @@
         </table>
     </div>
 @endif
-@if (Gate::allows('create-working-days'))
+@if (Gate::allows('create-workplace-working-days'))
     <div class="mt-4 mb-4">
         <h5>{{ __('page.additional_working_days.add_date')}}</h5>
     </div>

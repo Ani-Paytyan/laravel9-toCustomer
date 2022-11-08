@@ -15,6 +15,9 @@ class IwmsApiContactEditDto
     private ?string $address;
     private ?string $city;
     private ?string $zip;
+    private bool $isDeleted;
+
+    const STATUS_DELETED = "Deleted";
 
     /**
      * @return string
@@ -211,6 +214,29 @@ class IwmsApiContactEditDto
     public function setStatus(string $status): self
     {
         $this->status = $status;
+
+        if ($status === self::STATUS_DELETED) {
+            $this->setIsDeleted(true);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function getIsDeleted(): bool
+    {
+        return $this->isDeleted;
+    }
+
+    /**
+     * @param bool $isDeleted
+     * @return $this
+     */
+    public function setIsDeleted(bool $isDeleted = false): self
+    {
+        $this->isDeleted = $isDeleted;
         return $this;
     }
 

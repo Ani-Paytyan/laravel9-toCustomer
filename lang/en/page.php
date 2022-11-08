@@ -19,8 +19,10 @@ return [
         'invite_error' => 'Contact not invited',
         'update_successfully' => 'Contact updated successfully',
         'update_error' => 'Contact not updated',
+        'update' => 'Contact update',
         'delete_successfully' => 'Contact deleted successfully',
         'delete_error' => 'Contact not deleted',
+        'delete' => 'Contact delete',
     ],
     'workplaces' => [
         'title' => 'Work Places',

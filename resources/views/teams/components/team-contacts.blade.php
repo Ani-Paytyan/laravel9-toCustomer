@@ -41,11 +41,21 @@
                                 <i class="bi bi-eye-fill"></i>
                             </a>
                             <a href="{{ route('team-contacts.update', $teamContact->uuid) }}"
-                               class="btn btn-sm btn-neutral updateContact">
-                                <i class="bi bi-save"></i>
+                               class="btn btn-sm btn-neutral updateContact"
+                               data-toggle="tooltip"
+                               data-placement="top"
+                               title="{{ __('page.employees.update') }}"
+                            >
+                                <span class="icon icon-disk">
+                                    <span class="icon-inner"></span>
+                                </span>
                             </a>
                             <a href="{{ route('team-contacts.destroy', $teamContact->uuid) }}"
-                               class="btn btn-sm btn-neutral destroyContact">
+                               class="btn btn-sm btn-neutral destroyContact"
+                               data-toggle="tooltip"
+                               data-placement="top"
+                               title="{{ __('page.employees.delete') }}"
+                            >
                                 <i class="bi bi-trash"></i>
                             </a>
                         </td>

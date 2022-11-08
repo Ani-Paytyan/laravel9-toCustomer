@@ -20,9 +20,7 @@
                                     <th scope="col">{{ __('attributes.unique-items.item_serial_number')}}</th>
                                     <th scope="col">{{ __('attributes.unique-items.unique_item_name')}}</th>
                                     <th scope="col">{{ __('attributes.unique-items.unique_item_article')}}</th>
-                                    @if (Gate::allows('destroy-unique-items'))
-                                        <th scope="col">{{ __('common.actions')}}</th>
-                                    @endif
+                                    <th scope="col">{{ __('common.actions')}}</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -36,16 +34,16 @@
                                         <td>{{ $uniqueItem->item ? $uniqueItem->item->serial_number : ''}}</td>
                                         <td>{{ $uniqueItem->name }}</td>
                                         <td>{{ $uniqueItem->article }}</td>
-                                        @if (Gate::allows('destroy-unique-items'))
-                                            <td>
-                                                <a href="{{ route('unique-items.show', $uniqueItem->uuid) }}"
-                                                   class="btn btn-sm btn-neutral"
-                                                   data-toggle="tooltip"
-                                                   data-placement="top"
-                                                   title="{{ __('page.unique-item.title') }}"
-                                                >
-                                                    <i class="bi bi-eye-fill"></i>
-                                                </a>
+                                        <td>
+                                            <a href="{{ route('unique-items.show', $uniqueItem->uuid) }}"
+                                               class="btn btn-sm btn-neutral"
+                                               data-toggle="tooltip"
+                                               data-placement="top"
+                                               title="{{ __('page.unique-item.title') }}"
+                                            >
+                                                <i class="bi bi-eye-fill"></i>
+                                            </a>
+                                            @if (Gate::allows('destroy-unique-items'))
                                                 <a href="{{ route('employee-unique-items.delete', [$employee->uuid, $uniqueItem->uuid]) }}"
                                                    class="btn btn-sm btn-neutral unique-item-contacts-destroy"
                                                    data-toggle="tooltip"
@@ -54,8 +52,8 @@
                                                 >
                                                     <i class="bi bi-trash"></i>
                                                 </a>
-                                            </td>
-                                        @endif
+                                            @endif
+                                        </td>
                                     </tr>
                                 @endforeach
                                 </tbody>

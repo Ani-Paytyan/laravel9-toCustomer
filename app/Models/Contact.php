@@ -49,4 +49,9 @@ class Contact extends Model
     {
         return $this->belongsToMany(UniqueItem::class, 'unique_item_contacts', 'contact_id', 'unique_item_id')->withPivot('uuid');
     }
+
+    public function teams()
+    {
+        return $this->belongsToMany(Team::class, 'team_contacts', 'contact_id', 'team_id')->withPivot('uuid');
+    }
 }

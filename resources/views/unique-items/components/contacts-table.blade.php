@@ -8,9 +8,7 @@
                 <thead class="table-light">
                 <tr>
                     <th scope="col">{{ __('attributes.user.name')}}</th>
-                    @if (Gate::allows('destroy-unique-items'))
-                        <th scope="col">{{ __('common.actions')}}</th>
-                    @endif
+                    <th scope="col">{{ __('common.actions')}}</th>
                 </tr>
                 </thead>
                 <tbody class="contact-list">
@@ -21,23 +19,23 @@
                                 {{ $contact->first_name ? $contact->getFullNameAttribute() : $contact->email }}
                             </a>
                         </td>
-                        @if (Gate::allows('destroy-unique-items'))
-                            <td>
-                                <a href="{{ route('employees.show', $contact->uuid) }}"
-                                   class="btn btn-sm btn-neutral"
-                                   data-toggle="tooltip"
-                                   data-placement="top"
-                                   title="{{ __('page.employees.employee') }}"
-                                >
-                                    <i class="bi bi-eye-fill"></i>
-                                </a>
+                        <td>
+                            <a href="{{ route('employees.show', $contact->uuid) }}"
+                               class="btn btn-sm btn-neutral"
+                               data-toggle="tooltip"
+                               data-placement="top"
+                               title="{{ __('page.employees.employee') }}"
+                            >
+                                <i class="bi bi-eye-fill"></i>
+                            </a>
+                            @if (Gate::allows('destroy-unique-items'))
                                 <a href="{{ route('unique-item-employees.delete', [$uniqueItem->uuid, $contact->uuid]) }}"
                                    class="btn btn-sm btn-neutral unique-item-contacts-destroy"
                                    data-toggle="tooltip" data-placement="top" title="{{ __('page.unique-item.remove_contact_from_unique_item') }}">
                                     <i class="bi bi-trash"></i>
                                 </a>
-                            </td>
-                        @endif
+                            @endif
+                        </td>
                     </tr>
                 @endforeach
                 </tbody>

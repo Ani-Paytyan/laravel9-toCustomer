@@ -53,7 +53,7 @@ class IwmsSyncContacts extends Command
     public function getContactsWithPagination(IwmsApiContactServiceInterface $apiService): array
     {
         // get all companies
-        $companies = Company::pluck('uuid');
+        $companies = Company::withTrashed()->pluck('uuid');
         $contacts = [];
         // get contacts
         foreach ($companies as $company) {

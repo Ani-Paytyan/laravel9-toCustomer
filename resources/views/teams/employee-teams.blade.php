@@ -56,7 +56,9 @@
                                                    data-placement="top"
                                                    title="{{ __('page.teams.update') }}"
                                                 >
-                                                    <i class="bi bi-save"></i>
+                                                    <span class="icon icon-disk">
+                                                        <span class="icon-inner"></span>
+                                                    </span>
                                                 </a>
                                                 <a href="{{ route('team-contacts.destroy', $teamContact->uuid) }}"
                                                    class="btn btn-sm btn-neutral destroyContact"

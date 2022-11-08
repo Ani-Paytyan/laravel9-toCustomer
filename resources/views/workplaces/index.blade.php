@@ -7,7 +7,7 @@
         <div class="container-fluid">
         @include('layout.partials.messages')
             <div>
-                <h4>{{ __('page.workplaces.title')}}</h4>
+                <h4><i class="bi bi-person-workspace"></i> {{ __('page.workplaces.title')}}</h4>
                 @if (Gate::allows('create-workplace'))
                     <div class="create-button">
                         <a href="{{ route('workplaces.create') }}" class="btn btn-sm btn-success">
@@ -21,32 +21,44 @@
                     <table class="table table-hover table-nowrap">
                         <thead>
                             <tr>
-                                <th scope="col">{{ __('attributes.user.id')}}</th>
                                 <th scope="col">{{ __('attributes.user.name')}}</th>
                                 <th scope="col">{{ __('attributes.user.address')}}</th>
+                                <th scope="col">{{ __('attributes.user.city')}}</th>
                                 <th scope="col">{{ __('common.actions')}}</th>
                             </tr>
                         </thead>
                         <tbody>
                         @foreach($workPlaces as $workPlace)
                             <tr>
-                                <td>{{ $workPlace->uuid }}</td>
                                 <td>{{ $workPlace->name }}</td>
                                 <td>{{ $workPlace->address }}</td>
+                                <td>{{ $workPlace->city }}</td>
                                 <td>
                                     @if (Gate::allows('create-workplace-working-days'))
                                         <a href="{{ route('workplace.workdays', $workPlace->uuid) }}"
-                                           class="btn btn-sm btn-neutral">
+                                           class="btn btn-sm btn-neutral"
+                                           data-toggle="tooltip"
+                                           data-placement="top"
+                                           title="{{ __('page.workplaces.work_days') }}"
+                                        >
                                             <i class="bi bi-calendar-date"></i>
                                         </a>
                                     @endif
                                     <a href="{{ route('workplaces.show', $workPlace->uuid) }}"
-                                       class="btn btn-sm btn-neutral">
+                                       class="btn btn-sm btn-neutral"
+                                       data-toggle="tooltip"
+                                       data-placement="top"
+                                       title="{{ __('page.workplace.title') }}"
+                                    >
                                         <i class="bi bi-eye-fill"></i>
                                     </a>
                                     @if (Gate::allows('edit-workplace'))
                                         <a href="{{ route('workplaces.edit', $workPlace->uuid) }}"
-                                           class="btn btn-sm btn-neutral">
+                                           class="btn btn-sm btn-neutral"
+                                           data-toggle="tooltip"
+                                           data-placement="top"
+                                           title="{{ __('page.workplace.edit') }}"
+                                        >
                                             <i class="bi bi-pencil"></i>
                                         </a>
                                     @endif
@@ -56,7 +68,11 @@
                                               action="{{ route('workplaces.destroy', $workPlace->uuid) }}">
                                             {{ csrf_field() }}
                                             {{ method_field('DELETE') }}
-                                            <button class="btn btn-sm btn-danger delete-employee">
+                                            <button class="btn btn-sm btn-danger delete-employee"
+                                                    data-toggle="tooltip"
+                                                    data-placement="top"
+                                                    title="{{ __('page.workplace.delete_workplace') }}"
+                                            >
                                                 <i class="bi bi-trash"></i>
                                             </button>
                                         </form>

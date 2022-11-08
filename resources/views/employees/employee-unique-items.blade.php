@@ -28,14 +28,30 @@
                                 <tbody>
                                 @foreach($uniqueItemContacts as $uniqueItem)
                                     <tr>
-                                        <td>{{ $uniqueItem->item ? $uniqueItem->item->name : ''}}</td>
+                                        <td>
+                                            <a href="{{ route('unique-items.show', $uniqueItem->uuid) }}">
+                                                {{ $uniqueItem->item ? $uniqueItem->item->name : ''}}
+                                            </a>
+                                        </td>
                                         <td>{{ $uniqueItem->item ? $uniqueItem->item->serial_number : ''}}</td>
                                         <td>{{ $uniqueItem->name }}</td>
                                         <td>{{ $uniqueItem->article }}</td>
                                         @if (Gate::allows('destroy-unique-items'))
                                             <td>
+                                                <a href="{{ route('unique-items.show', $uniqueItem->uuid) }}"
+                                                   class="btn btn-sm btn-neutral"
+                                                   data-toggle="tooltip"
+                                                   data-placement="top"
+                                                   title="{{ __('page.unique-item.title') }}"
+                                                >
+                                                    <i class="bi bi-eye-fill"></i>
+                                                </a>
                                                 <a href="{{ route('employee-unique-items.delete', [$employee->uuid, $uniqueItem->uuid]) }}"
-                                                   class="btn btn-sm btn-neutral unique-item-contacts-destroy">
+                                                   class="btn btn-sm btn-neutral unique-item-contacts-destroy"
+                                                   data-toggle="tooltip"
+                                                   data-placement="top"
+                                                   title="{{ __('page.unique-item.delete') }}"
+                                                >
                                                     <i class="bi bi-trash"></i>
                                                 </a>
                                             </td>

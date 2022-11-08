@@ -7,7 +7,7 @@
         <div class="container-fluid">
             @include('layout.partials.messages')
             <div class="p-2 pb-4">
-                <h4>{{ __('page.unique-items.title')}}</h4>
+                <h4><i class="bi bi-handbag"></i> {{ __('page.unique-items.title') }}</h4>
             </div>
             <div class="card mb-8">
                 <div class="table-responsive">
@@ -30,7 +30,8 @@
                                 <td>{{ $uniqueItem->article }}</td>
                                 <td>
                                     <a href="{{ route('unique-items.show', $uniqueItem->uuid) }}"
-                                       class="btn btn-sm btn-neutral">
+                                       class="btn btn-sm btn-neutral"
+                                       data-toggle="tooltip" data-placement="top" title="{{ __('page.unique-item.title') }}">
                                         <i class="bi bi-eye-fill"></i>
                                     </a>
                                 </td>

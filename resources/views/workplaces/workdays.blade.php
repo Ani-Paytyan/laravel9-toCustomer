@@ -8,7 +8,7 @@
         <div class="card mb-7">
             <div class="row card-header align-items-center">
                 <div class="page-title">
-                    <h3>{{ __('page.workplaces.workplace')}} "{{ $workPlace->name }} " {{ __('page.workplaces.work_days')}}</h3>
+                    <h3>{{ __('page.workplaces.workplace')}} "{{ $workPlace->name }} " {{ __('page.workplaces.work_days_title')}}</h3>
                     <div class="create-button">
                         @if (Gate::allows('delete-workplace-working-days'))
                             <form method="POST"

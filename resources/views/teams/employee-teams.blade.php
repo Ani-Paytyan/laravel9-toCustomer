@@ -25,7 +25,11 @@
                                 @foreach($contactTeams as $teamContact)
                                     @if($teamContact->team)
                                         <tr>
-                                            <td>{{ $teamContact->team->name ?? $teamContact->team->uuid }}</td>
+                                            <td>
+                                                <a href="{{ route('teams.edit', $teamContact->team->uuid) }}">
+                                                    {{ $teamContact->team->name ?? $teamContact->team->uuid }}
+                                                </a>
+                                            </td>
                                             <td>
                                                 <x-form.select
                                                     name="role"
@@ -38,12 +42,28 @@
                                                 />
                                             </td>
                                             <td>
+                                                <a href="{{ route('teams.edit', $teamContact->team->uuid) }}"
+                                                   class="btn btn-sm btn-neutral"
+                                                   data-toggle="tooltip"
+                                                   data-placement="top"
+                                                   title="{{ __('page.teams.title') }}"
+                                                >
+                                                    <i class="bi bi-eye-fill"></i>
+                                                </a>
                                                 <a href="{{ route('team-contacts.update', $teamContact->uuid) }}"
-                                                   class="btn btn-sm btn-neutral updateContact">
+                                                   class="btn btn-sm btn-neutral updateContact"
+                                                   data-toggle="tooltip"
+                                                   data-placement="top"
+                                                   title="{{ __('page.teams.update') }}"
+                                                >
                                                     <i class="bi bi-save"></i>
                                                 </a>
                                                 <a href="{{ route('team-contacts.destroy', $teamContact->uuid) }}"
-                                                   class="btn btn-sm btn-neutral destroyContact">
+                                                   class="btn btn-sm btn-neutral destroyContact"
+                                                   data-toggle="tooltip"
+                                                   data-placement="top"
+                                                   title="{{ __('page.teams.delete') }}"
+                                                >
                                                     <i class="bi bi-trash"></i>
                                                 </a>
                                             </td>

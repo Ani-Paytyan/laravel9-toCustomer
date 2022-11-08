@@ -19,14 +19,30 @@
                 <tbody class="contact-list">
                 @foreach($workPlaceContacts as $workPlaceContact)
                     <tr>
-                        <td>{{ $workPlaceContact->getFullNameAttribute() }}</td>
+                        <td>
+                            <a href="{{ route('employees.show', $workPlaceContact->uuid) }}">
+                                {{ $workPlaceContact->getFullNameAttribute() }}
+                            </a>
+                        </td>
                         <td>{{ $workPlaceContact->email }}</td>
                         <td>{{ $workPlaceContact->role }}</td>
                         <td>{{ $workPlaceContact->phone }}</td>
                         @if (Gate::allows('destroy-workplace-contacts'))
                             <td>
+                                <a href="{{ route('employees.show', $workPlaceContact->uuid) }}"
+                                   class="btn btn-sm btn-neutral"
+                                   data-toggle="tooltip"
+                                   data-placement="top"
+                                   title="{{ __('page.employees.employee') }}"
+                                >
+                                    <i class="bi bi-eye-fill"></i>
+                                </a>
                                 <a href="{{ route('workplace-employees.delete', [$workplace->uuid, $workPlaceContact->uuid]) }}"
-                                   class="btn btn-sm btn-neutral destroyContact">
+                                   class="btn btn-sm btn-neutral destroyContact"
+                                   data-toggle="tooltip"
+                                   data-placement="top"
+                                   title="{{ __('page.contact.delete') }}"
+                                >
                                     <i class="bi bi-trash"></i>
                                 </a>
                             </td>

@@ -8,7 +8,7 @@
         <div class="card mb-7">
             <div class="row card-header align-items-center">
                 <div class="page-title">
-                    <h3>{{ __('page.workplaces.title')}} - {{ $employee->getFullNameAttribute() }}</h3>
+                    <h3>{{ $employee->getFullNameAttribute() }} - {{ __('page.workplaces.title')}}</h3>
                 </div>
                 @if($contactWorkPlaces)
                     <div class="card">
@@ -29,15 +29,31 @@
                                 <tbody>
                                 @foreach($contactWorkPlaces as $contactWorkPlace)
                                     <tr>
-                                        <td>{{ $contactWorkPlace->name }}</td>
+                                        <td>
+                                            <a href="{{ route('workplaces.show', $contactWorkPlace->uuid) }}">
+                                                {{ $contactWorkPlace->name }}
+                                            </a>
+                                        </td>
                                         <td>{{ $contactWorkPlace->address }}</td>
                                         <td>{{ $contactWorkPlace->zip }}</td>
                                         <td>{{ $contactWorkPlace->number }}</td>
                                         <td>{{ $contactWorkPlace->city }}</td>
                                         @if (Gate::allows('destroy-workplace-contacts'))
                                             <td>
+                                                <a href="{{ route('workplaces.show', $contactWorkPlace->uuid) }}"
+                                                   class="btn btn-sm btn-neutral"
+                                                   data-toggle="tooltip"
+                                                   data-placement="top"
+                                                   title="{{ __('page.workplace.title') }}"
+                                                >
+                                                    <i class="bi bi-eye-fill"></i>
+                                                </a>
                                                 <a href="{{ route('employee-workplaces.delete', [$employee->uuid, $contactWorkPlace->uuid]) }}"
-                                                   class="btn btn-sm btn-neutral destroyContact">
+                                                   class="btn btn-sm btn-neutral destroyContact"
+                                                   data-toggle="tooltip"
+                                                   data-placement="top"
+                                                   title="{{ __('page.workplace.delete_workplace') }}"
+                                                >
                                                     <i class="bi bi-trash"></i>
                                                 </a>
                                             </td>

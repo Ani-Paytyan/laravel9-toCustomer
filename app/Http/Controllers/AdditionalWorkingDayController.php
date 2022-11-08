@@ -15,7 +15,7 @@ class AdditionalWorkingDayController extends Controller
 {
     public function storeWorkPlaceWorkdays(Request $request, WorkPlace $workPlace, AdditionalWorkingDayServiceInterface $workDaysService): JsonResponse
     {
-        Gate::authorize('create-working-days');
+        Gate::authorize('create-workplace-working-days');
 
         $additionalWorkingDayCreateDto = AdditionalWorkingDayCreateDto::createFromRequest($request->all(), $workPlace->uuid);
 
@@ -42,7 +42,7 @@ class AdditionalWorkingDayController extends Controller
      */
     public function updateWorkPlaceWorkdays(Request $request, AdditionalWorkingDay $additionalWorkingDay, AdditionalWorkingDayServiceInterface $workDaysService): JsonResponse
     {
-        Gate::authorize('create-working-days');
+        Gate::authorize('create-workplace-working-days');
 
         $additionalWorkingDayUpdateDto = AdditionalWorkingDayUpdateDto::createFromRequest($request->all(), $additionalWorkingDay->uuid);
 
@@ -69,6 +69,8 @@ class AdditionalWorkingDayController extends Controller
      */
     public function deleteWorkPlaceWorkdays(Request $request, AdditionalWorkingDay $additionalWorkingDay, AdditionalWorkingDayServiceInterface $workDaysService): JsonResponse
     {
+        Gate::authorize('delete-workplace-working-days');
+
         if ($workDaysService->deleteWorkPlaceWorkdays($additionalWorkingDay)) {
             return response()->json([
                 'data' => [],

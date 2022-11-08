@@ -8,7 +8,7 @@
             @include('layout.partials.messages')
             @if (Gate::allows('invite-employee'))
                 <div>
-                    <h4>{{ __('page.employees.title')}}</h4>
+                    <h4><i class="bi bi-people"></i> {{ __('page.employees.title')}}</h4>
                     <div class="create-button">
                         <a href="{{ route('employees.create') }}" class="btn btn-sm btn-success">
                             <i class="bi bi-person"></i> {{ __('page.employees.invite_employee')}}
@@ -37,25 +37,48 @@
                                 <td>{{ $employee->status }} </td>
                                 <td>
                                     @if($employee->status != $statusDeleted)
-                                        <a href="{{ route('employee.employee-workplaces', $employee->uuid) }}" class="btn btn-sm btn-neutral">
+                                        <a href="{{ route('employee.employee-workplaces', $employee->uuid) }}"
+                                           class="btn btn-sm btn-neutral"
+                                           data-toggle="tooltip"
+                                           data-placement="top"
+                                           title="{{ __('page.workplaces.title') }}"
+                                        >
                                             <i class="bi bi-person-workspace"></i>
                                         </a>
-                                        <a href="{{ route('employee.unique-items', $employee->uuid) }}" class="btn btn-sm btn-neutral">
+                                        <a href="{{ route('employee.unique-items', $employee->uuid) }}"
+                                           class="btn btn-sm btn-neutral"
+                                           data-toggle="tooltip"
+                                           data-placement="top"
+                                           title="{{ __('page.unique-items.title') }}"
+                                        >
                                             <i class="bi bi-handbag"></i>
                                         </a>
-                                        <a href="{{ route('teams.employee-teams', $employee->uuid) }}" class="btn btn-sm btn-neutral">
+                                        <a href="{{ route('teams.employee-teams', $employee->uuid) }}"
+                                           class="btn btn-sm btn-neutral"
+                                           data-toggle="tooltip"
+                                           data-placement="top"
+                                           title="{{ __('page.teams.title') }}"
+                                        >
                                             <i class="bi bi-microsoft-teams"></i>
                                         </a>
                                         @if (Gate::allows('edit-employee'))
                                             <a href="{{ route('employees.edit', $employee->uuid) }}"
-                                               class="btn btn-sm btn-neutral">
+                                               class="btn btn-sm btn-neutral"
+                                               data-toggle="tooltip"
+                                               data-placement="top"
+                                               title="{{ __('page.employees.edit_employee') }}"
+                                            >
                                                 <i class="bi bi-pencil"></i>
                                             </a>
                                         @endif
                                         @if (Gate::allows('destroy-employee') && $userId !== $employee->uuid)
                                             <form method="POST"
                                                   class="btn btn-sm p-0"
-                                                  action="{{ route('employees.destroy', $employee->uuid) }}">
+                                                  action="{{ route('employees.destroy', $employee->uuid) }}"
+                                                  data-toggle="tooltip"
+                                                  data-placement="top"
+                                                  title="{{ __('page.employees.delete_employee') }}"
+                                            >
                                                 {{ csrf_field() }}
                                                 {{ method_field('DELETE') }}
                                                 <button class="btn btn-sm btn-danger delete-employee">

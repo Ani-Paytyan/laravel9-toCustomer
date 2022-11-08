@@ -7,7 +7,7 @@
         <div class="container-fluid">
             @include('layout.partials.messages')
             <div>
-                <h4>{{ __('page.teams.title')}}</h4>
+                <h4><i class="bi bi-people"></i> {{ __('page.teams.title')}}</h4>
                 <div class="create-button">
                     <a href="{{ route('teams.create') }}" class="btn btn-sm btn-success">
                         <i class="bi bi-person"></i> {{ __('page.teams.create')}}
@@ -31,12 +31,20 @@
                                 <td>{{ $team->description }}</td>
                                 <td>
                                     <a href="{{ route('teams.edit', $team->uuid) }}"
-                                       class="btn btn-sm btn-neutral">
+                                       class="btn btn-sm btn-neutral"
+                                       data-toggle="tooltip"
+                                       data-placement="top"
+                                       title="{{ __('page.teams.edit') }}"
+                                    >
                                         <i class="bi bi-pencil"></i>
                                     </a>
                                     <form method="POST"
                                           class="btn btn-sm p-0"
-                                          action="{{ route('teams.destroy', $team->uuid) }}">
+                                          action="{{ route('teams.destroy', $team->uuid) }}"
+                                          data-toggle="tooltip"
+                                          data-placement="top"
+                                          title="{{ __('page.teams.delete') }}"
+                                    >
                                         {{ csrf_field() }}
                                         {{ method_field('DELETE') }}
                                         <button class="btn btn-sm btn-danger delete-employee">

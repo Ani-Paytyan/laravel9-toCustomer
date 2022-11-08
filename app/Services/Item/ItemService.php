@@ -21,7 +21,7 @@ class ItemService implements ItemServiceInterface
             ], [
                 'name' => $item->getName(),
                 'serial_number' => $item->getSerialNumber(),
-                'deleted_at' => null
+                'deleted_at' => $item->getIsDeleted() ? now() : null
             ]);
         }
         // delete from db if not listed via API

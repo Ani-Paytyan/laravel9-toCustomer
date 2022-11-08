@@ -27,7 +27,7 @@ class ContactService implements ContactServiceInterface
                 'city' => $contact->getCity(),
                 'zip' => $contact->getZip(),
                 'status' => $contact->getStatus(),
-                'deleted_at' => null,
+                'deleted_at' => $contact->getIsDeleted() ? now() : null
             ]);
         }
         // delete from db if not listed via API

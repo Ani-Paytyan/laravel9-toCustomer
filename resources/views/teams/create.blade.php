@@ -23,6 +23,7 @@
                                 label="{{ __('attributes.user.name') }}"
                                 placeholder="{{ __('attributes.user.name') }}"
                                 class="form-control-muted"
+                                value="{{ old('name') }}"
                             />
                         </div>
                     </div>
@@ -35,6 +36,7 @@
                                 label="{{ __('attributes.team.description') }}"
                                 placeholder="{{ __('attributes.team.description') }}"
                                 class="form-control-muted"
+                                value="{{ old('description') }}"
                             />
                         </div>
                     </div>

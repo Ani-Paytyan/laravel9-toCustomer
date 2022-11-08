@@ -19,7 +19,7 @@ class UniqueItemService implements UniqueItemServiceInterface
                 'article' => $item->getArticle(),
                 'item_id' => $item->getItemId(),
                 'workplace_id' => $item->getWorkPlaceId(),
-                'deleted_at' => null
+                'deleted_at' => $item->getIsDeleted() ? now() : null
             ]);
         }
         // delete from db if not listed via API

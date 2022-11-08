@@ -6,9 +6,9 @@
     <main class="py-6 bg-surface-secondary">
         <div class="container-fluid">
             <div class="p-2 pb-4">
-                <h4>{{ __('page.unique-item.title')}}</h4>
-                <p>{{ __('attributes.unique-items.item_name')}} : {{ $uniqueItem->item->name }}</p>
-                <p>{{ __('attributes.unique-items.item_serial_number')}} : {{ $uniqueItem->item->serial_number }}</p>
+                <h4><i class="bi bi-handbag"></i> {{ __('page.unique-item.title')}}</h4>
+                <p>{{ __('attributes.unique-items.item_name')}} : {{ $uniqueItem->item ? $uniqueItem->item->name : ''}}</p>
+                <p>{{ __('attributes.unique-items.item_serial_number')}} : {{ $uniqueItem->item ? $uniqueItem->item->serial_number : ''}}</p>
                 <p>{{ __('attributes.unique-items.unique_item_name')}} : {{ $uniqueItem->name }}</p>
                 <p>{{ __('attributes.unique-items.unique_item_article')}} : {{ $uniqueItem->article }}</p>
             </div>

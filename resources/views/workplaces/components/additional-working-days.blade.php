@@ -4,9 +4,9 @@
         <table class="table table-hover table-nowrap">
             <thead class="table-light">
             <tr>
-                <th scope="col">{{ __('attributes.team.name')}}</th>
-                <th scope="col">{{ __('attributes.team.name')}}</th>
-                <th scope="col">{{ __('attributes.user.role')}}</th>
+                <th scope="col">{{ __('page.company.day')}}</th>
+                <th scope="col">{{ __('page.company.time_from')}}</th>
+                <th scope="col">{{ __('page.company.time_to')}}</th>
                 <th scope="col">{{ __('common.actions')}}</th>
             </tr>
             </thead>
@@ -50,15 +50,23 @@
                         />
                     </td>
                     <td>
-                        @if (Gate::allows('create-working-days'))
+                        @if (Gate::allows('create-workplace-working-days'))
                             <a href="{{ route('additional-working-days.update', $workingDay->uuid) }}"
-                               class="btn btn-sm btn-neutral updateWorkingDay">
+                               class="btn btn-sm btn-neutral updateWorkingDay"
+                               data-toggle="tooltip"
+                               data-placement="top"
+                               title="{{ __('page.additional_working_days.update') }}"
+                            >
                                 <i class="bi bi-save"></i>
                             </a>
                         @endif
-                        @if (Gate::allows('destroy-working-days'))
+                        @if (Gate::allows('delete-workplace-working-days'))
                             <a href="{{ route('additional-working-days.delete', $workingDay->uuid) }}"
-                               class="btn btn-sm btn-neutral destroyWorkingDay">
+                               class="btn btn-sm btn-neutral destroyWorkingDay"
+                               data-toggle="tooltip"
+                               data-placement="top"
+                               title="{{ __('page.additional_working_days.delete') }}"
+                            >
                                 <i class="bi bi-trash"></i>
                             </a>
                         @endif
@@ -69,7 +77,7 @@
         </table>
     </div>
 @endif
-@if (Gate::allows('create-working-days'))
+@if (Gate::allows('create-workplace-working-days'))
     <div class="mt-4 mb-4">
         <h5>{{ __('page.additional_working_days.add_date')}}</h5>
     </div>

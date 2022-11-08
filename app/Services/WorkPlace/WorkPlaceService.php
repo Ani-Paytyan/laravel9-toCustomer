@@ -24,7 +24,7 @@ class WorkPlaceService implements WorkPlaceServiceInterface
                 'name' => $workPlace->getName(),
                 'company_id' => $workPlace->getCompanyId(),
                 'address' => $workPlace->getAddress() ?? '',
-                'deleted_at' => null,
+                'deleted_at' => $workPlace->getIsDeleted() ? now() : null,
                 'zip' => $workPlace->getZip(),
                 'number' => $workPlace->getNumber(),
                 'city' => $workPlace->getCity(),

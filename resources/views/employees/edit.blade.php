@@ -8,7 +8,7 @@
         <div class="card mb-7">
             <div class="row card-header align-items-center">
                 <div class="page-title">
-                    <h3>{{ __('page.employees.edit_employee')}} - {{ $employee->name }}</h3>
+                    <h3>{{ __('page.employees.edit_employee')}} : {{ $employee->getFullNameAttribute() }}</h3>
                 </div>
                 <form method="POST" action="{{ route("employees.update", $employee->uuid) }}">
                     @csrf

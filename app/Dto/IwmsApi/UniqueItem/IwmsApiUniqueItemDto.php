@@ -9,6 +9,11 @@ class IwmsApiUniqueItemDto
     private string $workplace_id;
     private ?string $name;
     private ?string $article;
+    private ?string $status;
+    private bool $isDeleted;
+
+    const STATUS_ACTIVE = "Active";
+    const STATUS_DELETED = "Deleted";
 
     /**
      * @return string
@@ -95,12 +100,54 @@ class IwmsApiUniqueItemDto
         return $this;
     }
 
+    /**
+     * @return string
+     */
+    public function getStatus(): string
+    {
+        return $this->status;
+    }
+
+    /**
+     * @param string $status
+     * @return $this
+     */
+    public function setStatus(string $status): self
+    {
+        $this->status = $status;
+
+        if ($status === self::STATUS_DELETED) {
+            $this->setIsDeleted(true);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function getIsDeleted(): bool
+    {
+        return $this->isDeleted;
+    }
+
+    /**
+     * @param bool $isDeleted
+     * @return $this
+     */
+    public function setIsDeleted(bool $isDeleted = false): self
+    {
+        $this->isDeleted = $isDeleted;
+        return $this;
+    }
+
     public static function createFromApiResponse(array $data): self
     {
         return (new self())
             ->setId($data['id'])
             ->setItemId($data['item_id'])
             ->setWorkplaceId($data['workplace_id'])
+            ->setStatus($data['status'])
             ->setName($data['name'])
             ->setArticle($data['article']);
     }

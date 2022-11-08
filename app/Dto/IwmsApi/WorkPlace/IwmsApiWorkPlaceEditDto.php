@@ -13,6 +13,9 @@ class IwmsApiWorkPlaceEditDto
     private ?string $companyId;
     private ?string $status;
     private ?string $sum_price;
+    private bool $isDeleted;
+
+    const STATUS_DELETED = "Deleted";
 
     /**
      * @return string
@@ -157,6 +160,11 @@ class IwmsApiWorkPlaceEditDto
     public function setStatus(?string $status): self
     {
         $this->status = $status;
+
+        if ($status === self::STATUS_DELETED) {
+            $this->setIsDeleted(true);
+        }
+
         return $this;
     }
 
@@ -175,6 +183,24 @@ class IwmsApiWorkPlaceEditDto
     public function setSumPrice(?string $sum_price): self
     {
         $this->sum_price = $sum_price;
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function getIsDeleted(): bool
+    {
+        return $this->isDeleted;
+    }
+
+    /**
+     * @param bool $isDeleted
+     * @return $this
+     */
+    public function setIsDeleted(bool $isDeleted = false): self
+    {
+        $this->isDeleted = $isDeleted;
         return $this;
     }
 

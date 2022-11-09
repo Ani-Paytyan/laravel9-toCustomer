@@ -2,11 +2,14 @@
 
 namespace App\Console\Commands;
 
+use App\Exceptions\Iwms\IwmsApiError;
+use App\Models\Company;
 use App\Services\IwmsApi\WorkPlace\IwmsApiWorkPlaceServiceInterface;
 use App\Services\WorkPlace\WorkPlaceServiceInterface;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Log;
+use Exception;
 
 class IwmsSyncWorkPlaces extends Command
 {
@@ -45,15 +48,34 @@ class IwmsSyncWorkPlaces extends Command
      */
     public function getWorkPlacesWithPagination(IwmsApiWorkPlaceServiceInterface $apiService): array
     {
-        // get workPlaces
-        $result = $apiService->getWorkPlaces();
-        $pageCount = $result->getTotalPages();
-        $workPlaces[] = $result->getResults();
+        // get all companies
+        $companies = Company::withTrashed()->pluck('uuid');
+        $workPlaces = [];
+        // get contacts
+        foreach ($companies as $company) {
+            try {
+                // get workPlaces
+                $result = $apiService->getWorkPlaces($company, 1);
+                if ($result) {
+                    $pageCount = $result->getTotalPages();
+                    $workPlaces[] = $result->getResults();
 
-        if ($pageCount > 1) {
-            for ($i = 2; $i <= $pageCount; $i++) {
-                $resultOtherPages = $apiService->getWorkPlaces($i);
-                $workPlaces[] = $resultOtherPages->getResults();
+                    if ($pageCount > 1) {
+                        for ($i = 2; $i <= $pageCount; $i++) {
+                            $resultOtherPages = $apiService->getWorkPlaces($i);
+                            if ($resultOtherPages) {
+                                $workPlaces[] = $resultOtherPages->getResults();
+                            }
+                        }
+                    }
+                }
+            } catch (Exception $e) {
+                if (get_class($e) === IwmsApiError::class) {
+                    Log::error("IwmsSyncWorkPlaces - Code: " . $e->getCode() . " File:" . $e->getFile() .  " Message: " . $e->getMessage());
+                    $this->error($e->getMessage());
+                } else {
+                    throw $e;
+                }
             }
         }
 

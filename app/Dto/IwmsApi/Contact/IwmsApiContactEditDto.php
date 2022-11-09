@@ -15,7 +15,7 @@ class IwmsApiContactEditDto
     private ?string $address;
     private ?string $city;
     private ?string $zip;
-    private bool $isDeleted;
+    private bool $isDeleted = false;
 
     const STATUS_DELETED = "Deleted";
 

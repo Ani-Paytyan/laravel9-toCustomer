@@ -11,9 +11,7 @@
                     <th scope="col">{{ __('attributes.user.email')}}</th>
                     <th scope="col">{{ __('attributes.user.role')}}</th>
                     <th scope="col">{{ __('attributes.user.phone')}}</th>
-                    @if (Gate::allows('destroy-workplace-contacts'))
-                        <th scope="col">{{ __('common.actions')}}</th>
-                    @endif
+                    <th scope="col">{{ __('common.actions')}}</th>
                 </tr>
                 </thead>
                 <tbody class="contact-list">
@@ -27,16 +25,16 @@
                         <td>{{ $workPlaceContact->email }}</td>
                         <td>{{ $workPlaceContact->role }}</td>
                         <td>{{ $workPlaceContact->phone }}</td>
-                        @if (Gate::allows('destroy-workplace-contacts'))
-                            <td>
-                                <a href="{{ route('employees.show', $workPlaceContact->uuid) }}"
-                                   class="btn btn-sm btn-neutral"
-                                   data-toggle="tooltip"
-                                   data-placement="top"
-                                   title="{{ __('page.employees.employee') }}"
-                                >
-                                    <i class="bi bi-eye-fill"></i>
-                                </a>
+                        <td>
+                            <a href="{{ route('employees.show', $workPlaceContact->uuid) }}"
+                               class="btn btn-sm btn-neutral"
+                               data-toggle="tooltip"
+                               data-placement="top"
+                               title="{{ __('page.employees.employee') }}"
+                            >
+                                <i class="bi bi-eye-fill"></i>
+                            </a>
+                            @if (Gate::allows('destroy-workplace-contacts'))
                                 <a href="{{ route('workplace-employees.delete', [$workplace->uuid, $workPlaceContact->uuid]) }}"
                                    class="btn btn-sm btn-neutral destroyContact"
                                    data-toggle="tooltip"
@@ -45,8 +43,8 @@
                                 >
                                     <i class="bi bi-trash"></i>
                                 </a>
-                            </td>
-                        @endif
+                            @endif
+                        </td>
                     </tr>
                 @endforeach
                 </tbody>

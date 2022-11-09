@@ -9,7 +9,7 @@ class IwmsApiCompanyDto
     private ?string $address;
     private string $type;
     private string $status;
-    private bool $isDeleted;
+    private bool $isDeleted = false;
 
     const STATUS_DELETED = "Deleted";
 

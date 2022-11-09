@@ -10,7 +10,7 @@ class IwmsApiUniqueItemDto
     private ?string $name;
     private ?string $article;
     private ?string $status;
-    private bool $isDeleted;
+    private bool $isDeleted = false;
 
     const STATUS_ACTIVE = "Active";
     const STATUS_DELETED = "Deleted";

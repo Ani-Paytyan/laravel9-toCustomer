@@ -11,10 +11,11 @@ use App\Dto\WorkPlace\WorkPlaceEditDto;
 interface IwmsApiWorkPlaceServiceInterface
 {
     /**
+     * @param string $companyId
      * @param int|null $page
-     * @return IwmsApiPaginationResponseDto
+     * @return IwmsApiPaginationResponseDto|null
      */
-    public function getWorkPlaces(?int $page): IwmsApiPaginationResponseDto;
+    public function getWorkPlaces(string $companyId, ?int $page): ?IwmsApiPaginationResponseDto;
 
     /**
      * @param IwmsApiWorkPlaceDto $apiWorkPlaceDto

@@ -71,6 +71,15 @@ class EmployeeController extends Controller
         return view('employees.invite', compact('roles'));
     }
 
+    public function show(Contact $employee)
+    {
+        $workPlaces = $employee->workplaces()->paginate(10);
+        $uniqueItems = $employee->uniqueItems()->paginate(10);
+        $teams = $employee->teams()->paginate(10);
+
+        return view('employees.show', compact('employee', 'workPlaces', 'uniqueItems', 'teams'));
+    }
+
     /**
      * @param EmployeeCreateRequest $request
      * @param IwmsContactFacade $iwmsContactFacade

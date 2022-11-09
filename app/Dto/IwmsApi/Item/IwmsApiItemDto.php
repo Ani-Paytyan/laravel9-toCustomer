@@ -8,7 +8,7 @@ class IwmsApiItemDto
     private string $name;
     private string $status;
     private ?string $serial_number;
-    private bool $isDeleted;
+    private bool $isDeleted = false;
 
     const STATUS_ACTIVE = "Active";
     const STATUS_DELETED = "Deleted";

@@ -36,3 +36,72 @@
 .updateWorkingDay, .destroyWorkingDay{
     margin-top: 22px;
 }
+
+.icon.icon-disk {
+    background-color: #16192C;
+    width: 14px;
+    height: 14px;
+    border-radius: 3px;
+}
+
+.icon.icon-disk::after {
+    background-color: #16192C;
+    width: 4px;
+    height: 4px;
+    border-radius: 1px;
+    content: ' ';
+    display: block;
+    position: absolute;
+    left: 4.5px;
+    top: 1px;
+}
+
+.icon-disk .icon-inner:before {
+    background-color: #fff;
+    width: 7px;
+    height: 6px;
+    border-radius: 1px;
+    content: ' ';
+    display: block;
+    position: absolute;
+    left: 0;
+    top: -7.5px;
+    -webkit-border-bottom-right-radius: 2px;
+    -webkit-border-bottom-left-radius: 2px;
+    -moz-border-radius-bottomright: 2px;
+    -moz-border-radius-bottomleft: 2px;
+}
+
+.icon-disk .icon-inner {
+    background-color: #fff;
+    width: 8px;
+    height: 5px;
+    content: ' ';
+    -webkit-border-top-left-radius: 2px;
+    -webkit-border-top-right-radius: 2px;
+    -moz-border-radius-topleft: 2px;
+    -moz-border-radius-topright: 2px;
+    border-top-left-radius: 2px;
+    border-top-right-radius: 2px;
+    display: block;
+    position: absolute;
+    bottom: 1px;
+    left: 3px;
+}
+
+.icon::before, .icon::after {
+    content: ' ';
+    display: block;
+    position: absolute;
+    background-color: #f4592b;
+    -webkit-transition: ease-in-out .2s all;
+    -moz-transition: ease-in-out .2s all;
+    -ms-transition: ease-in-out .2s all;
+    -o-transition: ease-in-out .2s all;
+    transition: ease-in-out .2s all;
+}
+
+.icon {
+    position: relative;
+    display: inline-block;
+}

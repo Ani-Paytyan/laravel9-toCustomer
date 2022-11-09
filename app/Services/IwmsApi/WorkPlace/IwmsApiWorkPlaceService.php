@@ -18,31 +18,30 @@ class IwmsApiWorkPlaceService extends AbstractIwmsApi implements IwmsApiWorkPlac
     private const WORK_PLACE_DELETE_URL =  'workplaces/delete';
 
     /**
+     * @param string $companyId
      * @param int|null $page
-     * @return IwmsApiPaginationResponseDto
+     * @return IwmsApiPaginationResponseDto|null
      */
-    public function getWorkPlaces(?int $page = 1): IwmsApiPaginationResponseDto
+    public function getWorkPlaces(string $companyId, ?int $page = 1): ?IwmsApiPaginationResponseDto
     {
-        $companies = Company::pluck('uuid');
-        $result = null;
         $workPlaces = [];
+        $response = $this->getRequestBuilder()->get(self::WORK_PLACE_GET_URL, [
+            'company_id' => $companyId,
+            'currentPage' => $page
+        ]);
+        if ($response && $response->status() === 200) {
+            $result = json_decode($response->getBody()->getContents(), true);
 
-        foreach ($companies as $id) {
-            $response = $this->getRequestBuilder()->get(self::WORK_PLACE_GET_URL, [
-                'company_id' => $id,
-                'currentPage' => $page
-            ]);
-            if ($response && $response->status() === 200) {
-                $result = json_decode($response->getBody()->getContents(), true);
-                foreach ($result['results'] as $workPlace) {
-                    $workPlaces[] = IwmsApiWorkPlaceDto::createFromApiResponse($workPlace, $id);
-                }
-
-                $result['results'] = $workPlaces;
+            foreach ($result['results'] as $workPlace) {
+                $workPlaces[] = IwmsApiWorkPlaceDto::createFromApiResponse($workPlace, $companyId);
             }
+
+            $result['results'] = $workPlaces;
+
+            return IwmsApiPaginationResponseDto::createFromApiResponse($result);
         }
 
-        return IwmsApiPaginationResponseDto::createFromApiResponse($result);
+        return null;
     }
 
     /**

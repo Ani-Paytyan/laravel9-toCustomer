@@ -61,6 +61,14 @@
                                         >
                                             <i class="bi bi-microsoft-teams"></i>
                                         </a>
+                                        <a href="{{ route('employees.show', $employee->uuid) }}"
+                                           class="btn btn-sm btn-neutral"
+                                           data-toggle="tooltip"
+                                           data-placement="top"
+                                           title="{{ __('page.employees.employee') }}"
+                                        >
+                                            <i class="bi bi-eye-fill"></i>
+                                        </a>
                                         @if (Gate::allows('edit-employee'))
                                             <a href="{{ route('employees.edit', $employee->uuid) }}"
                                                class="btn btn-sm btn-neutral"

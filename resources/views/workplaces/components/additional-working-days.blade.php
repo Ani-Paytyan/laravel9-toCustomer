@@ -57,7 +57,9 @@
                                data-placement="top"
                                title="{{ __('page.additional_working_days.update') }}"
                             >
-                                <i class="bi bi-save"></i>
+                                 <span class="icon icon-disk">
+                                    <span class="icon-inner"></span>
+                                </span>
                             </a>
                         @endif
                         @if (Gate::allows('delete-workplace-working-days'))

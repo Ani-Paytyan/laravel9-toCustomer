@@ -21,9 +21,7 @@
                                     <th scope="col">{{ __('attributes.user.zip')}}</th>
                                     <th scope="col">{{ __('attributes.workplaces.number')}}</th>
                                     <th scope="col">{{ __('attributes.user.city')}}</th>
-                                    @if (Gate::allows('destroy-workplace-contacts'))
-                                        <th scope="col">{{ __('common.actions')}}</th>
-                                    @endif
+                                    <th scope="col">{{ __('common.actions')}}</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -38,16 +36,16 @@
                                         <td>{{ $contactWorkPlace->zip }}</td>
                                         <td>{{ $contactWorkPlace->number }}</td>
                                         <td>{{ $contactWorkPlace->city }}</td>
-                                        @if (Gate::allows('destroy-workplace-contacts'))
-                                            <td>
-                                                <a href="{{ route('workplaces.show', $contactWorkPlace->uuid) }}"
-                                                   class="btn btn-sm btn-neutral"
-                                                   data-toggle="tooltip"
-                                                   data-placement="top"
-                                                   title="{{ __('page.workplace.title') }}"
-                                                >
-                                                    <i class="bi bi-eye-fill"></i>
-                                                </a>
+                                        <td>
+                                            <a href="{{ route('workplaces.show', $contactWorkPlace->uuid) }}"
+                                               class="btn btn-sm btn-neutral"
+                                               data-toggle="tooltip"
+                                               data-placement="top"
+                                               title="{{ __('page.workplace.title') }}"
+                                            >
+                                                <i class="bi bi-eye-fill"></i>
+                                            </a>
+                                            @if (Gate::allows('destroy-workplace-contacts'))
                                                 <a href="{{ route('employee-workplaces.delete', [$employee->uuid, $contactWorkPlace->uuid]) }}"
                                                    class="btn btn-sm btn-neutral destroyContact"
                                                    data-toggle="tooltip"
@@ -56,8 +54,8 @@
                                                 >
                                                     <i class="bi bi-trash"></i>
                                                 </a>
-                                            </td>
-                                        @endif
+                                            @endif
+                                        </td>
                                     </tr>
                                 @endforeach
                                 </tbody>

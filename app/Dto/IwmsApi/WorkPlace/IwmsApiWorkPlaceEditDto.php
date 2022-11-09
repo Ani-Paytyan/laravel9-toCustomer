@@ -13,7 +13,7 @@ class IwmsApiWorkPlaceEditDto
     private ?string $companyId;
     private ?string $status;
     private ?string $sum_price;
-    private bool $isDeleted;
+    private bool $isDeleted = false;
 
     const STATUS_DELETED = "Deleted";
 

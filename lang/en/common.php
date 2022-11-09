@@ -8,4 +8,5 @@ return [
     'invite' => 'Invite',
     'create' => 'Create',
     'save' => 'Save',
+    'show_more' => 'Show more',
 ];

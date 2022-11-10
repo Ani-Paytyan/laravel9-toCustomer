@@ -14,6 +14,7 @@ use DB;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Gate;
@@ -40,7 +41,9 @@ class WorkPlaceController extends Controller
      */
     public function index()
     {
-        $workPlaces = WorkPlace::where('company_id', $this->companyId)->paginate(20);
+        $workPlaces = WorkPlace::where('company_id', $this->companyId)
+            ->orderBy('name', 'ASC')
+            ->paginate(20);
 
         return view('workplaces.index', compact('workPlaces'));
     }
@@ -64,6 +67,9 @@ class WorkPlaceController extends Controller
         $contactList = $this->getContactList($this->companyId, $workPlaceContacts->get()->pluck('uuid')->toArray());
         // get all workplace unique items
         $uniqueItems = UniqueItem::with('contacts')
+            ->whereHas('workPlace', function (Builder $query) {
+                $query->where('company_id', $this->companyId);
+            })
             ->where('workplace_id', $workplace->uuid)
             ->paginate(10);
 

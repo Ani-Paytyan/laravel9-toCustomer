@@ -16,6 +16,7 @@ use App\Services\Facades\IwmsContactFacade;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -73,9 +74,14 @@ class EmployeeController extends Controller
 
     public function show(Contact $employee)
     {
-        $workPlaces = $employee->workplaces()->paginate(10);
-        $uniqueItems = $employee->uniqueItems()->paginate(10);
-        $teams = $employee->teams()->paginate(10);
+        $workPlaces = $employee->workplaces()->orderBy('name', 'ASC')->paginate(10);
+
+        $uniqueItems = $employee->uniqueItems()
+            ->join('items', 'items.uuid', '=', 'unique_items.item_id')
+            ->orderBy('items.name')
+            ->paginate(10);
+
+        $teams = $employee->teams()->orderBy('name', 'ASC')->paginate(10);
 
         return view('employees.show', compact('employee', 'workPlaces', 'uniqueItems', 'teams'));
     }
@@ -200,7 +206,10 @@ class EmployeeController extends Controller
     {
         $uniqueItemContacts = $employee->uniqueItems()->orderBy('name', 'ASC');
 
-        $uniqueItemList = UniqueItem::whereNotIn('uuid', $uniqueItemContacts->get()->pluck('uuid')->toArray())
+        $uniqueItemList = UniqueItem::whereHas('workPlace', function (Builder $query) {
+                $query->where('company_id', $this->companyId);
+            })
+            ->whereNotIn('uuid', $uniqueItemContacts->get()->pluck('uuid')->toArray())
             ->orderBy('article', 'ASC')
             ->select('uuid', 'name', 'article')
             ->get()

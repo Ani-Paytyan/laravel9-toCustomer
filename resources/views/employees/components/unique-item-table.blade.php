@@ -17,7 +17,7 @@
                     <tr>
                         <td>
                             <a href="{{ route('unique-items.show', $uniqueItem->uuid) }}">
-                                {{ $uniqueItem->name }}
+                                {{ $uniqueItem->name ?? ($uniqueItem->item ? $uniqueItem->item->name : '') }}
                             </a>
                         </td>
                         <td>{{ $uniqueItem->article }}</td>

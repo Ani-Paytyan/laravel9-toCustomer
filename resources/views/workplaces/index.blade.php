@@ -30,7 +30,11 @@
                         <tbody>
                         @foreach($workPlaces as $workPlace)
                             <tr>
-                                <td>{{ $workPlace->name }}</td>
+                                <td>
+                                    <a href="{{ route('workplaces.show', $workPlace->uuid) }}">
+                                        {{ $workPlace->name }}
+                                    </a>
+                                </td>
                                 <td>{{ $workPlace->address }}</td>
                                 <td>{{ $workPlace->city }}</td>
                                 <td>

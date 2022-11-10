@@ -13,11 +13,11 @@
             </thead>
             <tbody class="clients-list">
             @foreach($teamContacts as $teamContact)
-                @if ($teamContact->contact)
+                @if ($teamContact)
                     <tr>
                         <td>
-                            <a href="{{ route('employees.show', $teamContact->contact->uuid) }}">
-                                {{ $teamContact->contact->first_name ? $teamContact->contact->getFullNameAttribute() : $teamContact->contact->email }}
+                            <a href="{{ route('employees.show', $teamContact->uuid) }}">
+                                {{ $teamContact->first_name ? $teamContact->getFullNameAttribute() : $teamContact->email }}
                             </a>
                         </td>
                         <td>
@@ -32,7 +32,7 @@
                             />
                         </td>
                         <td>
-                            <a href="{{ route('employees.show', $teamContact->contact->uuid) }}"
+                            <a href="{{ route('employees.show', $teamContact->uuid) }}"
                                class="btn btn-sm btn-neutral"
                                data-toggle="tooltip"
                                data-placement="top"
@@ -50,7 +50,7 @@
                                     <span class="icon-inner"></span>
                                 </span>
                             </a>
-                            <a href="{{ route('team-contacts.destroy', $teamContact->uuid) }}"
+                            <a href="{{ route('team-contacts.destroy', $teamContact->pivot->uuid) }}"
                                class="btn btn-sm btn-neutral destroyContact"
                                data-toggle="tooltip"
                                data-placement="top"

@@ -20,6 +20,7 @@ return [
     ],
     'workplaces' => [
         'number' => 'Number',
+        'total-online' => 'total/online unique items',
     ],
     'workplace' => [
         'name' => 'Name',

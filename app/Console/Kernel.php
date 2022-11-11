@@ -20,7 +20,7 @@ class Kernel extends ConsoleKernel
         $schedule->command('sync:workplaces')->everyFifteenMinutes();
         $schedule->command('sync:contacts')->everyFifteenMinutes();
         $schedule->command('sync:items')->everyFifteenMinutes();
-        $schedule->command('sync:unique-items')->everyFifteenMinutes();
+        $schedule->command('sync:unique-items')->everyMinute();
     }
 
     /**

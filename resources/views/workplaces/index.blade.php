@@ -24,6 +24,7 @@
                                 <th scope="col">{{ __('attributes.user.name')}}</th>
                                 <th scope="col">{{ __('attributes.user.address')}}</th>
                                 <th scope="col">{{ __('attributes.user.city')}}</th>
+                                <th scope="col">{{ __('attributes.workplaces.total-online')}}</th>
                                 <th scope="col">{{ __('common.actions')}}</th>
                             </tr>
                         </thead>
@@ -37,6 +38,11 @@
                                 </td>
                                 <td>{{ $workPlace->address }}</td>
                                 <td>{{ $workPlace->city }}</td>
+                                <td>
+                                    {{ $workPlace->uniqueItems ? $workPlace->uniqueItems->count() : 0 }}
+                                    /
+                                    {{ $workPlace->uniqueItems ? $workPlace->uniqueItems->where('status', 0)->count() : 0 }}
+                                </td>
                                 <td>
                                     @if (Gate::allows('create-workplace-working-days'))
                                         <a href="{{ route('workplace.workdays', $workPlace->uuid) }}"

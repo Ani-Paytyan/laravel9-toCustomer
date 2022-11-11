@@ -57,9 +57,9 @@ class ToolMetricaSyncUniqueItemStatus extends Command
             foreach ($getAllWorkplaces as $workPlace) {
                 $checkWorkDay = $this->checkIfWorkDay($workPlace, $defaultWorkDayIsActive, $dayOfTheWeek, $date, $time);
                 // if not work day or time
-                if ($checkWorkDay) {
+               // if ($checkWorkDay) {
                     $workPlaces[] = $workPlace->uuid;
-                }
+              //  }
             }
 
             if ($workPlaces) {

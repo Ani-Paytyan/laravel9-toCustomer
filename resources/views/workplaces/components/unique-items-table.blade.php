@@ -9,6 +9,7 @@
                 <tr>
                     <th scope="col">{{ __('attributes.unique-items.item_name')}}</th>
                     <th scope="col">{{ __('attributes.unique-items.item_serial_number')}}</th>
+                    <th scope="col">{{ __('attributes.unique-items.status')}}</th>
                     <th scope="col">{{ __('page.employees.title')}}</th>
                     <th scope="col">{{ __('common.actions')}}</th>
                 </tr>
@@ -18,6 +19,7 @@
                     <tr>
                         <td>{{ $uniqueItem->name }}</td>
                         <td>{{ $uniqueItem->article }}</td>
+                        <td>{{ $uniqueItem->status ? '+' : '-' }}</td>
                         <td>
                             <ul>
                                 @foreach($uniqueItem->contacts as $contact)

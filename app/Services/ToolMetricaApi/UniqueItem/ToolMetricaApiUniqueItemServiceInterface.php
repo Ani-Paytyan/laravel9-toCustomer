@@ -2,7 +2,13 @@
 
 namespace App\Services\ToolMetricaApi\UniqueItem;
 
+use App\Dto\ToolMetrica\ToolMetricaApiUniqueItemServiceDto;
+
 interface ToolMetricaApiUniqueItemServiceInterface
 {
-    public function getUniqueItemsStatus($array);
+    /**
+     * @param $array
+     * @return array|null
+     */
+    public function getUniqueItemsStatus($array): ?array;
 }

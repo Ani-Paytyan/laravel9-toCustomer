@@ -7,9 +7,10 @@
             <table class="table table-hover table-nowrap">
                 <thead class="table-light">
                 <tr>
-                    <th scope="col">{{ __('attributes.unique-items.item_name')}}</th>
-                    <th scope="col">{{ __('attributes.unique-items.item_serial_number')}}</th>
-                    <th scope="col">{{ __('common.actions')}}</th>
+                    <th scope="col">{{ __('attributes.unique-items.item_name') }}</th>
+                    <th scope="col">{{ __('attributes.unique-items.item_serial_number') }}</th>
+                    <th scope="col">{{ __('attributes.unique-items.status') }}</th>
+                    <th scope="col">{{ __('common.actions') }}</th>
                 </tr>
                 </thead>
                 <tbody class="contact-list">
@@ -21,6 +22,7 @@
                             </a>
                         </td>
                         <td>{{ $uniqueItem->article }}</td>
+                        <td>{{ $uniqueItem->status ? '+' : '-' }}</td>
                         <td>
                             <a href="{{ route('unique-items.show', $uniqueItem->uuid) }}"
                                class="btn btn-sm btn-neutral"

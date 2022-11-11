@@ -11,6 +11,7 @@
                 <p>{{ __('attributes.unique-items.item_serial_number')}} : {{ $uniqueItem->item ? $uniqueItem->item->serial_number : ''}}</p>
                 <p>{{ __('attributes.unique-items.unique_item_name')}} : {{ $uniqueItem->name }}</p>
                 <p>{{ __('attributes.unique-items.unique_item_article')}} : {{ $uniqueItem->article }}</p>
+                <p>{{ __('attributes.unique-items.status')}} : {{ $uniqueItem->status ? '+' : '-'  }}</p>
             </div>
             <div class="card mb-8">
                 <div class="row card-header align-items-center">

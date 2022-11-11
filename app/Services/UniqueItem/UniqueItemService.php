@@ -28,12 +28,14 @@ class UniqueItemService implements UniqueItemServiceInterface
         }
     }
 
+    /**
+     * @param array $items
+     * @return void
+     */
     public function syncStatus(array $items): void
     {
         foreach ($items as $item) {
-            UniqueItem::withTrashed()->updateOrCreate([
-                'uuid' => $item->getId()
-            ], [
+            UniqueItem::where('uuid', $item->getId())->withTrashed()->update([
                 'status' => $item->getStatus(),
             ]);
         }

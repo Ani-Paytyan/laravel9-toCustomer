@@ -34,8 +34,8 @@ class ToolMetricaSyncUniqueItemStatus extends Command
         // set token
         $apiService->setToken(Config::get('toolmetrica.root_token'));
         try {
+            $this->info('start updating statuses...');
             $now = Carbon::now();
-          //  $now = Carbon::now()->addHours(8);
             $dayOfTheWeek = $now->dayOfWeek;
             $date = $now->format('Y-m-d');
             $time = $now->format('H:i');
@@ -55,24 +55,31 @@ class ToolMetricaSyncUniqueItemStatus extends Command
 
             $workPlaces = [];
             foreach ($getAllWorkplaces as $workPlace) {
-                $workDay = $this->getWorkDay($workPlace, $defaultWorkDayIsActive, $dayOfTheWeek, $date, $time);
-                // if
-               // if (!$workDay) {
+                $checkWorkDay = $this->checkIfWorkDay($workPlace, $defaultWorkDayIsActive, $dayOfTheWeek, $date, $time);
+                // if not work day or time
+                if ($checkWorkDay) {
                     $workPlaces[] = $workPlace->uuid;
-            //    }
+                }
             }
 
-            $uniqueItems = UniqueItem::whereIn('workplace_id', $workPlaces)->pluck('uuid')->toArray();
-            $array_chunk = array_chunk($uniqueItems,70);
-            foreach ($array_chunk as $items) {
-                $service->syncStatus($apiService->getUniqueItemsStatus($items));
+            if ($workPlaces) {
+                $uniqueItems = UniqueItem::whereIn('workplace_id', $workPlaces)->pluck('uuid')->toArray();
+                $array_chunk = array_chunk($uniqueItems,70);
+                foreach ($array_chunk as $items) {
+                    $getUniqueItemsStatus = $apiService->getUniqueItemsStatus($items);
+                    if ($getUniqueItemsStatus) {
+                        $service->syncStatus($getUniqueItemsStatus);
+                    }
+                }
             }
+
+            $this->info('finish updating statuses...');
         }  catch (\Exception $e) {
             Log::error('Sync unique item statuses : ' .  $e->getMessage());
         }
     }
 
-    public function getWorkDay($workPlace, $defaultWorkDayIsActive, $dayOfTheWeek, $date, $time)
+    public function checkIfWorkDay($workPlace, $defaultWorkDayIsActive, $dayOfTheWeek, $date, $time): bool
     {
         $additionalWorkingDay = AdditionalWorkingDay::where('workplace_id', $workPlace->uuid)
             ->whereDate('date', $date)
@@ -80,24 +87,21 @@ class ToolMetricaSyncUniqueItemStatus extends Command
             ->whereTime('to', '>', $time)
             ->first();
 
+        // якщо ми знайшли задану дату в additional working days, повертаємо true, що зараз робочий день
         if (isset($additionalWorkingDay)) {
-           //  return true;
+            return true;
         }
 
         $workDay = WorkDays::where('day_of_week', $dayOfTheWeek)
             ->where('workplace_id', $workPlace->uuid)
             ->first();
 
-        // якщо відключений чекбокс значить вихідний і можемо провіряти дані
+        // якщо відключений чекбокс значить вихідний і можемо провіряти статус unique item
         if (isset($workDay) && $workDay->is_active == false) {
             return true;
         }
-     //   dd(22222);
 
-    //    dd($workDay::where('is_active', '=' , 1));
-
-    //    dd($workDay->where('is_active', false) !== null);
-
+        // якщо не знайдено робочого дня ми беремо дефолтний
         if (!$workDay) {
             if (!isset($defaultWorkDayIsActive)) {
                 return true;
@@ -106,13 +110,8 @@ class ToolMetricaSyncUniqueItemStatus extends Command
             return false;
         }
 
-      //  $activeDay = $workDay->where('is_active', true)->whereTime('from', '<', $time)->whereTime('to', '>', $time);
         $activeDay = $workDay->where('is_active', 1)->whereTime('from', '<', $time)->whereTime('to', '>', $time);
 
         return !isset($activeDay);
-    }
-
-    public function updateStatus()
-    {
     }
 }

@@ -18,6 +18,7 @@
                             <th scope="col">{{ __('attributes.unique-items.item_serial_number')}}</th>
                             <th scope="col">{{ __('attributes.unique-items.unique_item_name')}}</th>
                             <th scope="col">{{ __('attributes.unique-items.unique_item_article')}}</th>
+                            <th scope="col">{{ __('attributes.unique-items.status')}}</th>
                             <th scope="col">{{ __('common.actions')}}</th>
                         </tr>
                         </thead>
@@ -28,6 +29,7 @@
                                 <td>{{ $uniqueItem->item ? $uniqueItem->item->serial_number : ''}}</td>
                                 <td>{{ $uniqueItem->name }}</td>
                                 <td>{{ $uniqueItem->article }}</td>
+                                <td>{{ $uniqueItem->status ? '+' : '-' }}</td>
                                 <td>
                                     <a href="{{ route('unique-items.show', $uniqueItem->uuid) }}"
                                        class="btn btn-sm btn-neutral"

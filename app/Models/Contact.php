@@ -42,16 +42,22 @@ class Contact extends Model
 
     public function workplaces()
     {
-        return $this->belongsToMany(WorkPlace::class, 'work_place_contacts', 'contact_id', 'workplace_id')->withPivot('uuid');
+        return $this->belongsToMany(WorkPlace::class, 'work_place_contacts', 'contact_id', 'workplace_id')
+            ->withPivot('uuid')
+            ->wherePivot('deleted_at', '=', null);
     }
 
     public function uniqueItems()
     {
-        return $this->belongsToMany(UniqueItem::class, 'unique_item_contacts', 'contact_id', 'unique_item_id')->withPivot('uuid');
+        return $this->belongsToMany(UniqueItem::class, 'unique_item_contacts', 'contact_id', 'unique_item_id')
+            ->withPivot('uuid')
+            ->wherePivot('deleted_at', '=', null);
     }
 
     public function teams()
     {
-        return $this->belongsToMany(Team::class, 'team_contacts', 'contact_id', 'team_id')->withPivot('uuid');
+        return $this->belongsToMany(Team::class, 'team_contacts', 'contact_id', 'team_id')
+            ->withPivot('uuid')
+            ->wherePivot('deleted_at', '=', null);
     }
 }

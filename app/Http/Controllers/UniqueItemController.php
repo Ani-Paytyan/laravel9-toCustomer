@@ -8,6 +8,7 @@ use DB;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
 
 class UniqueItemController extends Controller
@@ -32,7 +33,13 @@ class UniqueItemController extends Controller
      */
     public function index()
     {
-        $uniqueItems = UniqueItem::with('item')->paginate(20);
+        $uniqueItems = UniqueItem::select('unique_items.*')
+            ->join('items', 'items.uuid', '=', 'unique_items.item_id')
+            ->orderBy('items.name')
+            ->whereHas('workPlace', function (Builder $query) {
+                $query->where('company_id', $this->companyId);
+            })
+            ->paginate(20);
 
         return view('unique-items.index', compact('uniqueItems'));
     }

@@ -26,4 +26,11 @@ class Team extends Model
     protected $casts = [
         'uuid' => 'string'
     ];
+
+    public function contacts()
+    {
+        return $this->belongsToMany(Contact::class, 'team_contacts', 'team_id', 'contact_id')
+            ->withPivot('uuid')
+            ->wherePivot('deleted_at', '=', null);
+    }
 }

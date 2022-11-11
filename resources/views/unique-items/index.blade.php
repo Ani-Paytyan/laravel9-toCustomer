@@ -24,9 +24,13 @@
                         <tbody>
                         @foreach($uniqueItems as $uniqueItem)
                             <tr>
-                                <td>{{ $uniqueItem->item ? $uniqueItem->item->name : ''}}</td>
+                                <td>
+                                    <a href="{{ route('unique-items.show', $uniqueItem->uuid) }}">
+                                        {{ $uniqueItem->item ? $uniqueItem->item->name : ' - '}}
+                                    </a>
+                                </td>
                                 <td>{{ $uniqueItem->item ? $uniqueItem->item->serial_number : ''}}</td>
-                                <td>{{ $uniqueItem->name }}</td>
+                                <td>{{ $uniqueItem->name ?? ($uniqueItem->item ? $uniqueItem->item->name : '') }}</td>
                                 <td>{{ $uniqueItem->article }}</td>
                                 <td>
                                     <a href="{{ route('unique-items.show', $uniqueItem->uuid) }}"

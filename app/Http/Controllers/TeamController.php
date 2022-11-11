@@ -77,9 +77,9 @@ class TeamController extends Controller
     public function edit(Team $team)
     {
         $roles = TeamContact::getRoles();
-        $teamContacts = TeamContact::with('contact')->where('team_id', $team->uuid)->get();
+        $teamContacts = $team->contacts()->get();
 
-        $contacts = $this->getContactList($this->companyId, $teamContacts->pluck('contact_id')->toArray());
+        $contacts = $this->getContactList($this->companyId, $teamContacts->pluck('uuid')->toArray());
 
         return view('teams.edit', compact('team', 'roles', 'teamContacts', 'contacts'));
     }

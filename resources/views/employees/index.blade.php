@@ -31,7 +31,11 @@
                         <tbody>
                         @foreach($employees as $employee)
                             <tr>
-                                <td>{{ $employee->getFullNameAttribute() }}</td>
+                                <td>
+                                    <a href="{{ route('employees.show', $employee->uuid) }}">
+                                        {{ $employee->getFullNameAttribute() }}
+                                    </a>
+                                </td>
                                 <td>{{ $employee->email }}</td>
                                 <td>{{ $employee->role }}</td>
                                 <td>{{ $employee->status }} </td>

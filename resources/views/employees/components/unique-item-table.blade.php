@@ -22,7 +22,7 @@
                             </a>
                         </td>
                         <td>{{ $uniqueItem->article }}</td>
-                        <td>{{ $uniqueItem->status ? '+' : '-' }}</td>
+                        <td>{{ $uniqueItem->is_online ? '+' : '-' }}</td>
                         <td>
                             <a href="{{ route('unique-items.show', $uniqueItem->uuid) }}"
                                class="btn btn-sm btn-neutral"

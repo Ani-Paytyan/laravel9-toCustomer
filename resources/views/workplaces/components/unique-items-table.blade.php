@@ -19,7 +19,7 @@
                     <tr>
                         <td>{{ $uniqueItem->name }}</td>
                         <td>{{ $uniqueItem->article }}</td>
-                        <td>{{ $uniqueItem->status ? '+' : '-' }}</td>
+                        <td>{{ $uniqueItem->is_online ? '+' : '-' }}</td>
                         <td>
                             <ul>
                                 @foreach($uniqueItem->contacts as $contact)

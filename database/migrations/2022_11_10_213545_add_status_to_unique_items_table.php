@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::table('unique_items', function (Blueprint $table) {
-            $table->string('status')->default(0)->after('article');
+            $table->boolean('is_online')->default(0)->after('article');
         });
     }
 
@@ -26,7 +26,7 @@ return new class extends Migration
     public function down()
     {
         Schema::table('unique_items', function (Blueprint $table) {
-            $table->dropColumn(['status']);
+            $table->dropColumn(['is_online']);
         });
     }
 };

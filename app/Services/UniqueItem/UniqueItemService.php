@@ -36,7 +36,7 @@ class UniqueItemService implements UniqueItemServiceInterface
     {
         foreach ($items as $item) {
             UniqueItem::where('uuid', $item->getId())->withTrashed()->update([
-                'status' => $item->getStatus(),
+                'is_online' => $item->getStatus(),
             ]);
         }
     }

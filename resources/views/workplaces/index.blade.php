@@ -41,7 +41,7 @@
                                 <td>
                                     {{ $workPlace->uniqueItems ? $workPlace->uniqueItems->count() : 0 }}
                                     /
-                                    {{ $workPlace->uniqueItems ? $workPlace->uniqueItems->where('status', 0)->count() : 0 }}
+                                    {{ $workPlace->uniqueItems ? $workPlace->uniqueItems->where('is_online', 1)->count() : 0 }}
                                 </td>
                                 <td>
                                     @if (Gate::allows('create-workplace-working-days'))

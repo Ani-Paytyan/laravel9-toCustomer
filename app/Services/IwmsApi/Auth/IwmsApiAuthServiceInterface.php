@@ -9,5 +9,5 @@ interface IwmsApiAuthServiceInterface
 {
     public function login(IwmsApiLoginDto $dto): IwmsApiUserDto;
 
-    public function logout(): void;
+    public function logout(string $authUserToken): void;
 }

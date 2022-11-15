@@ -2,6 +2,7 @@
 
 namespace App\Services\Auth;
 
+use App\Dto\Auth\AuthCreateApiTokenDto;
 use App\Dto\Auth\LoginDto;
 use App\Dto\IwmsApi\IwmsApiLoginDto;
 use App\Dto\IwmsApi\IwmsApiUserDto;
@@ -49,5 +50,10 @@ class AuthService implements AuthServiceInterface
         }
 
         return unserialize($serialized);
+    }
+
+    public function createApiToken(IwmsApiUserDto $user, AuthCreateApiTokenDto $dto)
+    {
+
     }
 }

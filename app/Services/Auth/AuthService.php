@@ -24,8 +24,8 @@ class AuthService implements AuthServiceInterface
         $iwmsUser = $this->iwmsApiAuthService->login((new IwmsApiLoginDto())
             ->setEmail($dto->getEmail())
             ->setPassword($dto->getPassword())
-            ->setDevice('device')
-            ->setIp('127.0.0.1')
+            ->setDevice(request()->header('User-Agent'))
+            ->setIp(request()->header('HTTP_X_REAL_IP') ?? request()->ip())
             ->setMac('00:00:5e:00:53:af')
             ->setSystem('system')
         );
@@ -37,7 +37,7 @@ class AuthService implements AuthServiceInterface
 
     public function logout(): void
     {
-        $this->iwmsApiAuthService->logout();
+        $this->iwmsApiAuthService->logout(Auth::user()->getToken());
         Session::remove('user');
     }
 

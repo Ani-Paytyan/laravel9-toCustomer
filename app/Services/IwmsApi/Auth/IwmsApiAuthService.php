@@ -22,8 +22,9 @@ class IwmsApiAuthService extends AbstractIwmsApi implements IwmsApiAuthServiceIn
         return IwmsApiUserDto::createFromApiResponse($response->json());
     }
 
-    public function logout(): void
+    public function logout(string $authUserToken): void
     {
-        // TODO: Implement logout() method.
+        $this->setUserToken($authUserToken);
+        $this->getRequestBuilder()->post('logout');
     }
 }

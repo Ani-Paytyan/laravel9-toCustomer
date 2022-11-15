@@ -220,4 +220,6 @@ return [
 
     'force_https' => env('FORCE_HTTPS', false),
 
+    'sync_testing' => env('SYNC_TESTING', false),
+
 ];

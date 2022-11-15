@@ -2,6 +2,7 @@
 
 namespace App\Console;
 
+use Illuminate\Console\Scheduling\Event;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
@@ -15,13 +16,26 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
+        $syncCommands = [
+            $schedule->command('sync:companies'),
+            $schedule->command('sync:workplaces'),
+            $schedule->command('sync:contacts'),
+            $schedule->command('sync:items'),
+            $schedule->command('sync:unique-items'),
+            $schedule->command('sync:unique-item-status')
+        ];
+
+        foreach ($syncCommands as $command) {
+            /** @var Event $command */
+            if (config('app.sync_testing')) {
+                $command->everyMinute();
+            } else {
+                $command->everyFifteenMinutes();
+            }
+        }
+
         // $schedule->command('inspire')->hourly();
-        $schedule->command('sync:companies')->everyFifteenMinutes();
-        $schedule->command('sync:workplaces')->everyFifteenMinutes();
-        $schedule->command('sync:contacts')->everyFifteenMinutes();
-        $schedule->command('sync:items')->everyFifteenMinutes();
-        $schedule->command('sync:unique-items')->everyFifteenMinutes();
-        $schedule->command('sync:unique-item-status')->everyMinute();
+
     }
 
     /**

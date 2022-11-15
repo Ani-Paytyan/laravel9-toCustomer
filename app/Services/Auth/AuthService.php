@@ -6,9 +6,11 @@ use App\Dto\Auth\AuthCreateApiTokenDto;
 use App\Dto\Auth\LoginDto;
 use App\Dto\IwmsApi\IwmsApiLoginDto;
 use App\Dto\IwmsApi\IwmsApiUserDto;
+use App\Models\AccessTokens;
 use App\Services\IwmsApi\Auth\IwmsApiAuthServiceInterface;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Str;
 
 class AuthService implements AuthServiceInterface
 {
@@ -54,6 +56,15 @@ class AuthService implements AuthServiceInterface
 
     public function createApiToken(IwmsApiUserDto $user, AuthCreateApiTokenDto $dto)
     {
+        $token = unique_random('access_tokens', 'token', 32);
 
+        return AccessTokens::updateOrCreate([
+            'user_id' => $user->getId()
+        ], [
+            'uuid' => Str::uuid()->toString(),
+            'user_data' => serialize($user),
+            'token' => $token,
+            'push_token' => $dto->getToken()
+        ]);
     }
 }

@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('access_tokens', function (Blueprint $table) {
             $table->uuid()->primary();
             $table->uuid('user_id');
-            $table->json('user_data');
+            $table->text('user_data');
             $table->string('token')->unique();
             $table->string('push_token')->nullable();
             $table->timestamps();

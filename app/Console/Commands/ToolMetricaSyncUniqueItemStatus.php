@@ -12,6 +12,9 @@ use Illuminate\Support\Facades\Log;
 
 class ToolMetricaSyncUniqueItemStatus extends Command
 {
+
+    public const CHUNK = 70; // chunk
+
     /**
      * The name and signature of the console command.
      *
@@ -35,14 +38,15 @@ class ToolMetricaSyncUniqueItemStatus extends Command
 
             $getAllWorkplaces = WorkPlace::pluck('uuid')->toArray();
 
-            $uniqueItems = UniqueItem::whereIn('workplace_id', $getAllWorkplaces)->pluck('uuid')->toArray();
-            $array_chunk = array_chunk($uniqueItems,70);
-            foreach ($array_chunk as $items) {
-                $getUniqueItemsStatus = $apiService->getUniqueItemsStatus($items);
-                if ($getUniqueItemsStatus) {
-                    $service->syncStatus($getUniqueItemsStatus);
-                }
-            }
+            UniqueItem::whereIn('workplace_id', $getAllWorkplaces)
+                ->select(['uuid'])
+                ->chunk(self::CHUNK, function ($uniqueItems) use ($apiService, $service) {
+                    $getUniqueItemsStatus = $apiService->getUniqueItemsStatus($uniqueItems->pluck('uuid')->toArray());
+
+                    if ($getUniqueItemsStatus) {
+                        $service->syncStatus($getUniqueItemsStatus);
+                    }
+            });
 
             $this->info('finish updating statuses...');
         }  catch (\Exception $e) {

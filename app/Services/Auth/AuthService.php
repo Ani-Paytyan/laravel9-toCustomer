@@ -36,7 +36,7 @@ class AuthService implements AuthServiceInterface
 
     public function logout(): void
     {
-        $this->iwmsApiAuthService->logout();
+        $this->iwmsApiAuthService->logout(Auth::user()->getToken());
         Session::remove('user');
     }
 

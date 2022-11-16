@@ -20,6 +20,7 @@ return [
     ],
     'workplaces' => [
         'number' => 'Number',
+        'total-online' => 'total/online unique items',
     ],
     'workplace' => [
         'name' => 'Name',
@@ -44,5 +45,6 @@ return [
         'item_serial_number' => 'Item serial number',
         'unique_item_name' => 'Unique item Name',
         'unique_item_article' => 'Unique item Article',
+        'status' => 'Status',
     ]
 ];

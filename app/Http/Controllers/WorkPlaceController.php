@@ -42,6 +42,7 @@ class WorkPlaceController extends Controller
     public function index()
     {
         $workPlaces = WorkPlace::where('company_id', $this->companyId)
+            ->with('uniqueItems')
             ->orderBy('name', 'ASC')
             ->paginate(20);
 

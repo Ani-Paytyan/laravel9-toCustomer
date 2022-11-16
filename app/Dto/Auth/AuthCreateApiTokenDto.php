@@ -11,7 +11,7 @@ class AuthCreateApiTokenDto
     /**
      * @return string|null
      */
-    public function getToken(): ?string
+    public function getPushToken(): ?string
     {
         return $this->push_token;
     }
@@ -20,7 +20,7 @@ class AuthCreateApiTokenDto
      * @param string|null $push_token
      * @return $this
      */
-    public function setToken(?string $push_token): self
+    public function setPushToken(?string $push_token): self
     {
         $this->push_token = $push_token;
         return $this;
@@ -29,7 +29,7 @@ class AuthCreateApiTokenDto
     public static function createFromRequest(Request $request): self
     {
         return (new self())
-            ->setToken($request->get('push_token'));
+            ->setPushToken($request->get('push_token'));
     }
 
 }

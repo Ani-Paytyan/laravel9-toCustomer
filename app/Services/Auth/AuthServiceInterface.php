@@ -16,5 +16,5 @@ interface AuthServiceInterface
 
     public function createApiToken(IwmsApiUserDto $user, AuthCreateApiTokenDto $dto);
 
-    public function getUserByApiToken(string $token): IwmsApiUserDto|false;
+    public function getUserByApiToken(string $token): ?IwmsApiUserDto;
 }

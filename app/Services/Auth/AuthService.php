@@ -67,4 +67,15 @@ class AuthService implements AuthServiceInterface
             'push_token' => $dto->getToken()
         ]);
     }
+
+    public function getUserByApiToken(string $token): IwmsApiUserDto|false
+    {
+        $accessToken = AccessTokens::where('token', $token);
+
+        if (!$accessToken) {
+            return false;
+        }
+
+        return unserialize($accessToken->user_data);
+    }
 }

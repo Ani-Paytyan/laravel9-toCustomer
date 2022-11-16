@@ -17,3 +17,5 @@ yarn-error.log
 /.docker/node/.npm/_logs
 /storage/debugbar
 /public/mix-manifest.json
+_ide_helper.php
+.phpstorm.meta.php

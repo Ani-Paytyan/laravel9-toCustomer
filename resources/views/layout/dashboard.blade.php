@@ -47,6 +47,11 @@
                                 <i class="bi bi-handbag"></i> {{ __('page.unique-items.title')}}
                             </a>
                         </li>
+                        <li class="nav-item footer-item">
+                            <a class="nav-link support" href="#" data-bs-toggle="modal" data-bs-target=".supportModal">
+                                <i class="bi bi-info-circle"></i> {{ __('page.support.title')}}
+                            </a>
+                        </li>
                     </ul>
                 </div>
             </div>

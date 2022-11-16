@@ -17,6 +17,7 @@
 </div>
 
 @include('sweetalert::alert')
+@include('layout.partials.modal')
 @stack('bodyStart')
 @yield('page')
 

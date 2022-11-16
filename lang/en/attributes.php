@@ -14,6 +14,7 @@ return [
         'city' => 'City',
         'zip' => 'Zip',
         'id' => 'Id',
+        'company_name' => 'Company Name',
     ],
     'employees' => [
         'portal_access' => 'Portal Access',

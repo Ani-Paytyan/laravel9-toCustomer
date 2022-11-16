@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AdditionalWorkingDayController;
+use App\Http\Controllers\SupportController;
 use App\Http\Controllers\UniqueItemContactController;
 use App\Http\Controllers\WorkPlaceController;
 use App\Http\Controllers\WorkDaysController;
@@ -37,7 +38,7 @@ Route::group(['middleware' => ['auth', 'SetIwmsApiToken']], static function () {
     Route::controller(EmployeeController::class)->group(function () {
         Route::get('/employee-teams/{employee}', 'employeeTeams')->name('teams.employee-teams');
         Route::get('/employee-workplaces/{employee}', 'employeeWorkPlaces')->name('employee.employee-workplaces');
-        Route::get('/employee-unique-items/{employee}', [EmployeeController::class, 'employeeUniqueItems'])->name('employee.unique-items');
+        Route::get('/employee-unique-items/{employee}', 'employeeUniqueItems')->name('employee.unique-items');
     });
 
     Route::resource('workplaces', WorkPlaceController::class);
@@ -78,6 +79,6 @@ Route::group(['middleware' => ['auth', 'SetIwmsApiToken']], static function () {
         Route::delete('employee-unique-items/{employee}/{uniqueItem}', 'deleteEmployeeUniqueItems')->name('employee-unique-items.delete');
     });
 
-
-
+    // support controller
+    Route::post('support.send', [SupportController::class, 'send'])->name('support.send');
 });

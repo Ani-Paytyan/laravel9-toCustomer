@@ -63,6 +63,7 @@
                                 <li><a href="{{ $navItem['route'] }}">{{ $navItem['label'] }}</a></li>
                             @endif
                         @endforeach
+                        <li><a href="#" data-bs-toggle="modal" data-bs-target=".supportModal">{{ __('page.support.title')}}</a></li>
                     </ul>
                 </nav>
             </header>

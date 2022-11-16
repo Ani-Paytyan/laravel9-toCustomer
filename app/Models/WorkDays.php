@@ -5,6 +5,33 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * App\Models\WorkDays
+ *
+ * @property string $uuid
+ * @property string|null $company_id
+ * @property string|null $workplace_id
+ * @property int $day_of_week
+ * @property string $from
+ * @property string $to
+ * @property int $is_active
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @method static \Database\Factories\WorkDaysFactory factory(...$parameters)
+ * @method static \Illuminate\Database\Eloquent\Builder|WorkDays newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|WorkDays newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|WorkDays query()
+ * @method static \Illuminate\Database\Eloquent\Builder|WorkDays whereCompanyId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|WorkDays whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|WorkDays whereDayOfWeek($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|WorkDays whereFrom($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|WorkDays whereIsActive($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|WorkDays whereTo($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|WorkDays whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|WorkDays whereUuid($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|WorkDays whereWorkplaceId($value)
+ * @mixin \Eloquent
+ */
 class WorkDays extends Model
 {
     use HasFactory;

@@ -27,4 +27,17 @@ class UniqueItemService implements UniqueItemServiceInterface
             UniqueItem::withTrashed()->whereNotIn('uuid', $idItems)->delete();
         }
     }
+
+    /**
+     * @param array $items
+     * @return void
+     */
+    public function syncStatus(array $items): void
+    {
+        foreach ($items as $item) {
+            UniqueItem::where('uuid', $item->getId())->withTrashed()->update([
+                'is_online' => $item->getStatus(),
+            ]);
+        }
+    }
 }

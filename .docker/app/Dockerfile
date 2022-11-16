@@ -31,7 +31,9 @@ RUN apt-get update &&\
 
 COPY ./supervisor/supervisord.conf /etc/supervisor
 RUN chgrp -R $USERGROUPNAME /var/log &&\
-    chmod -R g+w /var/log
+    chmod -R g+w /var/log &&\
+    mkdir -p /run/supervisor &&\
+    chmod -R 777 /run/supervisor
 
 #RUN apt-key adv --keyserver ha.pool.sks-keyservers.net --recv-keys 8C718D3B5072E1F5 &&\
 #    echo "deb http://repo.mysql.com/apt/debian/ buster mysql-8.0" > /etc/apt/sources.list.d/mysql.list &&\

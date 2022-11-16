@@ -16,6 +16,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
+        // IWMS Sync
         $syncCommands = [
             $schedule->command('sync:companies'),
             $schedule->command('sync:workplaces'),
@@ -32,6 +33,9 @@ class Kernel extends ConsoleKernel
                 $command->everyFifteenMinutes();
             }
         }
+
+        // Watcher sync
+        $schedule->command('sync:unique-item-status')->everyMinute();
 
         // $schedule->command('inspire')->hourly();
 

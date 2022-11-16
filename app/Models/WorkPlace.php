@@ -42,4 +42,14 @@ class WorkPlace extends Model
     {
         return $this->belongsTo(AdditionalWorkingDay::class, 'uuid', 'workplace_id');
     }
+
+    public function uniqueItems()
+    {
+        return $this->belongsTo(UniqueItem::class, 'uuid', 'workplace_id');
+    }
+
+    public function workDays()
+    {
+        return $this->belongsTo(WorkDays::class, 'uuid', 'workplace_id');
+    }
 }

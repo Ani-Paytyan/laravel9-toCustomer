@@ -9,4 +9,10 @@ interface UniqueItemServiceInterface
      * @return void
      */
     public function sync(array $items): void;
+
+    /**
+     * @param array $items
+     * @return void
+     */
+    public function syncStatus(array $items): void;
 }

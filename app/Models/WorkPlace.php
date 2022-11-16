@@ -24,6 +24,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property-read \App\Models\AdditionalWorkingDay|null $additionalWorkingDays
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Contact[] $contacts
  * @property-read int|null $contacts_count
+ * @property-read \App\Models\UniqueItem|null $uniqueItems
+ * @property-read \App\Models\WorkDays|null $workDays
  * @method static \Illuminate\Database\Eloquent\Builder|WorkPlace newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|WorkPlace newQuery()
  * @method static \Illuminate\Database\Query\Builder|WorkPlace onlyTrashed()

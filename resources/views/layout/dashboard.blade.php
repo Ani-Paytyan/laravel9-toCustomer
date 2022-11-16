@@ -4,7 +4,6 @@
 @php
     $navList = [
         ['label' => __('page.dashboard.title'), 'route' => route('dashboard')],
-        ['label' => __('page.company.workdays'), 'route' => route('company.workdays'), 'condition' => Gate::allows('create-working-days')],
         ['label' => __('page.teams.title'), 'route' => route('teams.index')],
         ['label' => __('page.workplaces.title'), 'route' => route('workplaces.index')],
         ['label' => __('page.employees.title'), 'route' => route('employees.index')],
@@ -29,6 +28,15 @@
                     </ul>
                 </nav>
                 <div class="ml-auto">
+                    @if (Gate::allows('create-working-days'))
+                        <a
+                            class="btn btn-square"
+                            href="{{ route('company.workdays') }}"
+                            title="{{ __('page.company.workdays') }}"
+                        >
+                            <x-heroicon-o-calendar-days />
+                        </a>
+                    @endif
                     <button type="button" class="btn btn-square d-none" @click="$store.darkMode.toggle()">
                         <x-heroicon-o-sun x-show="$store.darkMode.on" />
                         <x-heroicon-o-moon x-show="!$store.darkMode.on" />

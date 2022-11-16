@@ -16,13 +16,13 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
+        // IWMS Sync
         $syncCommands = [
             $schedule->command('sync:companies'),
             $schedule->command('sync:workplaces'),
             $schedule->command('sync:contacts'),
             $schedule->command('sync:items'),
             $schedule->command('sync:unique-items'),
-            $schedule->command('sync:unique-item-status')
         ];
 
         foreach ($syncCommands as $command) {
@@ -33,6 +33,9 @@ class Kernel extends ConsoleKernel
                 $command->everyFifteenMinutes();
             }
         }
+
+        // Watcher sync
+        $schedule->command('sync:unique-item-status')->everyMinute();
 
         // $schedule->command('inspire')->hourly();
 

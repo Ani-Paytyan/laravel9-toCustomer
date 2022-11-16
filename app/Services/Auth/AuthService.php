@@ -68,14 +68,11 @@ class AuthService implements AuthServiceInterface
         ]);
     }
 
-    public function getUserByApiToken(string $token): IwmsApiUserDto|false
+    public function getUserByApiToken(string $token): ?IwmsApiUserDto
     {
-        $accessToken = AccessTokens::where('token', $token);
+        /** @var AccessTokens $accessToken */
+        $accessToken = AccessTokens::where('token', $token)->first();
 
-        if (!$accessToken) {
-            return false;
-        }
-
-        return unserialize($accessToken->user_data);
+        return !$accessToken?->user_data ? null : unserialize($accessToken->user_data);
     }
 }

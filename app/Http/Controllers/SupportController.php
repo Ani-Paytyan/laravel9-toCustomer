@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Dto\Support\SupportDto;
 use App\Http\Requests\Support\SupportRequest;
 use App\Services\IwmsApi\Contact\IwmsApiContactServiceInterface;
+use App\Services\SupportService\SupportServiceInterface;
 use Exception;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Config;
-use Mail;
+use Illuminate\Http\JsonResponse;
 
 class SupportController extends Controller
 {
@@ -24,21 +25,13 @@ class SupportController extends Controller
         });
     }
 
-    public function send(SupportRequest $request)
+    public function send(SupportRequest $request, SupportServiceInterface $supportService): ?JsonResponse
     {
+        $dto = SupportDto::createFromRequest($request);
+
         try {
             //  Send mail to support
-            Mail::send('email.support', array(
-                'firstName' => $this->user->getFirstName(),
-                'lastName' => $this->user->getLastName(),
-                'email' => $this->user->getEmail(),
-                'company_name' => $this->user->getCompany()->getName(),
-                'subject' => $request->get('subject'),
-                'support_text' => $request->get('support_text'),
-            ), static function($message) use ($request){
-                $message->from(Config::get('mail.from.support'));
-                $message->to(Config::get('mail.from.support'))->subject($request->get('subject'));
-            });
+            $supportService->send($this->user, $dto);
 
             return response()->json([
                 'data' => [],

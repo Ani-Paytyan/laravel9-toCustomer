@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\AccessTokens;
 use App\Services\Auth\AuthServiceInterface;
 use Closure;
 use Illuminate\Auth\AuthenticationException;
@@ -32,6 +33,7 @@ class ApiAuth
         }
 
         Auth::setUser($user);
+        AccessTokens::where('token', $token)->update(['last_use_at', now()]);
 
         return $next($request);
     }

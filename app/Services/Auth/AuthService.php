@@ -63,7 +63,8 @@ class AuthService implements AuthServiceInterface
             'user_id' => $user->getId(),
             'user_data' => serialize($user),
             'token' => $token,
-            'push_token' => $dto->getPushToken()
+            'push_token' => $dto->getPushToken(),
+            'last_use_at' => now()
         ]);
     }
 

@@ -37,6 +37,9 @@ class Kernel extends ConsoleKernel
         // Watcher sync
         $schedule->command('sync:unique-item-status')->everyMinute();
 
+        // delete all old access tokens
+        $schedule->command('access:tokens')->daily();
+
         // $schedule->command('inspire')->hourly();
 
     }

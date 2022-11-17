@@ -41,6 +41,8 @@
                             </a>
                         </li>
                     </ul>
+
+                    <p class="version">{{ AppVersionHelper::getAppVersion() }}</p>
                 </div>
             </div>
         </nav>

@@ -58,13 +58,12 @@ class AuthService implements AuthServiceInterface
     {
         $token = unique_random('access_tokens', 'token', 32);
 
-        return AccessTokens::updateOrCreate([
-            'user_id' => $user->getId()
-        ], [
+        return AccessTokens::create([
             'uuid' => Str::uuid()->toString(),
+            'user_id' => $user->getId(),
             'user_data' => serialize($user),
             'token' => $token,
-            'push_token' => $dto->getToken()
+            'push_token' => $dto->getPushToken()
         ]);
     }
 

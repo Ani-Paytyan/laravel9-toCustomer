@@ -28,6 +28,7 @@
                     </ul>
                 </nav>
                 <div class="ml-auto">
+                    <x-language/>
                     @if (Gate::allows('create-working-days'))
                         <a
                             class="btn btn-square"

@@ -216,6 +216,7 @@ return [
         // 'ExampleClass' => App\Example\ExampleClass::class,
         'Alert' => RealRashid\SweetAlert\Facades\Alert::class,
         'Debugbar' => Barryvdh\Debugbar\Facades\Debugbar::class,
+        'AppVersionHelper' => App\Helpers\AppVersion::class,
     ])->toArray(),
 
     'force_https' => env('FORCE_HTTPS', false),

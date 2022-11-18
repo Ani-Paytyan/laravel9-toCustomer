@@ -105,3 +105,12 @@
     position: relative;
     display: inline-block;
 }
+
+.version {
+    margin-left: 1rem;
+    font-weight: bold;
+    font-size: 14px;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+}

@@ -20,13 +20,6 @@
                 <div class="collapse navbar-collapse" id="sidebarCollapse">
                     <!-- Navigation -->
                     <ul class="navbar-nav">
-                        @if (Gate::allows('create-working-days'))
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ route('company.workdays') }}">
-                                    <i class="bi bi-calendar-date"></i> {{ __('page.company.workdays') }}
-                                </a>
-                            </li>
-                        @endif
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('teams.index') }}">
                                 <i class="bi bi-people"></i> {{ __('page.teams.title') }}
@@ -53,6 +46,8 @@
                             </a>
                         </li>
                     </ul>
+
+                    <p class="version">{{ AppVersionHelper::getAppVersion() }}</p>
                 </div>
             </div>
         </nav>
@@ -70,7 +65,18 @@
                                     {{ \Illuminate\Support\Facades\Auth::user()->getLastName() }}
                                 </button>
                                 <ul class="dropdown-menu" aria-labelledby="userNavDropdown">
-                                    <li><a class="dropdown-item" href="{{ route('auth.logout') }}">{{ trans('common.logout') }}</a></li>
+                                    @if (Gate::allows('create-working-days'))
+                                        <li>
+                                            <a class="dropdown-item" href="{{ route('company.workdays') }}">
+                                                <i class="bi bi-calendar-date"></i> {{ __('page.company.workdays') }}
+                                            </a>
+                                        </li>
+                                    @endif
+                                    <li>
+                                        <a class="dropdown-item" href="{{ route('auth.logout') }}">
+                                            <i class="bi bi-box-arrow-right"></i> {{ trans('common.logout') }}
+                                        </a>
+                                    </li>
                                 </ul>
                             </div>
                         </div>

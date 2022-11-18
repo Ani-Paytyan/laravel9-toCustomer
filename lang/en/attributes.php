@@ -47,5 +47,6 @@ return [
         'unique_item_name' => 'Unique item Name',
         'unique_item_article' => 'Unique item Article',
         'status' => 'Status',
-    ]
+    ],
+    'version' => 'v'
 ];

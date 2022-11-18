@@ -19,10 +19,10 @@ class AppVersion
      */
     public static function getAppVersion(): string
     {
-        self::createFromJson(json_decode(file_get_contents(storage_path() . "/version.json"), true));
+        $data = self::createFromJson(json_decode(file_get_contents(storage_path() . "/version.json"), true));
 
-        return ((new self())->getBuildDate() ? (new self())->getBuildDate()->format('Ymd') : '')
-            . ' ' . __('attributes.version') . (new self())->getVersion()
+        return ($data->getBuildDate() ? $data->getBuildDate()->format('Ymd') : '')
+            . ' ' . __('attributes.version') . $data->getVersion()
             . ' ' . self::getEnvironment();
     }
 

@@ -39,6 +39,7 @@ class AccessTokens extends Model
         'user_data',
         'token',
         'push_token',
+        'last_use_at',
         'created_at',
         'updated_at'
     ];

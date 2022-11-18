@@ -1,3 +1,6 @@
+import {swalAlert} from "./general";
+import {sendAjax} from "./general";
+
 $(document).ready(function() {
     $(".unique-item-contacts-add").click(function (e) {
         e.preventDefault();
@@ -14,25 +17,7 @@ $(document).ready(function() {
             contact_id: $('#contact_id option:selected').val()
         };
 
-        $.ajax({
-            type: "POST",
-            url: $('.unique-item-contacts-form').attr('action'),
-            data: formData,
-            dataType: 'json',
-            success: function (data) {
-                if (data.status == 'success') {
-                    location.reload();
-                } else {
-                    $('#loading').hide();
-                }
-
-                swalAlert(data.status, data.message);
-            },
-            error: function (data) {
-                $('.preloader').hide();
-                console.log(data);
-            }
-        });
+        sendAjax("POST", $('.unique-item-contacts-form').attr('action'), formData);
     });
 
     $(".addUniqueItemToContact").click(function (e) {
@@ -50,25 +35,7 @@ $(document).ready(function() {
             unique_item_id: $('#unique_item_id option:selected').val()
         };
 
-        $.ajax({
-            type: "POST",
-            url: $('.contacts-unique-item-form').attr('action'),
-            data: formData,
-            dataType: 'json',
-            success: function (data) {
-                if (data.status == 'success') {
-                    location.reload();
-                } else {
-                    $('#loading').hide();
-                }
-
-                swalAlert(data.status, data.message);
-            },
-            error: function (data) {
-                $('.preloader').hide();
-                console.log(data);
-            }
-        });
+        sendAjax("POST", $('.contacts-unique-item-form').attr('action'), formData);
     });
 
     $(".unique-item-contacts-destroy").click(function (e) {
@@ -102,17 +69,4 @@ $(document).ready(function() {
             }
         });
     });
-
-    function swalAlert(status, message, toast = true, position = 'top-right') {
-        Swal.fire({
-            toast: toast,
-            icon: status,
-            title: message,
-            position: position,
-            animation: true,
-            showConfirmButton: false,
-            timer: 2000,
-            timerProgressBar: true,
-        });
-    }
 });

@@ -142,4 +142,14 @@ return [
         'remove_contact_from_unique_item' => 'Remove contact from the Unique item',
         'delete' => 'Delete unique item',
     ],
+    'support' => [
+        'title' => 'Support',
+        'subject' => 'Subject',
+        'text' => 'Text',
+        'send' => 'Send',
+        'write_to_us' => 'Write to us ',
+        'message_sent' => 'We have received your message.',
+        'title_email' => 'You have got an email from ',
+        'user_details' => 'User details ',
+    ]
 ];

@@ -11,6 +11,7 @@ use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\TeamController;
 use App\Http\Controllers\TeamContactController;
 use App\Http\Controllers\UniqueItemController;
+use App\Http\Controllers\LanguageController;
 
 /*
 |--------------------------------------------------------------------------
@@ -78,6 +79,5 @@ Route::group(['middleware' => ['auth', 'SetIwmsApiToken']], static function () {
         Route::delete('employee-unique-items/{employee}/{uniqueItem}', 'deleteEmployeeUniqueItems')->name('employee-unique-items.delete');
     });
 
-
-
+    Route::get('lang/{lang}', [LanguageController::class, 'switchLang'])->name('lang.switch');
 });

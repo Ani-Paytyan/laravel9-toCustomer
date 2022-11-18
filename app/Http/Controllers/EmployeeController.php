@@ -121,7 +121,47 @@ class EmployeeController extends Controller
         // ability to change the role of all contacts of contacts, except for super-admins
         $canEditRole = $employee->role !== IwmsApiUserDto::ROLE_SUPER_ADMIN;
 
-        return view('employees.edit', compact('employee', 'roles', 'canEditRole'));
+        // get workplaces
+        $workPlaces = $employee->workplaces()->orderBy('name', 'ASC')->get();
+        $workPlaceList = WorkPlace::where('company_id', $this->companyId)
+            ->whereNotIn('uuid', $workPlaces->pluck('uuid')->toArray())
+            ->orderBy('name', 'ASC')
+            ->pluck('name','uuid')
+            ->toArray();
+
+        // get unique items
+        $uniqueItemContacts = $employee->uniqueItems()->orderBy('name', 'ASC')->get();
+        $uniqueItemList = UniqueItem::with('item')->whereHas('workPlace', function (Builder $query) {
+            $query->where('company_id', $this->companyId);
+        })
+            ->whereNotIn('uuid', $uniqueItemContacts->pluck('uuid')->toArray())
+            ->orderBy('article', 'ASC')
+            ->get()
+            ->mapWithKeys(function ($item) {
+                return [$item['uuid'] => $item['name'] ?? $item->item->name . ' -  ' . $item['article']];
+            })->toArray();
+
+        // get employee team
+        $teams = $employee->teams()->orderBy('name', 'ASC')->get();
+        $teamRoles = TeamContact::getRoles();
+        $teamsList = Team::where('company_id', $this->companyId)
+            ->whereNotIn('uuid', $teams->pluck('uuid')->toArray())
+            ->orderBy('name', 'ASC')
+            ->pluck('name','uuid')
+            ->toArray();
+
+        return view('employees.edit', compact(
+            'employee',
+            'roles',
+            'canEditRole',
+            'workPlaces',
+            'workPlaceList',
+            'uniqueItemContacts',
+            'uniqueItemList',
+            'teams',
+            'teamRoles',
+            'teamsList'
+        ));
     }
 
     /**
@@ -157,68 +197,5 @@ class EmployeeController extends Controller
         }
 
         return redirect()->route('employees.index')->with('toast_error', __('page.employees.delete_error'));
-    }
-
-    /**
-     * @param Contact $employee
-     * @return Application|Factory|View
-     */
-    public function employeeTeams(Contact $employee)
-    {
-        $contactTeams = TeamContact::with('team')->where('contact_id', $employee->uuid)->get();
-        // get all team ids from table TeamUser if isset client
-        $teamsIds = $contactTeams->pluck('team_id')->toArray();
-        $roles = TeamContact::getRoles();
-
-        $teamsList = Team::where('company_id', $this->companyId)
-            ->whereNotIn('uuid', $teamsIds)
-            ->orderBy('name', 'ASC')
-            ->pluck('name','uuid')
-            ->toArray();
-
-        return view('teams.employee-teams', compact('employee','contactTeams', 'roles', 'teamsList'));
-    }
-
-    /**
-     * @param Contact $employee
-     * @return Application|Factory|View
-     */
-    public function employeeWorkPlaces(Contact $employee)
-    {
-        $contactWorkPlaces = $employee->workplaces()->orderBy('name', 'ASC');
-
-        $workPlaceList = WorkPlace::where('company_id', $this->companyId)
-            ->whereNotIn('uuid', $contactWorkPlaces->get()->pluck('uuid')->toArray())
-            ->orderBy('name', 'ASC')
-            ->pluck('name','uuid')
-            ->toArray();
-
-        $contactWorkPlaces = $contactWorkPlaces->paginate(10);
-
-        return view('employees.contacts', compact('employee','contactWorkPlaces', 'workPlaceList'));
-    }
-
-    /**
-     * @param Contact $employee
-     * @return Application|Factory|View
-     */
-    public function employeeUniqueItems(Contact $employee)
-    {
-        $uniqueItemContacts = $employee->uniqueItems()->orderBy('name', 'ASC');
-
-        $uniqueItemList = UniqueItem::whereHas('workPlace', function (Builder $query) {
-                $query->where('company_id', $this->companyId);
-            })
-            ->whereNotIn('uuid', $uniqueItemContacts->get()->pluck('uuid')->toArray())
-            ->orderBy('article', 'ASC')
-            ->select('uuid', 'name', 'article')
-            ->get()
-            ->mapWithKeys(function ($item) {
-                return [$item['uuid'] => $item['name'] ?? $item['article']];
-            })->toArray();
-
-        $uniqueItemContacts = $uniqueItemContacts->paginate(10);
-
-        return view('employees.employee-unique-items', compact('employee','uniqueItemContacts', 'uniqueItemList'));
     }
 }

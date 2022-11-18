@@ -1,13 +1,17 @@
-<h2> Commands: </h2>
-
-<p>
-docker-compose build <br>
-docker-compose up
-
+## Install:
+```bash
+cp .env.example .env
+docker-compose up -d --build
+docker-compose exec app composer install
+docker-compose exec app php artisan key:generate
+docker-compose exec app php artisan migrate --seed
+docker-compose run --rm app php artisan storage:link
 docker-compose exec app php artisan optimize
+docker-compose run --rm node npm install
+```
 
-docker-compose run --rm node npm i --save<br>
+## Develop:
+```bash
 docker-compose run --rm node npm run dev
-</p>
-
+```
 

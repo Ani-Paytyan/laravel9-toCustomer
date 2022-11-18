@@ -6,8 +6,8 @@ return [
     ],
 
     'login' => [
-        'title' => 'Login',
-        'sign_in_button' => 'Sign in',
+        'title' => 'Sign in',
+        'sign_in_button' => 'Login to your account',
     ],
     'employees' => [
         'employee' => 'Employee',

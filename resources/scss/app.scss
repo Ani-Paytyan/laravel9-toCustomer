@@ -1,0 +1,126 @@
+@import './variables';
+@import '~bootstrap';
+@import '~tom-select/src/scss/tom-select';
+@import '~tom-select/src/scss/tom-select.bootstrap4';
+
+// @import "@webpixels/css/core/functions";
+// @import "@webpixels/css/base";
+// @import "@webpixels/css/forms";
+// @import "@webpixels/css/components";
+// @import "@webpixels/css/utilities";
+
+//@import 'select2/src/scss/core';
+//@import 'select2-bootstrap-5-theme/src/include-all';
+
+//@import 'bootstrap';
+
+//@import 'components';
+
+html {
+  scroll-behavior: smooth;
+  font-size: 14px;
+}
+
+body {
+  min-width: 320px;
+}
+
+[x-cloak] {
+  display: none !important;
+}
+
+.form-label {
+  font-weight: 600;
+}
+
+.btn {
+  &:not(.btn-square) svg {
+    height: 1em;
+    width: 1em;
+    margin-right: 0.25em;
+    opacity: 0.75;
+  }
+  &-square {
+    position: relative;
+    &::after {
+      content: '';
+      display: block;
+      width: 1em;
+      height: 1em;
+    }
+    svg {
+      position: absolute;
+      width: 1.5em;
+      height: 1.5em;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+    &:not(.btn-sm):not(.btn-lg) {
+      padding: $btn-padding-y;
+    }
+    &.btn-sm {
+      padding: $btn-padding-y-sm;
+    }
+    &.btn-lg {
+      padding: $btn-padding-y-lg;
+    }
+  }
+}
+
+.header {
+  height: 5rem;
+}
+
+.nav {
+  .nav-list {
+    display: flex;
+    li {
+      a {
+        padding: $btn-padding-y $btn-padding-x;
+        &:hover {
+          background-color: $gray-100;
+        }
+      }
+    }
+  }
+}
+
+.mobile-nav {
+  position: fixed;
+  top: calc(5rem + 2px);
+  left: 0;
+  width: 100%;
+  height: calc(100vh - 5rem - 2px);
+  background-color: white;
+  overflow-x: auto;
+  padding: 15px;
+  .nav-list {
+    li {
+      a {
+        font-size: 1.5rem;
+        width: 100%;
+        line-height: 3.5rem;
+      }
+    }
+  }
+}
+
+.nav,
+.mobile-nav {
+  .nav-list {
+    @include list-unstyled;
+    margin: 0;
+    li {
+      a {
+        color: $dark;
+        font-weight: 600;
+        display: inline-block;
+        border-radius: $border-radius;
+        &:hover {
+          text-decoration: none;
+        }
+      }
+    }
+  }
+}

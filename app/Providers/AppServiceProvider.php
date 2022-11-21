@@ -26,6 +26,7 @@ use App\Services\WorkPlace\WorkPlaceServiceInterface;
 use App\Services\WorkPlaceContact\WorkPlaceContactService;
 use App\Services\WorkPlaceContact\WorkPlaceContactServiceInterface;
 use Illuminate\Contracts\Auth\UserProvider as UserProviderInterface;
+use Illuminate\Pagination\Paginator;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -58,6 +59,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        Paginator::useBootstrapFour();
     }
 }

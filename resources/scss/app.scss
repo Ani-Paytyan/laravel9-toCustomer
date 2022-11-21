@@ -1,5 +1,6 @@
 @import './variables';
 @import '~bootstrap';
+@import '~notyf/notyf.min';
 @import '~tom-select/src/scss/tom-select';
 @import '~tom-select/src/scss/tom-select.bootstrap4';
 
@@ -23,6 +24,26 @@ html {
 
 body {
   min-width: 320px;
+  background-color: $gray-100;
+}
+
+a {
+  &:link,
+  &:active,
+  &:hover,
+  &:visited {
+    text-decoration: none;
+  }
+}
+
+@keyframes button-loading-rotate {
+  0% {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+
+  100% {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
 }
 
 [x-cloak] {
@@ -45,13 +66,13 @@ body {
     &::after {
       content: '';
       display: block;
-      width: 1em;
-      height: 1em;
+      width: 1rem;
+      height: 1rem;
     }
     svg {
       position: absolute;
-      width: 1.5em;
-      height: 1.5em;
+      width: 1.25rem;
+      height: 1.25rem;
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
@@ -70,6 +91,7 @@ body {
 
 .header {
   height: 5rem;
+  background-color: white;
 }
 
 .nav {
@@ -124,3 +146,28 @@ body {
     }
   }
 }
+
+.table {
+  &-records {
+    margin-bottom: 0;
+    min-width: 720px;
+    thead {
+      th {
+        &:last-of-type {
+          text-align: right;
+        }
+      }
+    }
+    tbody {
+      td {
+        vertical-align: middle;
+
+        &:last-of-type {
+          text-align: right;
+        }
+      }
+    }
+  }
+}
+
+@import 'dark';

@@ -1,3 +1,4 @@
+
 @extends('layout.base')
 
 @php
@@ -14,7 +15,7 @@
 @section('page')
     <div class="min-vh-100 d-flex flex-column">
         <main class="flex-grow-1">
-            <header class="header sticky-top px-3 bg-white shadow-sm d-flex align-items-center" x-data="header" x-cloak>
+            <header class="header sticky-top px-3 shadow-sm d-flex align-items-center" x-data="header" x-cloak>
                 <a href="{{ route('dashboard') }}">
                     <img src="{{ asset('icon.svg') }}" width="48" height="48" alt="{{ config('app.name') }}">
                 </a>
@@ -28,7 +29,15 @@
                     </ul>
                 </nav>
                 <div class="ml-auto">
-                    <a class="btn btn-square" href="{{ route('dashboard') }}" title="{{ __('page.dashboard.title') }}">
+                    <button type="button" class="btn btn-square d-none" @click="$store.darkMode.toggle()">
+                        <x-heroicon-o-sun x-show="$store.darkMode.on" />
+                        <x-heroicon-o-moon x-show="!$store.darkMode.on" />
+                    </button>
+                    <a
+                        class="btn btn-square"
+                        href="{{ route('dashboard') }}"
+                        title="{{ auth()->user()->getFirstName() }} {{ auth()->user()->getLastName() }}"
+                    >
                         <x-heroicon-o-user />
                     </a>
                     <a class="btn btn-square" href="{{ route('auth.logout') }}" title="{{ __('common.logout') }}">

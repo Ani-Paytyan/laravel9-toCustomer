@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="{{ mix('build/css/app.css') }}">
     @stack('headEnd')
 </head>
-<body class="bg-light">
+<body x-data :class="$store.darkMode.on && 'dark-theme'">
     @include('sweetalert::alert')
     @stack('bodyStart')
     @yield('page')

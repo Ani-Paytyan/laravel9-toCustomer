@@ -1,7 +1,7 @@
-<div class="form-check">
+<div class="custom-control custom-checkbox">
     <input
         @class([
-            'form-check-input',
+            'custom-control-input',
             'is-invalid' => $controlErrors
         ])
         type="checkbox"

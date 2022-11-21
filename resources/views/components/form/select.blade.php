@@ -7,7 +7,6 @@
 @include('components.form._label')
 
 <select
-    style="width: 100%"
     {{ $attributes }}
     data-placeholder="{{ $attributes->get('placeholder') ?? '' }}"
     @if (!$attributes->get('required')) data-allow-clear="true" @endif

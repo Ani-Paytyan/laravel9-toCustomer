@@ -34,8 +34,8 @@ class AuthController extends Controller
      *             @OA\Schema(
      *              @OA\Property(
      *                 property="data",
-     *                 type="array",
-     *                 @OA\Items(ref="#/components/schemas/UserResource"),
+     *                 type="object",
+     *                 ref="#/components/schemas/UserResource"
      *             ),
      *              @OA\Property(
      *                 property="access_token",

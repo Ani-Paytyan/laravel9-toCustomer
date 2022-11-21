@@ -15,3 +15,14 @@ docker-compose run --rm node npm install
 docker-compose run --rm node npm run dev
 ```
 
+<h3>Swagger :</h3>
+<p>
+Generate:
+
+docker-compose exec app php artisan l5-swagger:generate
+
+Link:
+
+/api/documentation
+</p>
+

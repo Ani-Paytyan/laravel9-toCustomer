@@ -8,15 +8,14 @@ use App\Dto\IwmsApi\IwmsApiUserDto;
 use App\Http\Requests\Employee\EmployeeCreateRequest;
 use App\Http\Requests\Employee\EmployeeEditRequest;
 use App\Models\Contact;
-use App\Models\Team;
 use App\Models\TeamContact;
-use App\Models\WorkPlace;
-use App\Models\UniqueItem;
+use App\Queries\Team\TeamQuery;
+use App\Queries\UniqueItem\UniqueItemQuery;
+use App\Queries\Workplace\WorkplaceQuery;
 use App\Services\Facades\IwmsContactFacade;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -106,35 +105,38 @@ class EmployeeController extends Controller
 
     /**
      * @param Contact $employee
+     * @param WorkplaceQuery $workplaceQuery
+     * @param UniqueItemQuery $uniqueItemQuery
+     * @param TeamQuery $teamQuery
      * @return Application|Factory|View
      */
-    public function edit(Contact $employee)
-    {
+    public function edit(
+        Contact $employee,
+        WorkplaceQuery $workplaceQuery,
+        UniqueItemQuery $uniqueItemQuery,
+        TeamQuery $teamQuery
+    ) {
         Gate::authorize('edit-employee');
-
+        // employees roles
         $roles = [
             IwmsApiUserDto::ROLE_ADMIN => IwmsApiUserDto::ROLE_ADMIN,
             IwmsApiUserDto::ROLE_MANAGER => IwmsApiUserDto::ROLE_MANAGER,
             IwmsApiUserDto::ROLE_WORKER => IwmsApiUserDto::ROLE_WORKER,
         ];
-
+        // get teams roles
+        $teamRoles = TeamContact::getRoles();
         // ability to change the role of all contacts of contacts, except for super-admins
         $canEditRole = $employee->role !== IwmsApiUserDto::ROLE_SUPER_ADMIN;
-
         // get workplaces
         $workPlaces = $employee->workplaces()->orderBy('name', 'ASC')->get();
-        $workPlaceList = WorkPlace::where('company_id', $this->companyId)
-            ->whereNotIn('uuid', $workPlaces->pluck('uuid')->toArray())
+        $workPlaceList = $workplaceQuery->getNotAssignedToContactQuery($employee, $this->companyId)
             ->orderBy('name', 'ASC')
             ->pluck('name','uuid')
             ->toArray();
 
         // get unique items
         $uniqueItemContacts = $employee->uniqueItems()->orderBy('name', 'ASC')->get();
-        $uniqueItemList = UniqueItem::with('item')->whereHas('workPlace', function (Builder $query) {
-            $query->where('company_id', $this->companyId);
-        })
-            ->whereNotIn('uuid', $uniqueItemContacts->pluck('uuid')->toArray())
+        $uniqueItemList = $uniqueItemQuery->getNotAssignedToContactQuery($employee, $this->companyId)
             ->orderBy('article', 'ASC')
             ->get()
             ->mapWithKeys(function ($item) {
@@ -143,9 +145,7 @@ class EmployeeController extends Controller
 
         // get employee team
         $teams = $employee->teams()->orderBy('name', 'ASC')->get();
-        $teamRoles = TeamContact::getRoles();
-        $teamsList = Team::where('company_id', $this->companyId)
-            ->whereNotIn('uuid', $teams->pluck('uuid')->toArray())
+        $teamsList = $teamQuery->getNotAssignedToContactQuery($employee, $this->companyId)
             ->orderBy('name', 'ASC')
             ->pluck('name','uuid')
             ->toArray();

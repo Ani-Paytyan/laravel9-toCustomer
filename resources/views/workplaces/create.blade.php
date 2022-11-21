@@ -21,7 +21,7 @@
                             id="name"
                             required
                             label="{{ __('attributes.user.name') }}"
-                            placeholder="{{ __('attributes.user.name') }}"
+                            placeholder="{{ __('attributes.workplace.enter_workplace_name') }}"
                             class="form-control-muted"
                             value="{{ old('name')}}"
                         />
@@ -34,7 +34,7 @@
                             type="text"
                             id="address"
                             label="{{ __('attributes.user.address') }}"
-                            placeholder="{{ __('attributes.user.address') }}"
+                            placeholder="{{ __('attributes.user.enter_address') }}"
                             class="form-control-muted"
                             value="{{ old('address')}}"
                         />
@@ -47,7 +47,7 @@
                             type="text"
                             id="zip"
                             label="{{ __('attributes.user.zip') }}"
-                            placeholder="{{ __('attributes.user.zip') }}"
+                            placeholder="{{ __('attributes.user.enter_zip') }}"
                             class="form-control-muted"
                             value="{{ old('zip')}}"
                         />
@@ -60,7 +60,7 @@
                             type="text"
                             id="city"
                             label="{{ __('attributes.user.city') }}"
-                            placeholder="{{ __('attributes.user.city') }}"
+                            placeholder="{{ __('attributes.user.enter_city') }}"
                             class="form-control-muted"
                             value="{{ old('city')}}"
                         />

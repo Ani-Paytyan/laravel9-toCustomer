@@ -59,6 +59,7 @@
                 <div class="container-fluid">
                     <div class="mb-npx">
                         <div class="d-flex align-items-center justify-content-end">
+                            <x-language/>
                             <div class="dropdown">
                                 <button class="btn btn-link dropdown-toggle" type="button" id="userNavDropdown" data-bs-toggle="dropdown" aria-expanded="false">
                                     {{ \Illuminate\Support\Facades\Auth::user()->getFirstName() }}

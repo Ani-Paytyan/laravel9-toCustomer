@@ -69,7 +69,17 @@ class EmployeeController extends Controller
             IwmsApiUserDto::ROLE_WORKER => IwmsApiUserDto::ROLE_WORKER,
         ];
 
-        return view('employees.invite', compact('roles'));
+        $teamsList = Team::where('company_id', $this->companyId)
+            ->orderBy('name', 'ASC')
+            ->pluck('name','uuid')
+            ->toArray();
+
+        $workPlaceList = WorkPlace::where('company_id', $this->companyId)
+            ->orderBy('name', 'ASC')
+            ->pluck('name','uuid')
+            ->toArray();
+
+        return view('employees.invite', compact('roles', 'teamsList', 'workPlaceList'));
     }
 
     public function show(Contact $employee)

@@ -1,12 +1,8 @@
 <div class="card">
     <div class="card-header">
-        <h4 class="text-center text-md-left mb-0">{{ __('page.teams.contacts') }}: {{ $team->name }}</h4>
+        <h4 class="mb-0">{{ __('page.teams.contacts') }}: {{ $team->name }}</h4>
     </div>
-    @if ($teamContacts->isEmpty())
-        <div class="card-body">
-            <i class="text-muted">{{ __('No contacts') }}</i>
-        </div>
-    @else
+    @if ($teamContacts->isNotEmpty())
         <div class="table-responsive">
             <table class="table table-records table-hover">
                 <thead>
@@ -21,8 +17,8 @@
                     @if ($teamContact)
                         <tr x-data="teamContactRow">
                             <td>
+                                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" x-show="loading"></span>
                                 <a href="{{ route('employees.show', $teamContact->uuid) }}">
-                                    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" x-show="loading"></span>
                                     {{ $teamContact->first_name ? $teamContact->getFullNameAttribute() : $teamContact->email }}
                                 </a>
                             </td>
@@ -64,6 +60,10 @@
                 @endforeach
                 </tbody>
             </table>
+        </div>
+    @else
+        <div class="card-body">
+            <i class="text-muted">{{ __('No contacts') }}</i>
         </div>
     @endif
 </div>

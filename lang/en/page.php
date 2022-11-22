@@ -108,6 +108,7 @@ return [
         'deleted_error' => 'Work Place Working Days default time not set',
     ],
     'additional_working_days' => [
+        'title' => 'Additional working days',
         'add_date' => 'Add date to additional working days',
         'add_date_btn' => 'Add date',
         'created_successfully' => 'Additional Working Day created successfully',

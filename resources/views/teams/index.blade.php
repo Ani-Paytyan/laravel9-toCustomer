@@ -1,5 +1,6 @@
 @extends('layout.dashboard')
 @section('title', __('page.teams.title'))
+
 @section('content')
     @include('layout.partials.messages')
     <div class="card">
@@ -12,7 +13,7 @@
                 </a>
             </div>
         </div>
-        <div class="card-body p-0">
+        @if ($teams->isNotEmpty())
             <div class="table-responsive">
                 <table class="table table-records table-hover">
                     <thead>
@@ -30,7 +31,7 @@
                                 {{ $team->name }}
                             </td>
                             <td>{{ $team->description }}</td>
-                            <td>
+                            <td class="text-nowrap">
                                 <a
                                     href="{{ route('teams.edit', $team->uuid) }}"
                                     class="btn btn-square"
@@ -50,6 +51,7 @@
                                         @click.prevent="destroy('{{ __("Are you sure?") }}')"
                                         class="btn btn-square text-danger"
                                         title="{{ __('page.teams.delete') }}"
+                                        :disabled="loading"
                                     >
                                         <x-heroicon-o-trash />
                                     </button>
@@ -60,10 +62,14 @@
                     </tbody>
                 </table>
             </div>
-        </div>
-        @if ($teams->hasPages())
-            <div class="card-footer pb-0">
-                {{ $teams->links() }}
+            @if ($teams->hasPages())
+                <div class="card-footer pb-0">
+                    {{ $teams->links() }}
+                </div>
+            @endif
+        @else
+            <div class="card-body">
+                <i class="text-muted">{{ __('No teams') }}</i>
             </div>
         @endif
     </div>

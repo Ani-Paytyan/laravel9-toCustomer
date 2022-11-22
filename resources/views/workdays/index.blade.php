@@ -1,5 +1,6 @@
 @extends('layout.dashboard')
 @section('title', __('page.company.workdays'))
+
 @section('content')
     @include('layout.partials.messages')
     <div class="card">
@@ -58,9 +59,7 @@
                                     required
                                     label="{{ __('page.company.from') }}"
                                     placeholder="{{ __('page.company.from') }}"
-                                    class="form-control-sm"
                                     value="{{ $workingDay->from }}"
-                                    x-bind:disabled="!checked"
                                 />
                             </div>
                             <div class="col-md mt-2">
@@ -71,9 +70,7 @@
                                     required
                                     label="{{ __('page.company.to') }}"
                                     placeholder="{{ __('page.company.to') }}"
-                                    class="form-control-sm"
                                     value="{{ $workingDay->to }}"
-                                    x-bind:disabled="!checked"
                                 />
                             </div>
                         </div>

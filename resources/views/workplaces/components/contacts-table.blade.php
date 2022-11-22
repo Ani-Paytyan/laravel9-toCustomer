@@ -1,57 +1,65 @@
-@if ($workPlaceContacts->count() !== 0)
-    <div class="mt-4 mb-4">
-        <h4>{{ __('page.workplace.contacts')}} :</h4>
+<div class="card">
+    <div class="card-header">
+        <h4 class="mb-0">{{ __('page.workplace.contacts')}}</h4>
     </div>
-    <div class="card mb-8">
+    @if ($workPlaceContacts->isNotEmpty())
         <div class="table-responsive">
-            <table class="table table-hover table-nowrap">
-                <thead class="table-light">
+            <table class="table table-records table-hover">
+                <thead>
                 <tr>
-                    <th scope="col">{{ __('attributes.user.name')}}</th>
-                    <th scope="col">{{ __('attributes.user.email')}}</th>
-                    <th scope="col">{{ __('attributes.user.role')}}</th>
-                    <th scope="col">{{ __('attributes.user.phone')}}</th>
-                    <th scope="col">{{ __('common.actions')}}</th>
+                    <th>{{ __('attributes.user.name')}}</th>
+                    <th>{{ __('attributes.user.email')}}</th>
+                    <th>{{ __('attributes.user.role')}}</th>
+                    <th>{{ __('attributes.user.phone')}}</th>
+                    <th>{{ __('common.actions')}}</th>
                 </tr>
                 </thead>
-                <tbody class="contact-list">
+                <tbody>
                 @foreach($workPlaceContacts as $workPlaceContact)
-                    <tr>
-                        <td>
-                            <a href="{{ route('employees.show', $workPlaceContact->uuid) }}">
-                                {{ $workPlaceContact->getFullNameAttribute() }}
-                            </a>
-                        </td>
-                        <td>{{ $workPlaceContact->email }}</td>
-                        <td>{{ $workPlaceContact->role }}</td>
-                        <td>{{ $workPlaceContact->phone }}</td>
-                        <td>
-                            <a href="{{ route('employees.show', $workPlaceContact->uuid) }}"
-                               class="btn btn-sm btn-neutral"
-                               data-toggle="tooltip"
-                               data-placement="top"
-                               title="{{ __('page.employees.employee') }}"
-                            >
-                                <i class="bi bi-eye-fill"></i>
-                            </a>
-                            @if (Gate::allows('destroy-workplace-contacts'))
-                                <a href="{{ route('workplace-employees.delete', [$workplace->uuid, $workPlaceContact->uuid]) }}"
-                                   class="btn btn-sm btn-neutral destroyContact"
-                                   data-toggle="tooltip"
-                                   data-placement="top"
-                                   title="{{ __('page.contact.delete') }}"
-                                >
-                                    <i class="bi bi-trash"></i>
+                    @if ($workPlaceContact)
+                        <tr x-data="workplaceContactRow">
+                            <td>
+                                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" x-show="loading"></span>
+                                <a href="{{ route('employees.show', $workPlaceContact->uuid) }}">
+                                    {{ $workPlaceContact->getFullNameAttribute() }}
                                 </a>
-                            @endif
-                        </td>
-                    </tr>
+                            </td>
+                            <td>{{ $workPlaceContact->email }}</td>
+                            <td>{{ $workPlaceContact->role }}</td>
+                            <td>{{ $workPlaceContact->phone }}</td>
+                            <td>
+                                <a
+                                    href="{{ route('employees.show', $workPlaceContact->uuid) }}"
+                                    class="btn btn-square"
+                                    title="{{ __('page.employees.employee') }}"
+                                >
+                                    <x-heroicon-o-eye />
+                                </a>
+                                @if (Gate::allows('destroy-workplace-contacts'))
+                                    <button
+                                        @click.prevent="destroy('{{ route('workplace-employees.delete', [$workplace->uuid, $workPlaceContact->uuid]) }}', '{{ __("Are you sure?") }}')"
+                                        class="btn btn-square text-danger"
+                                        title="{{ __('page.contact.delete') }}"
+                                        :disabled="loading"
+                                    >
+                                        <x-heroicon-o-trash />
+                                    </button>
+                                @endif
+                            </td>
+                        </tr>
+                    @endif
                 @endforeach
                 </tbody>
             </table>
         </div>
-    </div>
-    <div class="navigation">
-        {{ $workPlaceContacts->links() }}
-    </div>
-@endif
+        @if ($workPlaceContacts->hasPages())
+            <div class="card-footer pb-0">
+                {{ $workPlaceContacts->links() }}
+            </div>
+        @endif
+    @else
+        <div class="card-body">
+            <i class="text-muted">{{ __('No workplace\'s contacts') }}</i>
+        </div>
+    @endif
+</div>

@@ -5,7 +5,7 @@
     @include('layout.partials.messages')
     <div class="card">
         <div class="card-header">
-            <h4 class="text-center text-md-left mb-0">{{ __('page.teams.edit') }}: {{ $team->name }}</h4>
+            <h4 class="mb-0">{{ __('page.teams.edit') }}: {{ $team->name }}</h4>
         </div>
         <form
             class="mb-0"

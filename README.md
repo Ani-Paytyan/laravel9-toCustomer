@@ -10,7 +10,7 @@ docker-compose exec app php artisan optimize
 docker-compose run --rm node npm install
 ```
 
-## Develop:
+## Development:
 ```bash
 docker-compose run --rm node npm run dev
 ```

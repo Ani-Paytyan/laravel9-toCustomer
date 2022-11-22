@@ -32,7 +32,7 @@
                                             class="form-select role"
                                             :hide-default-option="true"
                                             :options="$teamRoles"
-                                            value="{{ $team->role }}"
+                                            value="{{ $team->pivot->role }}"
                                         />
                                     </td>
                                     <td>

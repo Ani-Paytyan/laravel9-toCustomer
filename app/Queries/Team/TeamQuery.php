@@ -19,4 +19,13 @@ class TeamQuery
             $query->where('contact_id', $contact->uuid);
         });
     }
+
+    /**
+     * @param string $companyId
+     * @return Builder
+     */
+    public function getAllTeams(string $companyId): Builder
+    {
+        return Team::where('company_id', $companyId);
+    }
 }

@@ -21,4 +21,17 @@ class UniqueItemQuery
             $query->where('contact_id', $contact->uuid);
         });
     }
+
+    /**
+     * @param string $companyId
+     * @return Builder
+     */
+    public function getAllUniqueItems(string $companyId): Builder
+    {
+        return UniqueItem::select('unique_items.*')
+            ->join('items', 'items.uuid', '=', 'unique_items.item_id')
+            ->whereHas('workPlace', static function (Builder $query) use ($companyId) {
+                $query->where('company_id', $companyId);
+            });
+    }
 }

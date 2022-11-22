@@ -19,4 +19,13 @@ class WorkplaceQuery
             $query->where('contact_id', $contact->uuid);
         });
     }
+
+    /**
+     * @param string $companyId
+     * @return Builder
+     */
+    public function getAllWorkplaces(string $companyId): Builder
+    {
+        return WorkPlace::where('company_id', $companyId);
+    }
 }

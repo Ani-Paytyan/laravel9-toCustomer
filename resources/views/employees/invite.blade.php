@@ -46,7 +46,6 @@
                             <x-form.select
                                 name="team"
                                 id="team"
-                                required
                                 label="{{ __('page.teams.title') }}"
                                 placeholder="{{ __('page.teams.title') }}"
                                 class="form-select form-control-muted"
@@ -60,7 +59,6 @@
                             <x-form.select
                                 name="workplace"
                                 id="workplace"
-                                required
                                 label="{{ __('page.workplaces.title') }}"
                                 placeholder="{{ __('page.workplaces.title') }}"
                                 class="form-select form-control-muted"
@@ -72,14 +70,13 @@
                     <div class="row mb-3 g-2">
                         <div class="col-md">
                             <x-form.select
-                                name="workplace"
-                                id="workplace"
-                                required
-                                label="{{ __('page.workplaces.title') }}"
-                                placeholder="{{ __('page.workplaces.title') }}"
+                                name="uniqueItem"
+                                id="uniqueItem"
+                                label="{{ __('page.unique-items.title') }}"
+                                placeholder="{{ __('page.unique-items.title') }}"
                                 class="form-select form-control-muted"
-                                :options="$workPlaceList"
-                                value="{{ old('workplace') }}"
+                                :options="$uniqueItems"
+                                value="{{ old('uniqueItem') }}"
                             />
                         </div>
                     </div>

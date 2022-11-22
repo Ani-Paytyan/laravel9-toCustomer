@@ -58,8 +58,11 @@ class EmployeeController extends Controller
      * Invite a contact view
      * @return Application|Factory|View
      */
-    public function create()
-    {
+    public function create(
+        TeamQuery $teamQuery,
+        WorkplaceQuery $workplaceQuery,
+        UniqueItemQuery $uniqueItemQuery
+    ) {
         Gate::authorize('invite-employee');
 
         $roles = [
@@ -68,17 +71,26 @@ class EmployeeController extends Controller
             IwmsApiUserDto::ROLE_WORKER => IwmsApiUserDto::ROLE_WORKER,
         ];
 
-        $teamsList = Team::where('company_id', $this->companyId)
+        $teamsList = $teamQuery->getAllTeams($this->companyId)
             ->orderBy('name', 'ASC')
             ->pluck('name','uuid')
             ->toArray();
 
-        $workPlaceList = WorkPlace::where('company_id', $this->companyId)
+        $workPlaceList = $workplaceQuery->getAllWorkplaces($this->companyId)
             ->orderBy('name', 'ASC')
             ->pluck('name','uuid')
             ->toArray();
 
-        return view('employees.invite', compact('roles', 'teamsList', 'workPlaceList'));
+        $uniqueItems = $uniqueItemQuery->getAllUniqueItems($this->companyId)
+            ->orderBy('items.name')
+            ->get()
+            ->mapWithKeys(function ($item) {
+                return [
+                    $item->uuid => $item->name ?? ($item->item ? $item->item->name : '') . ' - ' . $item->article
+                ];
+            })->toArray();
+
+        return view('employees.invite', compact('roles', 'teamsList', 'workPlaceList', 'uniqueItems'));
     }
 
     public function show(Contact $employee)
@@ -106,7 +118,13 @@ class EmployeeController extends Controller
 
         $iwmsApiContactDto = IwmsApiContactDto::createFromRequest($request->all(), $this->companyId);
 
-        if ($iwmsContactFacade->invite($iwmsApiContactDto)) {
+        $employee = $iwmsContactFacade->invite($iwmsApiContactDto);
+
+        if ($employee) {
+            $employee->workplaces()->attach($iwmsApiContactDto->getWorkPlace());
+            $employee->teams()->attach($iwmsApiContactDto->getTeam());
+            $employee->uniqueItems()->attach($iwmsApiContactDto->getUniqueItem());
+
             return redirect()->route('employees.index')->with('toast_success', __('page.employees.invite_successfully'));
         }
 

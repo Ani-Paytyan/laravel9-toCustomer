@@ -7,6 +7,7 @@
         <div class="container-fluid">
             <div class="p-2 pb-4">
                 <h4><i class="bi bi-file-person"></i> {{ __('page.employees.employee') }} : {{ $employee->getFullNameAttribute() }}</h4>
+                <p>{{ __('attributes.user.email')}} : {{ $employee->email }}</p>
                 @if ($employee->city)
                     <p>{{ __('attributes.user.city')}} : {{ $employee->city }}</p>
                 @endif

@@ -11,8 +11,11 @@ return [
         'last_name' => 'Last name',
         'phone' => 'Phone',
         'address' => 'Address',
+        'enter_address' => 'Enter address',
         'city' => 'City',
+        'enter_city' => 'Enter city',
         'zip' => 'Zip',
+        'enter_zip' => 'Enter index',
         'id' => 'Id',
     ],
     'employees' => [
@@ -23,6 +26,7 @@ return [
     ],
     'workplace' => [
         'name' => 'Name',
+        'enter_workplace_name' => 'Enter workplace name',
         'address' => 'Address',
     ],
     'workplace_description' => [

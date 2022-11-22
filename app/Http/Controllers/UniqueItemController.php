@@ -10,9 +10,12 @@ use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Request;
 
 class UniqueItemController extends Controller
 {
+    const PAGE = 10;
+
     use ContactTrait;
 
     protected $user;
@@ -29,17 +32,20 @@ class UniqueItemController extends Controller
     }
 
     /**
+     * @param Request $request
      * @return Application|Factory|View
      */
-    public function index()
+    public function index(Request $request)
     {
         $uniqueItems = UniqueItem::select('unique_items.*')
             ->join('items', 'items.uuid', '=', 'unique_items.item_id')
             ->orderBy('items.name')
             ->whereHas('workPlace', function (Builder $query) {
                 $query->where('company_id', $this->companyId);
-            })
-            ->paginate(20);
+            });
+
+        $uniqueItems = ($request->get('limit')) ? $uniqueItems->paginate($request->get('limit'))
+            : $uniqueItems->paginate(self::PAGE);
 
         return view('unique-items.index', compact('uniqueItems'));
     }

@@ -28,7 +28,17 @@
                     </ul>
                 </nav>
                 <div class="ml-auto">
-                    <x-language/>
+                    <x-language />
+
+                    <a
+                        class="btn btn-square"
+                        href="#"
+                        data-bs-toggle="modal"
+                        data-bs-target=".supportModal"
+                        title="{{ __('page.support.title') }}"
+                    >
+                        <x-heroicon-o-lifebuoy />
+                    </a>
                     @if (Gate::allows('create-working-days'))
                         <a
                             class="btn btn-square"
@@ -64,7 +74,6 @@
                                 <li><a href="{{ $navItem['route'] }}">{{ $navItem['label'] }}</a></li>
                             @endif
                         @endforeach
-                        <li><a href="#" data-bs-toggle="modal" data-bs-target=".supportModal">{{ __('page.support.title')}}</a></li>
                     </ul>
                 </nav>
             </header>

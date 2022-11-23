@@ -73,9 +73,23 @@
                                 type="text"
                                 id="number"
                                 label="{{ __('attributes.workplaces.number') }}"
-                                placeholder="{{ __('attributes.workplaces.number') }}"
+                                placeholder="{{ __('attributes.workplaces.enter_number') }}"
                                 class="form-control-muted"
                                 value="{{ old('number') ?? $workplace->number }}"
+                            />
+                        </div>
+                    </div>
+                    <div class="row mb-3 g-2">
+                        <div class="col-md">
+                            <x-form.textarea
+                                    name="description"
+                                    type="text"
+                                    id="description"
+                                    data-bs-toggle="tooltip" data-bs-html="true" title="{{ __('attributes.workplace_description.tooltip_info') }}"
+                                    label="{{ __('attributes.workplace_description.title') }}"
+                                    placeholder="{{ __('attributes.workplace_description.enter_title') }}"
+                                    class="form-control-muted"
+                                    value="{{ old('description') ?? $workplace->description }}"
                             />
                         </div>
                     </div>

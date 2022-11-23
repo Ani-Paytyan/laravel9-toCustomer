@@ -20,11 +20,12 @@ return [
     ],
 
     'workplace_description' => [
-        'title' => 'Beskrivning av arbetsplatsen',
+        'title' => 'Beskrivning',
+        'enter_title' => 'Ange Arbetsplatsbeskrivning',
         'text_validation' => [
             'symbol_count_up' => 'Beskrivningen får vara upp till 500 tecken.'
         ],
-        'tooltype_info' => 'Detta information kommer att skickas till vaktbolag vid eventuellt stöldförsök. Beskriv arbetsplatsen så att man kan enkelt känna igen den. Om det finns någon beteckning på utsidan ange den också här.',
+        'tooltip_info' => 'Detta information kommer att skickas till vaktbolag vid eventuellt stöldförsök. Beskriv arbetsplatsen så att man kan enkelt känna igen den. Om det finns någon beteckning på utsidan ange den också här.',
         'create_success' => 'Du skapade framgångsrikt'
     ],
     'workplace' => [
@@ -33,6 +34,7 @@ return [
         'address' => 'Adress',
     ],
     'workplaces' => [
-        'number' => 'Angä märkning',
+        'number' => 'Märkning',
+        'enter_number' => 'Angä märkning',
     ],
 ];

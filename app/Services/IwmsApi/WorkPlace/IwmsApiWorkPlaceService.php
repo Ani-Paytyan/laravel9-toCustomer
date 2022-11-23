@@ -56,7 +56,8 @@ class IwmsApiWorkPlaceService extends AbstractIwmsApi implements IwmsApiWorkPlac
             'address' => $apiWorkPlaceDto->getAddress(),
             'zip' => $apiWorkPlaceDto->getZip(),
             'city' => $apiWorkPlaceDto->getCity(),
-            'number' => $apiWorkPlaceDto->getNumber()
+            'number' => $apiWorkPlaceDto->getNumber(),
+            'description' => $apiWorkPlaceDto->getDescription()
         ]);
 
         if ($response && $response->status() === 200) {

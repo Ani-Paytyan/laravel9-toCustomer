@@ -22,7 +22,8 @@ return [
         'portal_access' => 'Portal Access',
     ],
     'workplaces' => [
-        'number' => 'Number',
+        'number' => 'Marking',
+        'enter_number' => 'Enter marking',
     ],
     'workplace' => [
         'name' => 'Name',
@@ -30,7 +31,8 @@ return [
         'address' => 'Address',
     ],
     'workplace_description' => [
-        'title' => 'Workplace description',
+        'title' => 'Description',
+        'enter_title' => 'Enter Workplace description',
         'text_validation' => [
             'symbol_count_up' => 'The description may be up to 500 characters.'
         ],

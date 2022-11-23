@@ -17,5 +17,8 @@ yarn-error.log
 /.docker/node/.npm/_logs
 /storage/debugbar
 /public/mix-manifest.json
+/storage/api-docs
+_ide_helper.php
+.phpstorm.meta.php
 docker-compose.override.yml
 .DS_Store

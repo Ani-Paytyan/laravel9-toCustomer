@@ -18,6 +18,7 @@ use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
@@ -220,5 +221,40 @@ class EmployeeController extends Controller
         $uniqueItemContacts = $uniqueItemContacts->paginate(10);
 
         return view('employees.employee-unique-items', compact('employee','uniqueItemContacts', 'uniqueItemList'));
+    }
+
+    public function archive(Request $request)
+    {
+        $employees = Contact::where('company_id', $this->companyId)
+            ->onlyTrashed()
+            ->orderBy(DB::raw('ISNULL(first_name), first_name'), 'ASC')
+            ->orderBy(DB::raw('ISNULL(last_name), last_name'), 'ASC')
+            ->paginate(20);
+
+        return view('employees.archive', compact('employees'));
+    }
+
+    /**
+     * @param $id
+     * @return Application|Factory|View|RedirectResponse
+     */
+    public function employeeArchive($id)
+    {
+        $employee = Contact::withTrashed()->where('uuid', $id)->first();
+
+        if ($employee) {
+            return $this->show($employee);
+        }
+
+        return redirect()->back();
+    }
+
+    public function restore($id, IwmsContactFacade $iwmsContactFacade)
+    {
+        $employee = Contact::withTrashed()->where('uuid', $id)->first();
+
+        if ($iwmsContactFacade->restore($employee)) {
+            return redirect()->route('employees.index')->with('toast_success', __('page.employees.invite_successfully'));
+        }
     }
 }

@@ -6,16 +6,19 @@
     <main class="py-6 bg-surface-secondary">
         <div class="container-fluid">
             @include('layout.partials.messages')
-            @if (Gate::allows('invite-employee'))
                 <div>
                     <h4><i class="bi bi-people"></i> {{ __('page.employees.title')}}</h4>
-                    <div class="create-button">
-                        <a href="{{ route('employees.create') }}" class="btn btn-sm btn-success">
-                            <i class="bi bi-person"></i> {{ __('page.employees.invite_employee')}}
-                        </a>
-                    </div>
+                    @if (Gate::allows('invite-employee'))
+                        <div class="create-button">
+                            <a href="{{ route('employees.create') }}" class="btn btn-success">
+                                <i class="bi bi-person"></i> {{ __('page.employees.invite_employee')}}
+                            </a>
+                            <a href="{{ route('employees.archive') }}" class="btn btn-sm btn-secondary">
+                                <i class="bi bi-file-earmark-zip"></i> {{ __('page.employees.archive')}}
+                            </a>
+                        </div>
+                    @endif
                 </div>
-            @endif
             <div class="card mb-8">
                 <div class="table-responsive">
                     <table class="table table-hover table-nowrap">
@@ -89,12 +92,12 @@
                                                   action="{{ route('employees.destroy', $employee->uuid) }}"
                                                   data-toggle="tooltip"
                                                   data-placement="top"
-                                                  title="{{ __('page.employees.delete_employee') }}"
+                                                  title="{{ __('page.employees.archive_employee') }}"
                                             >
                                                 {{ csrf_field() }}
                                                 {{ method_field('DELETE') }}
-                                                <button class="btn btn-sm btn-danger delete-employee">
-                                                    <i class="bi bi-trash"></i>
+                                                <button class="btn btn-sm btn-neutral delete-employee">
+                                                    <i class="bi bi-file-earmark-zip"></i>
                                                 </button>
                                             </form>
                                         @endif

@@ -12,8 +12,12 @@ return [
     'employees' => [
         'employee' => 'Employee',
         'title' => 'Employees',
+        'archive' => 'Archive',
+        'employees_archive' => 'Employees archive',
+        'restore_employee' => 'Restore Employee',
         'edit_employee' => 'Edit employee',
         'delete_employee' => 'Delete employee',
+        'archive_employee' => 'Archive Employee',
         'invite_employee' => 'Invite employee',
         'invite_successfully' => 'Contact invited successfully',
         'invite_error' => 'Contact not invited',

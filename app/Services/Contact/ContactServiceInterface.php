@@ -27,5 +27,11 @@ interface ContactServiceInterface
      * @param Contact $contact
      * @return bool
      */
+    public function restore(Contact $contact): bool;
+
+    /**
+     * @param Contact $contact
+     * @return bool
+     */
     public function destroy(Contact $contact): bool;
 }

@@ -47,6 +47,7 @@ return [
         'unique_item_name' => 'Unique item Name',
         'unique_item_article' => 'Unique item Article',
         'status' => 'Status',
+        'select_all' => 'Select All'
     ],
     'version' => 'v'
 ];

@@ -44,8 +44,10 @@ return [
     'unique-items' => [
         'item_name' => 'Item Name',
         'item_serial_number' => 'Item serial number',
+        'article' => 'Article',
         'unique_item_name' => 'Unique item Name',
         'unique_item_article' => 'Unique item Article',
+        'name' => 'Name',
         'status' => 'Status',
         'connected_to' => 'Connected to',
         'workplace' => 'Workplace',

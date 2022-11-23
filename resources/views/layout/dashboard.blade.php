@@ -72,7 +72,7 @@
                 @yield('content')
             </div>
         </main>
-        <footer class="flex-shrink-0">
+        <footer class="px-3 py-1 bg-white flex-shrink-0">
             <small class="text-muted">{{ AppVersionHelper::getAppVersion() }}</small>
         </footer>
     </div>

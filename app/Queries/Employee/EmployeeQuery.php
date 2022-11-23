@@ -8,7 +8,7 @@ use App\Models\UniqueItem;
 use App\Models\WorkPlace;
 use Illuminate\Database\Eloquent\Builder;
 
-class EmployeeQuery
+class EmployeeQuery implements EmployeeQueryInterface
 {
     /**
      * @param WorkPlace $workplace

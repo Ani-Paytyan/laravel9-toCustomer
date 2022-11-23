@@ -9,9 +9,9 @@ use App\Http\Requests\Employee\EmployeeCreateRequest;
 use App\Http\Requests\Employee\EmployeeEditRequest;
 use App\Models\Contact;
 use App\Models\TeamContact;
-use App\Queries\Team\TeamQuery;
-use App\Queries\UniqueItem\UniqueItemQuery;
-use App\Queries\Workplace\WorkplaceQuery;
+use App\Queries\Team\TeamQueryInterface;
+use App\Queries\UniqueItem\UniqueItemQueryInterface;
+use App\Queries\Workplace\WorkplaceQueryInterface;
 use App\Services\Facades\IwmsContactFacade;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
@@ -105,16 +105,16 @@ class EmployeeController extends Controller
 
     /**
      * @param Contact $employee
-     * @param WorkplaceQuery $workplaceQuery
-     * @param UniqueItemQuery $uniqueItemQuery
-     * @param TeamQuery $teamQuery
+     * @param WorkplaceQueryInterface $workplaceQuery
+     * @param UniqueItemQueryInterface $uniqueItemQuery
+     * @param TeamQueryInterface $teamQuery
      * @return Application|Factory|View
      */
     public function edit(
         Contact $employee,
-        WorkplaceQuery $workplaceQuery,
-        UniqueItemQuery $uniqueItemQuery,
-        TeamQuery $teamQuery
+        WorkplaceQueryInterface $workplaceQuery,
+        UniqueItemQueryInterface $uniqueItemQuery,
+        TeamQueryInterface $teamQuery
     ) {
         Gate::authorize('edit-employee');
         // employees roles

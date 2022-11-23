@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\UniqueItem;
-use App\Queries\Employee\EmployeeQuery;
+use App\Queries\Employee\EmployeeQueryInterface;
 use DB;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
@@ -44,10 +44,10 @@ class UniqueItemController extends Controller
 
     /**
      * @param UniqueItem $uniqueItem
-     * @param EmployeeQuery $employeeQuery
+     * @param EmployeeQueryInterface $employeeQuery
      * @return Application|Factory|View
      */
-    public function show(UniqueItem $uniqueItem, EmployeeQuery $employeeQuery)
+    public function show(UniqueItem $uniqueItem, EmployeeQueryInterface $employeeQuery)
     {
         $uniqueItemContacts = $uniqueItem->contacts()
             ->orderBy(DB::raw('ISNULL(first_name), first_name'), 'ASC')

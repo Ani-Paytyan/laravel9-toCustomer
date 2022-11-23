@@ -6,7 +6,7 @@ use App\Models\Contact;
 use App\Models\WorkPlace;
 use Illuminate\Database\Eloquent\Builder;
 
-class WorkplaceQuery
+class WorkplaceQuery implements WorkplaceQueryInterface
 {
     /**
      * @param Contact $contact

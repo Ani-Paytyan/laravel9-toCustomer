@@ -6,7 +6,7 @@ use App\Models\Contact;
 use App\Models\UniqueItem;
 use Illuminate\Database\Eloquent\Builder;
 
-class UniqueItemQuery
+class UniqueItemQuery implements UniqueItemQueryInterface
 {
     /**
      * @param Contact $contact

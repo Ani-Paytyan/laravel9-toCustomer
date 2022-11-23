@@ -6,7 +6,7 @@ use App\Models\Contact;
 use App\Models\Team;
 use Illuminate\Database\Eloquent\Builder;
 
-class TeamQuery
+class TeamQuery implements TeamQueryInterface
 {
     /**
      * @param Contact $contact

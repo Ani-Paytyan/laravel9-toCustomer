@@ -7,7 +7,7 @@ use App\Dto\IwmsApi\WorkPlace\IwmsApiWorkPlaceEditDto;
 use App\Http\Requests\WorkPlace\WorkPlaceCreateRequest;
 use App\Http\Requests\WorkPlace\WorkPlaceEditRequest;
 use App\Models\WorkPlace;
-use App\Queries\Employee\EmployeeQuery;
+use App\Queries\Employee\EmployeeQueryInterface;
 use App\Services\Facades\IwmsWorkPlaceFacade;
 use DB;
 use Illuminate\Contracts\Foundation\Application;
@@ -57,10 +57,10 @@ class WorkPlaceController extends Controller
 
     /**
      * @param WorkPlace $workplace
-     * @param EmployeeQuery $employeeQuery
+     * @param EmployeeQueryInterface $employeeQuery
      * @return Application|Factory|View
      */
-    public function show(WorkPlace $workplace, EmployeeQuery $employeeQuery)
+    public function show(WorkPlace $workplace, EmployeeQueryInterface $employeeQuery)
     {
         // get workplace contacts
         $workPlaceContacts = $workplace->contacts()

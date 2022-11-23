@@ -8,7 +8,7 @@ use App\Http\Requests\Team\TeamStoreRequest;
 use App\Http\Requests\Team\TeamUpdateRequest;
 use App\Models\Team;
 use App\Models\TeamContact;
-use App\Queries\Employee\EmployeeQuery;
+use App\Queries\Employee\EmployeeQueryInterface;
 use App\Services\IwmsApi\Contact\IwmsApiContactServiceInterface;
 use App\Services\Team\TeamServiceInterface;
 use DB;
@@ -73,10 +73,10 @@ class TeamController extends Controller
 
     /**
      * @param Team $team
-     * @param EmployeeQuery $employeeQuery
+     * @param EmployeeQueryInterface $employeeQuery
      * @return Application|Factory|View
      */
-    public function edit(Team $team, EmployeeQuery $employeeQuery)
+    public function edit(Team $team, EmployeeQueryInterface $employeeQuery)
     {
         $roles = TeamContact::getRoles();
         $teamContacts = $team->contacts()->get();

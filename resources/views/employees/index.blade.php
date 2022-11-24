@@ -40,6 +40,16 @@
                                 <td>{{ $employee->role }}</td>
                                 <td>{{ $employee->status }} </td>
                                 <td>
+                                    @if($employee->status == 'Invited')
+                                        <a href=""
+                                           class="btn btn-sm btn-neutral"
+                                           data-toggle="tooltip"
+                                           data-placement="top"
+                                           title="{{ __('page.employees.resend_invitation') }}"
+                                        >
+                                            <i class="bi bi-envelope"></i>
+                                        </a>
+                                    @endif
                                     @if($employee->status != $statusDeleted)
                                         <a href="{{ route('employee.employee-workplaces', $employee->uuid) }}"
                                            class="btn btn-sm btn-neutral"

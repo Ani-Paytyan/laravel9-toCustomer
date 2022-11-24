@@ -23,6 +23,7 @@ return [
         'delete_successfully' => 'Contact deleted successfully',
         'delete_error' => 'Contact not deleted',
         'delete' => 'Contact delete',
+        'resend_invitation' => 'Resend invitation',
     ],
     'workplaces' => [
         'title' => 'Work Places',

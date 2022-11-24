@@ -37,6 +37,11 @@ Route::group(['middleware' => ['auth', 'SetIwmsApiToken']], static function () {
     Route::resource('employees', EmployeeController::class);
     Route::resource('workplaces', WorkPlaceController::class);
 
+    Route::controller(WorkPlaceController::class)->group(static function () {
+        Route::get('workplaces-archive', 'archive')->name('workplaces.archive');
+        //Route::get('workplace-archive/{workPlace}', 'archive')->name('workplaces.archive');
+    });
+
     Route::controller(WorkPlaceContactController::class)->group(function () {
         Route::post('workplace-employees/{workPlace}', 'storeWorkPlaceEmployees')->name('workplace-employees.store');
         Route::delete('workplace-employees/{workPlace}/{employee}', 'deleteWorkPlaceEmployees')->name('workplace-employees.delete');

@@ -147,4 +147,12 @@ class WorkPlaceController extends Controller
 
         return redirect()->route('workplaces.index')->with('toast_error', __('page.workplaces.deleted_error'));
     }
+
+    public function archive()
+    {
+        $workPlaces = WorkPlace::where('company_id', $this->companyId)
+            ->with('uniqueItems')
+            ->orderBy('name', 'ASC')
+            ->paginate(20);
+    }
 }

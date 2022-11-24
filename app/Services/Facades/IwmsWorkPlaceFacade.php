@@ -69,6 +69,21 @@ class IwmsWorkPlaceFacade
         return false;
     }
 
+    /**
+     * @param WorkPlace $workplace
+     * @param $id
+     * @return bool
+     */
+    public function restore(WorkPlace $workplace, $id): bool
+    {
+        $res = $this->apiWorkPlaceService->restore($id);
+
+        if ($res) {
+            return $this->workPlaceService->restore($workplace);
+        }
+
+        return false;
+    }
 
     /**
      * @param WorkPlace $workplace

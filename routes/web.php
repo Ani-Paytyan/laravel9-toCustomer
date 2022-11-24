@@ -39,7 +39,8 @@ Route::group(['middleware' => ['auth', 'SetIwmsApiToken']], static function () {
 
     Route::controller(WorkPlaceController::class)->group(static function () {
         Route::get('workplaces-archive', 'archive')->name('workplaces.archive');
-        //Route::get('workplace-archive/{workPlace}', 'archive')->name('workplaces.archive');
+        Route::get('workplace/{workPlace}/archive', 'archiveWorkPlace')->name('workplace.archive')->withTrashed();
+        Route::get('workplace/{workPlace}/restore', 'restore')->name('workplace.restore')->withTrashed();
     });
 
     Route::controller(WorkPlaceContactController::class)->group(function () {

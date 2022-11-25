@@ -3,7 +3,31 @@
 namespace App\Http\Requests\Auth;
 
 use Illuminate\Foundation\Http\FormRequest;
+use OpenApi\Annotations as OA;
 
+/**
+ * @OA\Schema(
+ *     title="Auth login request",
+ *     type="object",
+ *     schema="AuthLoginRequest",
+ *     required={"email", "password"},
+ *     @OA\Property(
+ *         type="string",
+ *         property="email",
+ *         example="test@example.com",
+ *     ),
+ *     @OA\Property(
+ *         type="string",
+ *         property="password",
+ *         example="12345678",
+ *     ),
+ *     @OA\Property(
+ *         type="string",
+ *         property="push_token",
+ *         example="6KuGyNKfO12E16iQfhprH5A00lrMnNje",
+ *     ),
+ * )
+ */
 class AuthLoginRequest extends FormRequest
 {
     /**

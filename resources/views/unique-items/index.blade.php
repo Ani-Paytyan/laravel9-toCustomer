@@ -22,6 +22,7 @@
                             <th scope="col">{{ __('attributes.unique-items.unique_item_name')}}</th>
                             <th scope="col">{{ __('attributes.unique-items.unique_item_article')}}</th>
                             <th scope="col">{{ __('attributes.unique-items.status')}}</th>
+                            <th scope="col">{{ __('attributes.unique-items.connected_to')}}</th>
                             <th scope="col">{{ __('common.actions')}}</th>
                         </tr>
                         </thead>
@@ -39,8 +40,15 @@
                                 <td>{{ $uniqueItem->item ? $uniqueItem->item->serial_number : ''}}</td>
                                 <td>{{ $uniqueItem->name ?? ($uniqueItem->item ? $uniqueItem->item->name : '') }}</td>
                                 <td>{{ $uniqueItem->article }}</td>
-                                <td>{{ $uniqueItem->is_online ? '+' : '-' }}</td>
+                                <td>{{ $uniqueItem->is_online ? '+' : '-' }}
                                 <td>
+                                    <span>{{ __('attributes.unique-items.workplace')}}: {{ $uniqueItem->workplace->name}}</span><br>
+                                    @if(count($uniqueItem->contacts))
+                                        <span>{{ __('attributes.unique-items.contacts')}}: </span>
+                                        {{ $uniqueItem->contacts->pluck('first_name')->join(', ') }}
+                                    @endif
+                                </td>
+                                    <td>
                                     <a href="{{ route('unique-items.show', $uniqueItem->uuid) }}"
                                        class="btn btn-sm btn-neutral"
                                        data-toggle="tooltip" data-placement="top" title="{{ __('page.unique-item.title') }}">

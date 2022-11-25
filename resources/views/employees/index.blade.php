@@ -41,30 +41,6 @@
                                 <td>{{ $employee->status }} </td>
                                 <td>
                                     @if($employee->status != $statusDeleted)
-                                        <a href="{{ route('employee.employee-workplaces', $employee->uuid) }}"
-                                           class="btn btn-sm btn-neutral"
-                                           data-toggle="tooltip"
-                                           data-placement="top"
-                                           title="{{ __('page.workplaces.title') }}"
-                                        >
-                                            <i class="bi bi-person-workspace"></i>
-                                        </a>
-                                        <a href="{{ route('employee.unique-items', $employee->uuid) }}"
-                                           class="btn btn-sm btn-neutral"
-                                           data-toggle="tooltip"
-                                           data-placement="top"
-                                           title="{{ __('page.unique-items.title') }}"
-                                        >
-                                            <i class="bi bi-handbag"></i>
-                                        </a>
-                                        <a href="{{ route('teams.employee-teams', $employee->uuid) }}"
-                                           class="btn btn-sm btn-neutral"
-                                           data-toggle="tooltip"
-                                           data-placement="top"
-                                           title="{{ __('page.teams.title') }}"
-                                        >
-                                            <i class="bi bi-microsoft-teams"></i>
-                                        </a>
                                         <a href="{{ route('employees.show', $employee->uuid) }}"
                                            class="btn btn-sm btn-neutral"
                                            data-toggle="tooltip"

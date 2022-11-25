@@ -3,12 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Dto\Team\TeamCreateDto;
+use App\Dto\Team\TeamSearchDto;
 use App\Dto\Team\TeamUpdateDto;
 use App\Http\Requests\Team\TeamStoreRequest;
 use App\Http\Requests\Team\TeamUpdateRequest;
 use App\Models\Team;
 use App\Models\TeamContact;
 use App\Queries\Employee\EmployeeQueryInterface;
+use App\Queries\Team\TeamQueryInterface;
 use App\Services\IwmsApi\Contact\IwmsApiContactServiceInterface;
 use App\Services\Team\TeamServiceInterface;
 use DB;
@@ -16,6 +18,7 @@ use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class TeamController extends Controller
@@ -26,6 +29,7 @@ class TeamController extends Controller
 
     public function __construct(
         protected IwmsApiContactServiceInterface $apiContactService,
+        protected TeamQueryInterface $teamQuery,
     )
     {
         $this->middleware(function ($request, $next) {
@@ -40,9 +44,16 @@ class TeamController extends Controller
     /**
      * @return Application|Factory|View
      */
-    public function index()
+    public function index(Request $request)
     {
-        $teams = Team::where('company_id', $this->companyId)->orderBy('name', 'ASC')->paginate(20);
+        $request->only('name', 'description');
+        $dto = TeamSearchDto::createFromRequest($request, $this->companyId);
+
+        $teams = $this->teamQuery->getSearchTeamQuery($dto)
+            ->orderBy('name', 'ASC')
+            ->paginate(20);
+     //   dd($teams);
+       // $teams = Team::where('company_id', $this->companyId)->orderBy('name', 'ASC')->paginate(20);
 
         return view('teams.index', compact('teams'));
     }

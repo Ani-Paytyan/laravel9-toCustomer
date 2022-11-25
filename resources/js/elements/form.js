@@ -14,3 +14,18 @@ $(".supportModalForm").submit(function(e) {
     sendAjax("POST", actionUrl, form.serialize(), false);
 });
 
+
+$('.filter-form').click(function(e){
+    $('#loading').show();
+});
+
+$('.filter-clean-form').click(function(e){
+    $('#loading').show();
+
+    let form = $(this);
+
+    $('input[data-type="search"]').val('');
+    $('input[data-type="search"]').trigger("keyup");
+});
+
+

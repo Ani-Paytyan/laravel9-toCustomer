@@ -48,5 +48,9 @@ return [
         'unique_item_article' => 'Unique item Article',
         'status' => 'Status',
     ],
+    'filter' => [
+        'title' => 'Filter',
+        'clean' => 'Clean Filter',
+    ],
     'version' => 'v'
 ];

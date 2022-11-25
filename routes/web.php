@@ -12,6 +12,7 @@ use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\TeamController;
 use App\Http\Controllers\TeamContactController;
 use App\Http\Controllers\UniqueItemController;
+use App\Http\Controllers\LanguageController;
 
 /*
 |--------------------------------------------------------------------------
@@ -75,4 +76,6 @@ Route::group(['middleware' => ['auth', 'SetIwmsApiToken']], static function () {
 
     // support controller
     Route::post('support-send', [SupportController::class, 'send'])->name('support.send');
+
+    Route::get('lang/{lang}', [LanguageController::class, 'switchLang'])->name('lang.switch');
 });

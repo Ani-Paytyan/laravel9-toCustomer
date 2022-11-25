@@ -12,7 +12,7 @@ $(document).ready(function() {
             role: $(this).parent().parent().find('.role option:selected').val()
         };
 
-        sendAjax("PUT", $(this).attr('href'), formData);
+        sendAjax("PUT", $(this).attr('href'), formData, false);
     });
 
     $(".destroyContact").click(function (e) {

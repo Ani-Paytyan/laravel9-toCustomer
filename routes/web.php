@@ -40,6 +40,7 @@ Route::group(['middleware' => ['auth', 'SetIwmsApiToken']], static function () {
         Route::get('/employee-teams/{employee}', 'employeeTeams')->name('teams.employee-teams');
         Route::get('/employee-workplaces/{employee}', 'employeeWorkPlaces')->name('employee.employee-workplaces');
         Route::get('/employee-unique-items/{employee}', 'employeeUniqueItems')->name('employee.unique-items');
+        Route::get('/employee-remind/{employee}', 'remindInvite')->name('employee.remind-invite');
     });
 
     Route::resource('workplaces', WorkPlaceController::class);

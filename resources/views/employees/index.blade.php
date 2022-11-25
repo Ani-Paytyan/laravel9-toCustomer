@@ -41,7 +41,7 @@
                                 <td>{{ $employee->status }} </td>
                                 <td>
                                     @if($employee->status == 'Invited')
-                                        <a href=""
+                                        <a href="{{ route('employee.remind-invite', $employee->uuid) }}"
                                            class="btn btn-sm btn-neutral"
                                            data-toggle="tooltip"
                                            data-placement="top"

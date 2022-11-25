@@ -85,4 +85,9 @@ class IwmsContactFacade
 
         return false;
     }
+
+    public function remindInvite(string $email): bool
+    {
+        return $this->apiContactService->remindInvite($email);
+    }
 }

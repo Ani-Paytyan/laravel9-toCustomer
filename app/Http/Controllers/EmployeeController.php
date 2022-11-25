@@ -221,4 +221,19 @@ class EmployeeController extends Controller
 
         return view('employees.employee-unique-items', compact('employee','uniqueItemContacts', 'uniqueItemList'));
     }
+
+    /**
+     * @param Contact $employee
+     * @param IwmsContactFacade $iwmsContactFacade
+     * @return RedirectResponse
+     */
+    public function remindInvite(Contact $employee, IwmsContactFacade $iwmsContactFacade): RedirectResponse
+    {
+        Gate::authorize('invite-employee');
+        if ($iwmsContactFacade->remindInvite($employee->email)) {
+            return redirect()->route('employees.index')->with('toast_success', __('page.employees.invite_successfully'));
+        }
+
+        return redirect()->route('employees.index')->with('toast_error', __('page.employees.invite_error'));
+    }
 }

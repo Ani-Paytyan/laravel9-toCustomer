@@ -23,6 +23,7 @@ return [
         'delete_successfully' => 'Employee deleted successfully',
         'delete_error' => 'Employee not deleted',
         'delete' => 'Employee delete',
+        'not_found' => 'Employees not found',
     ],
     'workplaces' => [
         'title' => 'Work Places',
@@ -37,6 +38,7 @@ return [
         'workplace' => 'Work place',
         'work_days' => 'Work place work days',
         'work_days_title' => 'work days',
+        'not_found' => 'Workplaces not found',
     ],
     'workplace' => [
         'title' => 'Work Place',
@@ -70,6 +72,7 @@ return [
         'deleted_error' => 'Team not deleted',
         'contacts' => 'Employees',
         'contact' => 'Employee',
+        'not_found' => 'Teams not found',
     ],
     'contact' => [
         'add_contact' => 'Add employee to team',

@@ -22,10 +22,8 @@ $('.filter-form').click(function(e){
 $('.filter-clean-form').click(function(e){
     $('#loading').show();
 
-    let form = $(this);
-
-    $('input[data-type="search"]').val('');
-    $('input[data-type="search"]').trigger("keyup");
+    $(this).closest('form').find("input[type=text], textarea").val("");
+    window.location.href = '?';
 });
 
 

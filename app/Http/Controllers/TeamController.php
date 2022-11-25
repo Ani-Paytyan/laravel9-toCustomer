@@ -42,18 +42,16 @@ class TeamController extends Controller
     }
 
     /**
+     * @param Request $request
      * @return Application|Factory|View
      */
     public function index(Request $request)
     {
-        $request->only('name', 'description');
         $dto = TeamSearchDto::createFromRequest($request, $this->companyId);
 
         $teams = $this->teamQuery->getSearchTeamQuery($dto)
             ->orderBy('name', 'ASC')
             ->paginate(20);
-     //   dd($teams);
-       // $teams = Team::where('company_id', $this->companyId)->orderBy('name', 'ASC')->paginate(20);
 
         return view('teams.index', compact('teams'));
     }

@@ -2,36 +2,26 @@
 
 namespace App\Dto\WorkPlace;
 
+use Illuminate\Http\Request;
+
 class WorkPlaceSearchDto
 {
-    private string $id;
-    private string $name;
+    private ?string $name;
     private string $companyId;
     private ?string $address;
     private ?string $zip;
     private ?string $city;
     private ?string $number;
 
-    public function getId(): string
-    {
-        return $this->id;
-    }
-
-    public function setId(string $id): self
-    {
-        $this->id = $id;
-        return $this;
-    }
-
     /**
-     * @return string
+     * @return string|null
      */
-    public function getName(): string
+    public function getName(): ?string
     {
         return $this->name;
     }
 
-    public function setName(string $name): self
+    public function setName(?string $name): self
     {
         $this->name = $name;
 
@@ -127,5 +117,14 @@ class WorkPlaceSearchDto
     {
         $this->number = $number;
         return $this;
+    }
+
+    public static function createFromRequest(Request $request, $companyId): self
+    {
+        return (new self())
+            ->setCompanyId($companyId)
+            ->setName($request->get('name'))
+            ->setAddress($request->get('address'))
+            ->setCity($request->get('city'));
     }
 }

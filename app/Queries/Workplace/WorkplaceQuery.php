@@ -29,16 +29,16 @@ class WorkplaceQuery implements WorkplaceQueryInterface
     {
         $query = Workplace::query();
 
-        if ($dto->getId() !== null) {
-            $query->where('uuid', '=', $dto->getId());
-        }
-
         if ($dto->getName() !== null) {
-            $query->where('name', '=', $dto->getName());
+            $query->where('name', 'like', "%{$dto->getName()}%");
         }
 
         if ($dto->getAddress() !== null) {
-            $query->where('address', '=', $dto->getAddress());
+            $query->where('address', 'like', "%{$dto->getAddress()}%");
+        }
+
+        if ($dto->getCity() !== null) {
+            $query->where('city', 'like', "%{$dto->getCity()}%");
         }
 
         if ($dto->getCompanyId() !== null) {

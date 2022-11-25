@@ -2,6 +2,7 @@
 
 namespace App\Queries\Employee;
 
+use App\Dto\Contact\ContactSearchDto;
 use App\Models\Team;
 use App\Models\UniqueItem;
 use App\Models\WorkPlace;
@@ -29,4 +30,10 @@ interface EmployeeQueryInterface
      * @return Builder
      */
     public function getNotAssignedToTeamQuery(Team $team, string $companyId): Builder;
+
+    /**
+     * @param ContactSearchDto $dto
+     * @return Builder
+     */
+    public function getSearchContactQuery(ContactSearchDto $dto): Builder;
 }

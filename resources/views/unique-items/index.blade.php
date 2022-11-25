@@ -14,6 +14,9 @@
                     <table class="table table-hover table-nowrap">
                         <thead>
                         <tr>
+                            <th scope="col" class="px-12">
+                                <x-form.checkbox label="{{ __('attributes.unique-items.select_all')}}" id='checkAll' class="form-control-muted"/>
+                            </th>
                             <th scope="col">{{ __('attributes.unique-items.item_name')}}</th>
                             <th scope="col">{{ __('attributes.unique-items.item_serial_number')}}</th>
                             <th scope="col">{{ __('attributes.unique-items.unique_item_name')}}</th>
@@ -26,6 +29,9 @@
                         <tbody>
                         @foreach($uniqueItems as $uniqueItem)
                             <tr>
+                                <td class="px-12">
+                                    <x-form.checkbox name="selectCheckbox[]" class="form-control-muted"/>
+                                </td>
                                 <td>
                                     <a href="{{ route('unique-items.show', $uniqueItem->uuid) }}">
                                         {{ $uniqueItem->item ? $uniqueItem->item->name : ' - '}}
@@ -61,3 +67,6 @@
         </div>
     </main>
 @endsection
+@push('bodyEnd')
+    <script src="{{ mix('build/js/unique-item.js')  }}"></script>
+@endpush

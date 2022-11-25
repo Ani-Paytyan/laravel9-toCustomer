@@ -42,7 +42,7 @@ return [
         'sunday' => 'Sunday',
     ],
     'unique-items' => [
-        'item_count' => 'Choose Item Count',
+        'item_count' => 'Item Count',
         'item_name' => 'Item Name',
         'item_serial_number' => 'Item serial number',
         'unique_item_name' => 'Unique item Name',

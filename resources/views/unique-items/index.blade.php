@@ -12,6 +12,7 @@
             <div class="dropdown">
                 <button class="btn btn-link dropdown-toggle" type="button" id="userNavDropdown" data-bs-toggle="dropdown" aria-expanded="false">
                     {{ __('attributes.unique-items.item_count')}}
+                    {{ count($uniqueItems)}}
                 </button>
                 <ul class="dropdown-menu" aria-labelledby="userNavDropdown">
                     <li class="list-group-item ">
@@ -68,8 +69,8 @@
                 </div>
             </div>
             <div class="navigation">
-                {{ $uniqueItems->links('pagination::bootstrap-4') }}
-            </div>
+                {{ $uniqueItems->withQueryString()->links('pagination::bootstrap-4') }}
+        </div>
         </div>
     </main>
 @endsection

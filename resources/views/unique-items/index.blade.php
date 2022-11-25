@@ -70,7 +70,7 @@
             </div>
             <div class="navigation">
                 {{ $uniqueItems->withQueryString()->links('pagination::bootstrap-4') }}
-        </div>
+            </div>
         </div>
     </main>
 @endsection

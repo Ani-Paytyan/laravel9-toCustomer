@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\UniqueItem;
-use App\Traits\ContactTrait;
+use App\Queries\Employee\EmployeeQueryInterface;
 use DB;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
@@ -13,8 +13,6 @@ use Illuminate\Support\Facades\Auth;
 
 class UniqueItemController extends Controller
 {
-    use ContactTrait;
-
     protected $user;
     protected $companyId;
 
@@ -46,17 +44,25 @@ class UniqueItemController extends Controller
 
     /**
      * @param UniqueItem $uniqueItem
+     * @param EmployeeQueryInterface $employeeQuery
      * @return Application|Factory|View
      */
-    public function show(UniqueItem $uniqueItem)
+    public function show(UniqueItem $uniqueItem, EmployeeQueryInterface $employeeQuery)
     {
         $uniqueItemContacts = $uniqueItem->contacts()
             ->orderBy(DB::raw('ISNULL(first_name), first_name'), 'ASC')
-            ->orderBy(DB::raw('ISNULL(last_name), last_name'), 'ASC');
+            ->orderBy(DB::raw('ISNULL(last_name), last_name'), 'ASC')
+            ->paginate(10);
 
-        $contactList = $this->getContactList($this->companyId, $uniqueItemContacts->get()->pluck('uuid')->toArray());
-
-        $uniqueItemContacts = $uniqueItemContacts->paginate(10);
+        $contactList = $employeeQuery->getNotAssignedToUniqueItemQuery($uniqueItem, $this->companyId)
+            ->orderBy(DB::raw('ISNULL(first_name), first_name'), 'ASC')
+            ->select('uuid', 'first_name', 'last_name', 'email')
+            ->get()
+            ->mapWithKeys(function ($item) {
+                return [
+                    $item['uuid'] => ($item['first_name'] && $item['last_name']) ? $item->getFullNameAttribute() : $item['email']
+                ];
+            })->toArray();
 
         return view('unique-items.show', compact('uniqueItem', 'uniqueItemContacts', 'contactList'));
     }

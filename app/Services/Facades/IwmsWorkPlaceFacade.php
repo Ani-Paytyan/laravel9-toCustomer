@@ -36,8 +36,7 @@ class IwmsWorkPlaceFacade
                 ->setAddress($res->getAddress())
                 ->setZip($res->getZip())
                 ->setCity($res->getCity())
-                ->setNumber($res->getNumber())
-                ->setDescription($res->getDescription());
+                ->setNumber($res->getNumber());
 
             return $this->workPlaceService->create($workPlaceDto);
         }
@@ -62,8 +61,7 @@ class IwmsWorkPlaceFacade
                 ->setAddress($res->getAddress())
                 ->setZip($res->getZip())
                 ->setCity($res->getCity())
-                ->setNumber($res->getNumber())
-                ->setDescription($res->getDescription());
+                ->setNumber($res->getNumber());
 
             return $this->workPlaceService->update($workPlaceEditDto, $workplace);
         }

@@ -13,7 +13,6 @@ class IwmsApiWorkPlaceDto
     private ?string $number;
     private ?string $status;
     private ?string $sum_price;
-    private ?string $description;
     private bool $isDeleted = false;
 
     const STATUS_DELETED = "Deleted";
@@ -177,24 +176,6 @@ class IwmsApiWorkPlaceDto
     }
 
     /**
-     * @return string|null
-     */
-    public function getDescription(): ?string
-    {
-        return $this->description;
-    }
-
-    /**
-     * @param string|null $description
-     * @return $this
-     */
-    public function setDescription(?string $description): self
-    {
-        $this->description = $description;
-        return $this;
-    }
-
-    /**
      * @return bool
      */
     public function getIsDeleted(): bool
@@ -223,8 +204,7 @@ class IwmsApiWorkPlaceDto
             ->setNumber($data['number'])
             ->setCity($data['city'])
             ->setStatus($data['status'])
-            ->setSumPrice($data['sum_price'])
-            ->setDescription($data['description']);
+            ->setSumPrice($data['sum_price']);
     }
 
     public static function createFromRequest(array $data, string $companyId): self
@@ -235,7 +215,6 @@ class IwmsApiWorkPlaceDto
             ->setAddress($data['address'])
             ->setZip($data['zip'])
             ->setCity($data['city'])
-            ->setNumber($data['number'])
-            ->setDescription($data['description']);
+            ->setNumber($data['number']);
     }
 }

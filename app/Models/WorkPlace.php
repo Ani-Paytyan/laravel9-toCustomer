@@ -23,6 +23,7 @@ class WorkPlace extends Model
         'number',
         'city',
         'status',
+        'description',
         'sum_price',
         'created_at',
         'updated_at',

@@ -9,7 +9,24 @@ use Illuminate\Support\Facades\Auth;
 class UserController extends Controller
 {
     /**
-     * @return UserResource
+     * @OA\Get(
+     *     path="/api/v1/user/info",
+     *     summary="Get user information",
+     *     tags={"User information"},
+     *     description="Index method of user",
+     *     @OA\Response(
+     *         response=200,
+     *         description="Success",
+     *         @OA\JsonContent(allOf={
+     *             @OA\Schema(@OA\Property(
+     *                 property="data",
+     *                 type="array",
+     *                 @OA\Items(ref="#/components/schemas/UserResource"),
+     *             )),
+     *         })
+     *     ),
+     *     @OA\Response(response=422, ref="#/components/responses/ValidationFailedResponse"),
+     * )
      */
     public function index()
     {

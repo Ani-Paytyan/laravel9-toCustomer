@@ -1,8 +1,9 @@
 <?php
 
 use App\Http\Controllers\Api\V1\AuthController;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Api;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -26,3 +27,6 @@ Route::group([
     Route::post('login', [AuthController::class, 'login'])->name('login');
 });
 
+Route::middleware('api_auth')->group(function () {
+    Route::get('v1/user/info', [Api\V1\UserController::class, 'index']);
+});

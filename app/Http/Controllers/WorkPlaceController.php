@@ -148,11 +148,11 @@ class WorkPlaceController extends Controller
     {
         Gate::authorize('destroy-workplace');
 
-        if ($iwmsWorkPlaceFacade->destroy($workplace, $workplace->uuid)) {
-            return redirect()->route('workplaces.index')->with('toast_success', __('page.workplaces.deleted_successfully'));
+        if ($iwmsWorkPlaceFacade->destroy($workplace)) {
+            return redirect()->route('workplaces.index')->with('toast_success', __('page.workplaces.archived_successfully'));
         }
 
-        return redirect()->route('workplaces.index')->with('toast_error', __('page.workplaces.deleted_error'));
+        return redirect()->route('workplaces.index')->with('toast_error', __('page.workplaces.archived_error'));
     }
 
     /**
@@ -180,7 +180,7 @@ class WorkPlaceController extends Controller
      */
     public function restore(WorkPlace $workPlace, IwmsWorkPlaceFacade $iwmsWorkPlaceFacade): RedirectResponse
     {
-        if ($iwmsWorkPlaceFacade->restore($workPlace, $workPlace->uuid)) {
+        if ($iwmsWorkPlaceFacade->restore($workPlace)) {
             return redirect()->route('workplaces.archive')->with('toast_success', __('page.workplaces.restored_successfully'));
         }
 

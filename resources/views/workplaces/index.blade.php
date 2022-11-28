@@ -78,7 +78,7 @@
                                             </a>
                                         @endif
                                         @if (Gate::allows('destroy-workplace'))
-                                            @if(!$workPlace->uniqueItems && $workPlace->contacts->count() === 0)
+                                            @if($workPlace->uniqueItems->count() === 0 && $workPlace->contacts->count() === 0)
                                                 <form method="POST"
                                                       class="btn btn-sm p-0"
                                                       action="{{ route('workplaces.destroy', $workPlace->uuid) }}">

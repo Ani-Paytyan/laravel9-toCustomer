@@ -34,6 +34,8 @@ return [
         'updated_error' => 'Work Places not updated',
         'deleted_successfully' => 'Work Places deleted successfully',
         'deleted_error' => 'Work Places not deleted',
+        'archived_successfully' => 'Work Places archived successfully',
+        'archived_error' => 'Work Places not archived',
         'restored_successfully' => 'Work Places restored successfully',
         'restored_error' => 'Work Places not restored',
         'edit' => 'Edit Work Places',

@@ -16,8 +16,10 @@
                     </div>
                 </div>
             @endif
+            @include('employees.components.filter')
             <div class="card mb-8">
                 <div class="table-responsive">
+                    @if($employees->count() > 0)
                     <table class="table table-hover table-nowrap">
                         <thead>
                             <tr>
@@ -80,6 +82,11 @@
                         @endforeach
                         </tbody>
                     </table>
+                    @else
+                        <div class="alert alert-info" role="alert">
+                            {{ __('page.employees.not_found') }}
+                        </div>
+                    @endif
                 </div>
             </div>
             {{ $employees->links() }}

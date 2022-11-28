@@ -42,6 +42,7 @@ return [
         'sunday' => 'Sunday',
     ],
     'unique-items' => [
+        'item' => 'Item',
         'item_name' => 'Item Name',
         'item_serial_number' => 'Item serial number',
         'article' => 'Article',
@@ -53,6 +54,11 @@ return [
         'connected_to' => 'Connected to',
         'workplace' => 'Workplace',
         'contacts' => 'Contacts',
+        'not_found' => 'Unique Items Not Found',
+    ],
+    'filter' => [
+        'title' => 'Filter',
+        'clean' => 'Clean Filter',
     ],
     'version' => 'v'
 ];

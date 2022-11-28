@@ -14,3 +14,16 @@ $(".supportModalForm").submit(function(e) {
     sendAjax("POST", actionUrl, form.serialize(), false);
 });
 
+
+$('.filter-form').click(function(e){
+    $('#loading').show();
+});
+
+$('.filter-clean-form').click(function(e){
+    $('#loading').show();
+
+    $(this).closest('form').find("input[type=text], textarea").val("");
+    window.location.href = '?';
+});
+
+

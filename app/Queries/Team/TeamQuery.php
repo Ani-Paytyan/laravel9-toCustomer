@@ -2,11 +2,12 @@
 
 namespace App\Queries\Team;
 
+use App\Dto\Team\TeamSearchDto;
 use App\Models\Contact;
 use App\Models\Team;
 use Illuminate\Database\Eloquent\Builder;
 
-class TeamQuery
+class TeamQuery implements TeamQueryInterface
 {
     /**
      * @param Contact $contact
@@ -20,12 +21,22 @@ class TeamQuery
         });
     }
 
-    /**
-     * @param string $companyId
-     * @return Builder
-     */
-    public function getAllTeams(string $companyId): Builder
+    public function getSearchTeamQuery(TeamSearchDto $dto): Builder
     {
-        return Team::where('company_id', $companyId);
+        $query = Team::query();
+
+        if ($dto->getCompanyId() !== null) {
+            $query->where('company_id', '=', $dto->getCompanyId());
+        }
+
+        if ($dto->getName() !== null) {
+            $query->where('name', 'like', "%{$dto->getName()}%");
+        }
+
+        if ($dto->getDescription() !== null) {
+            $query->where('description', 'like', "%{$dto->getDescription()}%");
+        }
+
+        return $query;
     }
 }

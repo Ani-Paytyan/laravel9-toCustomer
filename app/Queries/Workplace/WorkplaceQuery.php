@@ -2,11 +2,12 @@
 
 namespace App\Queries\Workplace;
 
+use App\Dto\WorkPlace\WorkPlaceSearchDto;
 use App\Models\Contact;
 use App\Models\WorkPlace;
 use Illuminate\Database\Eloquent\Builder;
 
-class WorkplaceQuery
+class WorkplaceQuery implements WorkplaceQueryInterface
 {
     /**
      * @param Contact $contact
@@ -21,11 +22,29 @@ class WorkplaceQuery
     }
 
     /**
-     * @param string $companyId
+     * @param WorkPlaceSearchDto $dto
      * @return Builder
      */
-    public function getAllWorkplaces(string $companyId): Builder
+    public function getSearchWorkplaceQuery(WorkPlaceSearchDto $dto): Builder
     {
-        return WorkPlace::where('company_id', $companyId);
+        $query = Workplace::query();
+
+        if ($dto->getName() !== null) {
+            $query->where('name', 'like', "%{$dto->getName()}%");
+        }
+
+        if ($dto->getAddress() !== null) {
+            $query->where('address', 'like', "%{$dto->getAddress()}%");
+        }
+
+        if ($dto->getCity() !== null) {
+            $query->where('city', 'like', "%{$dto->getCity()}%");
+        }
+
+        if ($dto->getCompanyId() !== null) {
+            $query->where('company_id', '=', $dto->getCompanyId());
+        }
+
+        return $query;
     }
 }

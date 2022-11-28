@@ -2,13 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Dto\UniqueItem\UniqueItemSearchDto;
+use App\Models\Item;
 use App\Models\UniqueItem;
-use App\Queries\Employee\EmployeeQuery;
+use App\Queries\Employee\EmployeeQueryInterface;
+use App\Queries\UniqueItem\UniqueItemQueryInterface;
 use DB;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
-use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class UniqueItemController extends Controller
@@ -27,27 +30,33 @@ class UniqueItemController extends Controller
     }
 
     /**
+     * @param Request $request
+     * @param UniqueItemQueryInterface $uniqueItemQuery
      * @return Application|Factory|View
      */
-    public function index()
+    public function index(Request $request, UniqueItemQueryInterface $uniqueItemQuery)
     {
-        $uniqueItems = UniqueItem::select('unique_items.*')
+        // get all items
+        $items = Item::select('uuid', 'name')
+            ->pluck('name', 'uuid')
+            ->toArray();
+
+        $dto = UniqueItemSearchDto::createFromRequest($request, $this->companyId);
+
+        $uniqueItems = $uniqueItemQuery->getSearchUniqueItemQuery($dto)
             ->join('items', 'items.uuid', '=', 'unique_items.item_id')
             ->orderBy('items.name')
-            ->whereHas('workPlace', function (Builder $query) {
-                $query->where('company_id', $this->companyId);
-            })
             ->paginate(20);
 
-        return view('unique-items.index', compact('uniqueItems'));
+        return view('unique-items.index', compact('items', 'uniqueItems'));
     }
 
     /**
      * @param UniqueItem $uniqueItem
-     * @param EmployeeQuery $employeeQuery
+     * @param EmployeeQueryInterface $employeeQuery
      * @return Application|Factory|View
      */
-    public function show(UniqueItem $uniqueItem, EmployeeQuery $employeeQuery)
+    public function show(UniqueItem $uniqueItem, EmployeeQueryInterface $employeeQuery)
     {
         $uniqueItemContacts = $uniqueItem->contacts()
             ->orderBy(DB::raw('ISNULL(first_name), first_name'), 'ASC')

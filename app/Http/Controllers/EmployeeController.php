@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Dto\Contact\ContactSearchDto;
 use App\Dto\IwmsApi\Contact\IwmsApiContactDto;
 use App\Dto\IwmsApi\Contact\IwmsApiContactEditDto;
 use App\Dto\IwmsApi\IwmsApiUserDto;
@@ -9,14 +10,16 @@ use App\Http\Requests\Employee\EmployeeCreateRequest;
 use App\Http\Requests\Employee\EmployeeEditRequest;
 use App\Models\Contact;
 use App\Models\TeamContact;
-use App\Queries\Team\TeamQuery;
-use App\Queries\UniqueItem\UniqueItemQuery;
-use App\Queries\Workplace\WorkplaceQuery;
+use App\Queries\Employee\EmployeeQueryInterface;
+use App\Queries\Team\TeamQueryInterface;
+use App\Queries\UniqueItem\UniqueItemQueryInterface;
+use App\Queries\Workplace\WorkplaceQueryInterface;
 use App\Services\Facades\IwmsContactFacade;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
@@ -38,19 +41,40 @@ class EmployeeController extends Controller
     }
 
     /**
+     * @param Request $request
+     * @param EmployeeQueryInterface $employeeQuery
      * @return Application|Factory|View
      */
-    public function index()
+    public function index(Request $request, EmployeeQueryInterface $employeeQuery)
     {
         $userId = $this->user->getId();
         $statusDeleted = IwmsApiContactDto::STATUS_DELETED;
 
-        $employees = Contact::where('company_id', $this->companyId)
+        $roles = [
+            IwmsApiUserDto::ROLE_ADMIN => IwmsApiUserDto::ROLE_ADMIN,
+            IwmsApiUserDto::ROLE_MANAGER => IwmsApiUserDto::ROLE_MANAGER,
+            IwmsApiUserDto::ROLE_WORKER => IwmsApiUserDto::ROLE_WORKER,
+        ];
+
+        $statuses = [
+            IwmsApiContactDto::STATUS_ACTIVE => IwmsApiContactDto::STATUS_ACTIVE,
+            IwmsApiContactDto::STATUS_INVITED => IwmsApiContactDto::STATUS_INVITED,
+        ];
+
+        $dto = ContactSearchDto::createFromRequest($request, $this->companyId);
+
+        $employees = $employeeQuery->getSearchContactQuery($dto)
             ->orderBy(DB::raw('ISNULL(first_name), first_name'), 'ASC')
             ->orderBy(DB::raw('ISNULL(last_name), last_name'), 'ASC')
             ->paginate(20);
 
-        return view('employees.index', compact('employees',  'userId', 'statusDeleted'));
+        return view('employees.index', compact(
+            'employees',
+            'userId',
+            'statusDeleted',
+            'statuses',
+            'roles'
+        ));
     }
 
     /**
@@ -133,16 +157,16 @@ class EmployeeController extends Controller
 
     /**
      * @param Contact $employee
-     * @param WorkplaceQuery $workplaceQuery
-     * @param UniqueItemQuery $uniqueItemQuery
-     * @param TeamQuery $teamQuery
+     * @param WorkplaceQueryInterface $workplaceQuery
+     * @param UniqueItemQueryInterface $uniqueItemQuery
+     * @param TeamQueryInterface $teamQuery
      * @return Application|Factory|View
      */
     public function edit(
         Contact $employee,
-        WorkplaceQuery $workplaceQuery,
-        UniqueItemQuery $uniqueItemQuery,
-        TeamQuery $teamQuery
+        WorkplaceQueryInterface $workplaceQuery,
+        UniqueItemQueryInterface $uniqueItemQuery,
+        TeamQueryInterface $teamQuery
     ) {
         Gate::authorize('edit-employee');
         // employees roles

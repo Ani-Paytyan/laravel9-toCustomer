@@ -65,19 +65,21 @@
                                             </a>
                                         @endif
                                         @if (Gate::allows('destroy-employee') && $userId !== $employee->uuid)
-                                            <form method="POST"
-                                                  class="btn btn-sm p-0"
-                                                  action="{{ route('employees.destroy', $employee->uuid) }}"
-                                                  data-toggle="tooltip"
-                                                  data-placement="top"
-                                                  title="{{ __('page.employees.archive_employee') }}"
-                                            >
-                                                {{ csrf_field() }}
-                                                {{ method_field('DELETE') }}
-                                                <button class="btn btn-sm btn-neutral delete-employee">
-                                                    <i class="bi bi-file-earmark-zip"></i>
-                                                </button>
-                                            </form>
+                                            @if($employee->workplaces->count() === 0 && $employee->uniqueItems->count() === 0)
+                                                <form method="POST"
+                                                      class="btn btn-sm p-0"
+                                                      action="{{ route('employees.destroy', $employee->uuid) }}"
+                                                      data-toggle="tooltip"
+                                                      data-placement="top"
+                                                      title="{{ __('page.employees.archive_employee') }}"
+                                                >
+                                                    {{ csrf_field() }}
+                                                    {{ method_field('DELETE') }}
+                                                    <button class="btn btn-sm btn-neutral delete-employee">
+                                                        <i class="bi bi-file-earmark-zip"></i>
+                                                    </button>
+                                                </form>
+                                            @endif
                                         @endif
                                     @endif
                                 </td>

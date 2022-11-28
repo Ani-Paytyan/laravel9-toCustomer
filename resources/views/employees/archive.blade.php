@@ -17,7 +17,6 @@
                             <th scope="col">{{ __('attributes.user.name')}}</th>
                             <th scope="col">{{ __('attributes.user.email')}}</th>
                             <th scope="col">{{ __('attributes.user.role')}}</th>
-                            <th scope="col">{{ __('attributes.user.status')}}</th>
                             <th scope="col">{{ __('common.actions')}}</th>
                         </tr>
                         </thead>
@@ -25,13 +24,12 @@
                         @foreach($employees as $employee)
                             <tr>
                                 <td>
-                                    <a href="{{ route('employees.show', $employee->uuid) }}">
+                                    <a href="{{ route('employee.archive', $employee->uuid) }}">
                                         {{ $employee->getFullNameAttribute() }}
                                     </a>
                                 </td>
                                 <td>{{ $employee->email }}</td>
                                 <td>{{ $employee->role }}</td>
-                                <td>{{ $employee->status }} </td>
                                 <td>
                                     <a href="{{ route('employee.archive', $employee->uuid) }}"
                                        class="btn btn-sm btn-neutral"
@@ -56,7 +54,9 @@
                     </table>
                 </div>
             </div>
-            {{ $employees->links() }}
+            <div class="navigation">
+                {{ $employees->links() }}
+            </div>
         </div>
     </main>
 @endsection

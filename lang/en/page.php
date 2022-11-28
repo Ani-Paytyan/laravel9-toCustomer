@@ -28,6 +28,10 @@ return [
         'delete_error' => 'Employee not deleted',
         'delete' => 'Employee delete',
         'not_found' => 'Employees not found',
+        'restored_successfully' => 'Employee restored successfully',
+        'restored_error' => 'Employee not restored',
+        'archived_successfully' => 'Employee archived successfully',
+        'archived_error' => 'Employee not archived',
     ],
     'workplaces' => [
         'title' => 'Work Places',

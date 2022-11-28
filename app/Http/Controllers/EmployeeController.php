@@ -217,13 +217,16 @@ class EmployeeController extends Controller
         Gate::authorize('destroy-employee');
 
         if ($iwmsContactFacade->destroy($employee)) {
-            return redirect()->route('employees.index')->with('toast_success', __('page.employees.delete_successfully'));
+            return redirect()->route('employees.index')->with('toast_success', __('page.employees.archived_successfully'));
         }
 
-        return redirect()->route('employees.index')->with('toast_error', __('page.employees.delete_error'));
+        return redirect()->route('employees.index')->with('toast_error', __('page.employees.archived_error'));
     }
 
-    public function archive(Request $request)
+    /**
+     * @return Application|Factory|View
+     */
+    public function archive()
     {
         $employees = Contact::where('company_id', $this->companyId)
             ->onlyTrashed()
@@ -235,26 +238,25 @@ class EmployeeController extends Controller
     }
 
     /**
-     * @param $id
-     * @return Application|Factory|View|RedirectResponse
+     * @param Contact $employee
+     * @return Application|Factory|View
      */
-    public function employeeArchive($id)
+    public function employeeArchive(Contact $employee)
     {
-        $employee = Contact::withTrashed()->where('uuid', $id)->first();
-
-        if ($employee) {
-            return $this->show($employee);
-        }
-
-        return redirect()->back();
+        return view('employees.archive-show', compact('employee'));
     }
 
-    public function restore($id, IwmsContactFacade $iwmsContactFacade)
+    /**
+     * @param Contact $employee
+     * @param IwmsContactFacade $iwmsContactFacade
+     * @return RedirectResponse
+     */
+    public function restore(Contact $employee, IwmsContactFacade $iwmsContactFacade): RedirectResponse
     {
-        $employee = Contact::withTrashed()->where('uuid', $id)->first();
-
         if ($iwmsContactFacade->restore($employee)) {
-            return redirect()->route('employees.index')->with('toast_success', __('page.employees.invite_successfully'));
+            return redirect()->route('employees.archive')->with('toast_success', __('page.employees.restored_successfully'));
         }
+
+        return redirect()->route('employees.archive')->with('toast_error', __('page.employees.restored_error'));
     }
 }

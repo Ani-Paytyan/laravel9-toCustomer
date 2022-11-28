@@ -79,6 +79,7 @@ class ContactService implements ContactServiceInterface
     {
         // detach all work place contacts
         $contact->workplaces()->detach();
+        $contact->teams()->detach();
 
         return $contact->delete();
     }

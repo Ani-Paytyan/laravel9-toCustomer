@@ -14,8 +14,10 @@
                     </a>
                 </div>
             </div>
+            @include('teams.components.filter')
             <div class="card mb-8">
                 <div class="table-responsive">
+                    @if($teams->count() > 0)
                     <table class="table table-hover table-nowrap">
                         <thead>
                         <tr>
@@ -56,6 +58,11 @@
                         @endforeach
                         </tbody>
                     </table>
+                    @else
+                        <div class="alert alert-info" role="alert">
+                            {{ __('page.teams.not_found') }}
+                        </div>
+                    @endif
                 </div>
             </div>
             <div class="navigation">

@@ -4,15 +4,18 @@ namespace App\Http\Controllers;
 
 use App\Dto\IwmsApi\WorkPlace\IwmsApiWorkPlaceDto;
 use App\Dto\IwmsApi\WorkPlace\IwmsApiWorkPlaceEditDto;
+use App\Dto\WorkPlace\WorkPlaceSearchDto;
 use App\Http\Requests\WorkPlace\WorkPlaceCreateRequest;
 use App\Http\Requests\WorkPlace\WorkPlaceEditRequest;
 use App\Models\WorkPlace;
 use App\Queries\Employee\EmployeeQueryInterface;
+use App\Queries\Workplace\WorkplaceQueryInterface;
 use App\Services\Facades\IwmsWorkPlaceFacade;
 use DB;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Gate;
@@ -33,11 +36,15 @@ class WorkPlaceController extends Controller
     }
 
     /**
+     * @param Request $request
+     * @param WorkplaceQueryInterface $workplaceQuery
      * @return Application|Factory|View
      */
-    public function index()
+    public function index(Request $request, WorkplaceQueryInterface $workplaceQuery)
     {
-        $workPlaces = WorkPlace::where('company_id', $this->companyId)
+        $dto = WorkPlaceSearchDto::createFromRequest($request, $this->companyId);
+
+        $workPlaces = $workplaceQuery->getSearchWorkplaceQuery($dto)
             ->with('uniqueItems')
             ->orderBy('name', 'ASC')
             ->paginate(20);

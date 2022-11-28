@@ -42,11 +42,23 @@ return [
         'sunday' => 'Sunday',
     ],
     'unique-items' => [
+        'item' => 'Item',
         'item_name' => 'Item Name',
         'item_serial_number' => 'Item serial number',
+        'article' => 'Article',
         'unique_item_name' => 'Unique item Name',
         'unique_item_article' => 'Unique item Article',
+        'name' => 'Name',
         'status' => 'Status',
+        'select_all' => 'Select All',
+        'connected_to' => 'Connected to',
+        'workplace' => 'Workplace',
+        'contacts' => 'Contacts',
+        'not_found' => 'Unique Items Not Found',
+    ],
+    'filter' => [
+        'title' => 'Filter',
+        'clean' => 'Clean Filter',
     ],
     'version' => 'v'
 ];

@@ -20,4 +20,10 @@ interface TeamQueryInterface
      * @return Builder
      */
     public function getSearchTeamQuery(TeamSearchDto $dto): Builder;
+
+    /**
+     * @param string $companyId
+     * @return Builder
+     */
+    public function getAllTeams(string $companyId): Builder;
 }

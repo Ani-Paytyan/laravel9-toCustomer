@@ -77,18 +77,13 @@ class EmployeeController extends Controller
         ));
     }
 
-    /**
-     *
-     * Invite a contact view
-     * @return Application|Factory|View
-     */
     public function create(
-        TeamQuery $teamQuery,
-        WorkplaceQuery $workplaceQuery,
-        UniqueItemQuery $uniqueItemQuery
+        WorkplaceQueryInterface $workplaceQuery,
+        UniqueItemQueryInterface $uniqueItemQuery,
+        TeamQueryInterface $teamQuery
     ) {
         Gate::authorize('invite-employee');
-
+        // employees roles
         $roles = [
             IwmsApiUserDto::ROLE_ADMIN => IwmsApiUserDto::ROLE_ADMIN,
             IwmsApiUserDto::ROLE_MANAGER => IwmsApiUserDto::ROLE_MANAGER,
@@ -106,6 +101,8 @@ class EmployeeController extends Controller
             ->toArray();
 
         $uniqueItems = $uniqueItemQuery->getAllUniqueItems($this->companyId)
+            ->select('unique_items.*')
+            ->join('items', 'items.uuid', '=', 'unique_items.item_id')
             ->orderBy('items.name')
             ->get()
             ->mapWithKeys(function ($item) {

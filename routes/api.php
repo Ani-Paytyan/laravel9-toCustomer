@@ -19,10 +19,7 @@ use Illuminate\Support\Facades\Route;
 //    return $request->user();
 //});
 
-Route::group([
-    'middleware' => 'api',
-    'prefix' => 'v1/auth'
-], static function ($router) {
-    Route::post('login', [AuthController::class, 'login'])->name('login');
+Route::group(['middleware' => 'api', 'prefix' => 'v1'], static function ($router) {
+    Route::post('auth/login', [AuthController::class, 'login'])->name('login');
 });
 

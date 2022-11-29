@@ -43,10 +43,9 @@ class UniqueItemController extends Controller
 
         $dto = UniqueItemSearchDto::createFromRequest($request, $this->companyId);
 
-        $uniqueItems = $uniqueItemQuery->getSearchUniqueItemQuery($dto)
-            ->join('items', 'items.uuid', '=', 'unique_items.item_id')
-            ->orderBy('items.name')
-            ->paginate(20);
+        $uniqueItems = $uniqueItemQuery->getSearchUniqueItemQuery($dto)->with(['item' => function ($query)  {
+            $query->orderBy('items.name', 'asc');
+        }])->paginate(20);
 
         return view('unique-items.index', compact('items', 'uniqueItems'));
     }

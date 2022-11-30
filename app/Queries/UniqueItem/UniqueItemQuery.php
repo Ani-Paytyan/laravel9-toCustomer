@@ -46,7 +46,10 @@ class UniqueItemQuery implements UniqueItemQueryInterface
         }
 
         if ($dto->getName() !== null) {
-            $query->where('name', 'like', "%{$dto->getName()}%");
+            $query->where('name', 'like', "%{$dto->getName()}%")
+                ->orWhereHas('item', function (Builder $query) use ($dto) {
+                    $query->where('name', 'like', "%{$dto->getName()}%");
+                });
         }
 
         if ($dto->getArticle() !== null) {

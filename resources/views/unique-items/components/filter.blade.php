@@ -6,8 +6,10 @@
                     name="item[]"
                     multiple="multiple"
                     id="filter_item"
+                    :hide-default-option="true"
                     placeholder="{{ __('attributes.unique-items.item') }}"
                     class="form-select form-control-muted select2"
+                    autocomplete="off"
                     :options="$items"
                 />
             </div>

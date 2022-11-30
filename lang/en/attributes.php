@@ -57,6 +57,7 @@ return [
     ],
     'unique-items' => [
         'item' => 'Item',
+        'item_count' => 'Item Count',
         'item_name' => 'Item Name',
         'item_serial_number' => 'Item serial number',
         'article' => 'Article',

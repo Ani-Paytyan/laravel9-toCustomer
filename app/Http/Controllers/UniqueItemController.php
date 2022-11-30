@@ -16,6 +16,8 @@ use Illuminate\Support\Facades\Auth;
 
 class UniqueItemController extends Controller
 {
+    const PAGE = 10;
+
     protected $user;
     protected $companyId;
 
@@ -45,7 +47,7 @@ class UniqueItemController extends Controller
 
         $uniqueItems = $uniqueItemQuery->getSearchUniqueItemQuery($dto)->with(['item' => function ($query)  {
             $query->orderBy('items.name', 'asc');
-        }])->paginate(20);
+        }])->paginate($request->get('limit') ?? self::PAGE);
 
         return view('unique-items.index', compact('items', 'uniqueItems'));
     }

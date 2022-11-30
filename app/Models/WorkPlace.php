@@ -63,6 +63,7 @@ class WorkPlace extends Model
         'number',
         'city',
         'status',
+        'description',
         'sum_price',
         'created_at',
         'updated_at',
@@ -85,7 +86,7 @@ class WorkPlace extends Model
 
     public function uniqueItems()
     {
-        return $this->belongsTo(UniqueItem::class, 'uuid', 'workplace_id');
+        return $this->hasMany(UniqueItem::class, 'workplace_id', 'uuid');
     }
 
     public function workDays()

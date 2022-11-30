@@ -199,6 +199,7 @@ return [
         App\Providers\RepositoryServiceProvider::class,
         RealRashid\SweetAlert\SweetAlertServiceProvider::class,
         Barryvdh\Debugbar\ServiceProvider::class,
+        App\Providers\AppQueryProvider::class,
     ],
 
     /*

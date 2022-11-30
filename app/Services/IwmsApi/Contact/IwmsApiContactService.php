@@ -14,6 +14,7 @@ class IwmsApiContactService extends AbstractIwmsApi implements IwmsApiContactSer
     private const CONTACTS_DELETE_URL =  'contacts/delete';
     private const CONTACTS_INVITE_URL =  'contacts/invite';
     private const CONTACTS_REMIND_INVITE_URL =  'contacts/remind-invite';
+    private const CONTACTS_RESTORE_URL =  'contacts/recovery';
 
     private const CONTACTS_GET_SORT_FIELD =  'first_name';
 
@@ -85,6 +86,17 @@ class IwmsApiContactService extends AbstractIwmsApi implements IwmsApiContactSer
         }
 
         return null;
+    }
+
+    /**
+     * @param string $id
+     * @return bool
+     */
+    public function restore(string $id): bool
+    {
+        $response = $this->getRequestBuilder()->patch(self::CONTACTS_RESTORE_URL, ['id' => $id]);
+
+        return $response && $response->status() === 200;
     }
 
     /**

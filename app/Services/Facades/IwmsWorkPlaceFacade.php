@@ -69,15 +69,28 @@ class IwmsWorkPlaceFacade
         return false;
     }
 
+    /**
+     * @param WorkPlace $workplace
+     * @return bool
+     */
+    public function restore(WorkPlace $workplace): bool
+    {
+        $res = $this->apiWorkPlaceService->restore($workplace->uuid);
+
+        if ($res) {
+            return $this->workPlaceService->restore($workplace);
+        }
+
+        return false;
+    }
 
     /**
      * @param WorkPlace $workplace
-     * @param $id
      * @return bool
      */
-    public function destroy(WorkPlace $workplace, $id): bool
+    public function destroy(WorkPlace $workplace): bool
     {
-        $res = $this->apiWorkPlaceService->destroy($id);
+        $res = $this->apiWorkPlaceService->destroy($workplace->uuid);
 
         if ($res) {
             return $this->workPlaceService->destroy($workplace);

@@ -1,7 +1,7 @@
 import {swalAlert} from "./general";
 import {sendAjax} from "./general";
 
-$(document).ready(function() {
+$(function () {
     $(".updateContact").click(function (e) {
         e.preventDefault();
         $('#loading').show();
@@ -12,7 +12,7 @@ $(document).ready(function() {
             role: $(this).parent().parent().find('.role option:selected').val()
         };
 
-        sendAjax("PUT", $(this).attr('href'), formData);
+        sendAjax("PUT", $(this).attr('href'), formData, false);
     });
 
     $(".destroyContact").click(function (e) {
@@ -27,7 +27,7 @@ $(document).ready(function() {
 
         $.ajax({
             type: "DELETE",
-            url: $(this).attr('href'),
+            url: $(this).attr('data-href'),
             data: formData,
             dataType: 'json',
             success: function (data) {

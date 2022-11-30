@@ -18,9 +18,10 @@ class IwmsApiError extends Exception
         Log::error("Code: " . $this->code . " File:" . $this->file .  " Message: " . $this->getMessage());
         Log::error($this);
 
-        if ($request->ajax()) {
+        if(request()->route()->getPrefix() === 'api/v1') {
             return response()->json([
-                'error' => $this->getMessage()
+                'error' => $this->getMessage(),
+                'status' => $this->code,
             ], $this->code);
         }
 

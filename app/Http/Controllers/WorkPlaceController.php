@@ -103,7 +103,7 @@ class WorkPlaceController extends Controller
         $iwmsApiWorkPlaceDto = IwmsApiWorkPlaceDto::createFromRequest($request->all(), $this->companyId);
 
         if ($iwmsWorkPlaceFacade->create($iwmsApiWorkPlaceDto)) {
-            return redirect()->route('workplaces.index')->with('toast_success', __('page.workplaces.created_successfully'));
+            return redirect()->route('workplaces.index')->with('toast_success', __('page.workplaces.created_successfully', ['name' => $iwmsApiWorkPlaceDto->getName()]));
         }
 
         return redirect()->route('workplaces.index')->with('toast_error', __('page.workplaces.created_error'));

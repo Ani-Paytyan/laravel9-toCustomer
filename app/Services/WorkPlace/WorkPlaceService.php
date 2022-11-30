@@ -51,7 +51,8 @@ class WorkPlaceService implements WorkPlaceServiceInterface
             'address' => $workPlaceDto->getAddress() ?? '',
             'zip' => $workPlaceDto->getZip(),
             'number' => $workPlaceDto->getNumber(),
-            'city' => $workPlaceDto->getCity()
+            'city' => $workPlaceDto->getCity(),
+            'description' => $workPlaceDto->getDescription()
         ]);
     }
 
@@ -68,7 +69,8 @@ class WorkPlaceService implements WorkPlaceServiceInterface
             'address' => $workPlaceEditDto->getAddress(),
             'zip' => $workPlaceEditDto->getZip(),
             'number' => $workPlaceEditDto->getNumber(),
-            'city' => $workPlaceEditDto->getCity()
+            'city' => $workPlaceEditDto->getCity(),
+            'description' => $workPlaceEditDto->getDescription()
         ]);
     }
 

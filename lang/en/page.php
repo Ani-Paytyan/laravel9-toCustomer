@@ -19,6 +19,7 @@ return [
         'delete_employee' => 'Delete employee',
         'archive_employee' => 'Archive Employee',
         'invite_employee' => 'Invite employee',
+        'resend_invitation' => 'Resend invitation',
         'invite_successfully' => 'Employee invited successfully',
         'invite_error' => 'Employee not invited',
         'update_successfully' => 'Employee updated successfully',

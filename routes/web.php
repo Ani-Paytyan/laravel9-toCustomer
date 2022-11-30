@@ -37,6 +37,10 @@ Route::group(['middleware' => ['auth', 'SetIwmsApiToken']], static function () {
 
     Route::resource('employees', EmployeeController::class);
     Route::controller(EmployeeController::class)->group(function () {
+        Route::get('/employee-teams/{employee}', 'employeeTeams')->name('teams.employee-teams');
+        Route::get('/employee-workplaces/{employee}', 'employeeWorkPlaces')->name('employee.employee-workplaces');
+        Route::get('/employee-unique-items/{employee}', 'employeeUniqueItems')->name('employee.unique-items');
+        Route::get('/employee-remind/{employee}', 'remindInvite')->name('employee.remind-invite');
         Route::get('employees-archive', 'archive')->name('employees.archive');
         Route::get('employee/{employee}/archive', 'employeeArchive')->name('employee.archive')->withTrashed();
         Route::get('employee/{employee}/restore', 'restore')->name('employee.restore')->withTrashed();

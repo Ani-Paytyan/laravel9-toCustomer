@@ -38,4 +38,10 @@ interface IwmsApiContactServiceInterface
      * @return bool
      */
     public function destroy(string $id): bool;
+
+    /**
+     * @param string $email
+     * @return bool
+     */
+    public function remindInvite(string $email): bool;
 }

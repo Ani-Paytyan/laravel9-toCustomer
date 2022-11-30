@@ -16,6 +16,7 @@ class IwmsApiWorkPlaceService extends AbstractIwmsApi implements IwmsApiWorkPlac
     private const WORK_PLACE_CREATE_URL =  'workplaces/create';
     private const WORK_PLACE_UPDATE_URL =  'workplaces/update';
     private const WORK_PLACE_DELETE_URL =  'workplaces/delete';
+    private const WORK_PLACE_RESTORE_URL =  'workplaces/recovery';
 
     /**
      * @param string $companyId
@@ -90,6 +91,17 @@ class IwmsApiWorkPlaceService extends AbstractIwmsApi implements IwmsApiWorkPlac
         }
 
         return null;
+    }
+
+    /**
+     * @param string $id
+     * @return bool
+     */
+    public function restore(string $id): bool
+    {
+        $response = $this->getRequestBuilder()->patch(self::WORK_PLACE_RESTORE_URL, ['id' => $id]);
+
+        return $response && $response->status() === 200;
     }
 
     /**

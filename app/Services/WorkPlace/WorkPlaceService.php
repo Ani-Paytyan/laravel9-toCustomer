@@ -78,6 +78,15 @@ class WorkPlaceService implements WorkPlaceServiceInterface
      * @param WorkPlace $workplace
      * @return bool
      */
+    public function restore(WorkPlace $workplace): bool
+    {
+        return $workplace->restore();
+    }
+
+    /**
+     * @param WorkPlace $workplace
+     * @return bool
+     */
     public function destroy(WorkPlace $workplace): bool
     {
         // detach all work place contacts

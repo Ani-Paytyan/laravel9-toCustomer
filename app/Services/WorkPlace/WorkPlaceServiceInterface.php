@@ -31,5 +31,12 @@ interface WorkPlaceServiceInterface
      * @param WorkPlace $workplace
      * @return bool
      */
+
+    public function restore(WorkPlace $workplace): bool;
+
+    /**
+     * @param WorkPlace $workplace
+     * @return bool
+     */
     public function destroy(WorkPlace $workplace): bool;
 }

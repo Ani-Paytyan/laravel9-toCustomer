@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AdditionalWorkingDayController;
+use App\Http\Controllers\SupportController;
 use App\Http\Controllers\UniqueItemContactController;
 use App\Http\Controllers\WorkPlaceController;
 use App\Http\Controllers\WorkDaysController;
@@ -11,6 +12,7 @@ use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\TeamController;
 use App\Http\Controllers\TeamContactController;
 use App\Http\Controllers\UniqueItemController;
+use App\Http\Controllers\LanguageController;
 
 /*
 |--------------------------------------------------------------------------
@@ -35,12 +37,18 @@ Route::group(['middleware' => ['auth', 'SetIwmsApiToken']], static function () {
 
     Route::resource('employees', EmployeeController::class);
     Route::controller(EmployeeController::class)->group(function () {
-        Route::get('/employee-teams/{employee}', 'employeeTeams')->name('teams.employee-teams');
-        Route::get('/employee-workplaces/{employee}', 'employeeWorkPlaces')->name('employee.employee-workplaces');
-        Route::get('/employee-unique-items/{employee}', [EmployeeController::class, 'employeeUniqueItems'])->name('employee.unique-items');
+        Route::get('employees-archive', 'archive')->name('employees.archive');
+        Route::get('employee/{employee}/archive', 'employeeArchive')->name('employee.archive')->withTrashed();
+        Route::get('employee/{employee}/restore', 'restore')->name('employee.restore')->withTrashed();
     });
 
     Route::resource('workplaces', WorkPlaceController::class);
+
+    Route::controller(WorkPlaceController::class)->group(static function () {
+        Route::get('workplaces-archive', 'archive')->name('workplaces.archive');
+        Route::get('workplace/{workPlace}/archive', 'archiveWorkPlace')->name('workplace.archive')->withTrashed();
+        Route::get('workplace/{workPlace}/restore', 'restore')->name('workplace.restore')->withTrashed();
+    });
 
     Route::controller(WorkPlaceContactController::class)->group(function () {
         Route::post('workplace-employees/{workPlace}', 'storeWorkPlaceEmployees')->name('workplace-employees.store');
@@ -78,6 +86,8 @@ Route::group(['middleware' => ['auth', 'SetIwmsApiToken']], static function () {
         Route::delete('employee-unique-items/{employee}/{uniqueItem}', 'deleteEmployeeUniqueItems')->name('employee-unique-items.delete');
     });
 
+    // support controller
+    Route::post('support-send', [SupportController::class, 'send'])->name('support.send');
 
-
+    Route::get('lang/{lang}', [LanguageController::class, 'switchLang'])->name('lang.switch');
 });

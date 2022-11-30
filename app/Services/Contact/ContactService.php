@@ -62,10 +62,24 @@ class ContactService implements ContactServiceInterface
         ]);
     }
 
+    /**
+     * @param Contact $contact
+     * @return bool
+     */
+    public function restore(Contact $contact): bool
+    {
+        return $contact->restore();
+    }
+
+    /**
+     * @param Contact $contact
+     * @return bool
+     */
     public function destroy(Contact $contact): bool
     {
         // detach all work place contacts
         $contact->workplaces()->detach();
+        $contact->teams()->detach();
 
         return $contact->delete();
     }

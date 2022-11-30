@@ -50,14 +50,15 @@
                                     <span class="icon-inner"></span>
                                 </span>
                             </a>
-                            <a href="{{ route('team-contacts.destroy', $teamContact->pivot->uuid) }}"
+                            <button data-href="{{ route('team-contacts.destroy', $teamContact->pivot->uuid) }}"
                                class="btn btn-sm btn-neutral destroyContact"
                                data-toggle="tooltip"
                                data-placement="top"
+                               type="button"
                                title="{{ __('page.employees.delete') }}"
                             >
                                 <i class="bi bi-trash"></i>
-                            </a>
+                            </button>
                         </td>
                     </tr>
                 @endif

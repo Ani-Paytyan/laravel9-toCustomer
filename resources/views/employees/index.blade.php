@@ -6,18 +6,23 @@
     <main class="py-6 bg-surface-secondary">
         <div class="container-fluid">
             @include('layout.partials.messages')
-            @if (Gate::allows('invite-employee'))
-                <div>
-                    <h4><i class="bi bi-people"></i> {{ __('page.employees.title')}}</h4>
-                    <div class="create-button">
-                        <a href="{{ route('employees.create') }}" class="btn btn-sm btn-success">
+            <div>
+                <h4><i class="bi bi-people"></i> {{ __('page.employees.title')}}</h4>
+                <div class="create-button">
+                    @if (Gate::allows('invite-employee'))
+                        <a href="{{ route('employees.create') }}" class="btn btn-success">
                             <i class="bi bi-person"></i> {{ __('page.employees.invite_employee')}}
                         </a>
-                    </div>
+                    @endif
+                    <a href="{{ route('employees.archive') }}" class="btn btn-sm btn-secondary">
+                        <i class="bi bi-file-earmark-zip"></i> {{ __('page.employees.archive')}}
+                    </a>
                 </div>
-            @endif
+            </div>
+            @include('employees.components.filter')
             <div class="card mb-8">
                 <div class="table-responsive">
+                    @if($employees->count() > 0)
                     <table class="table table-hover table-nowrap">
                         <thead>
                             <tr>
@@ -41,30 +46,6 @@
                                 <td>{{ $employee->status }} </td>
                                 <td>
                                     @if($employee->status != $statusDeleted)
-                                        <a href="{{ route('employee.employee-workplaces', $employee->uuid) }}"
-                                           class="btn btn-sm btn-neutral"
-                                           data-toggle="tooltip"
-                                           data-placement="top"
-                                           title="{{ __('page.workplaces.title') }}"
-                                        >
-                                            <i class="bi bi-person-workspace"></i>
-                                        </a>
-                                        <a href="{{ route('employee.unique-items', $employee->uuid) }}"
-                                           class="btn btn-sm btn-neutral"
-                                           data-toggle="tooltip"
-                                           data-placement="top"
-                                           title="{{ __('page.unique-items.title') }}"
-                                        >
-                                            <i class="bi bi-handbag"></i>
-                                        </a>
-                                        <a href="{{ route('teams.employee-teams', $employee->uuid) }}"
-                                           class="btn btn-sm btn-neutral"
-                                           data-toggle="tooltip"
-                                           data-placement="top"
-                                           title="{{ __('page.teams.title') }}"
-                                        >
-                                            <i class="bi bi-microsoft-teams"></i>
-                                        </a>
                                         <a href="{{ route('employees.show', $employee->uuid) }}"
                                            class="btn btn-sm btn-neutral"
                                            data-toggle="tooltip"
@@ -84,19 +65,21 @@
                                             </a>
                                         @endif
                                         @if (Gate::allows('destroy-employee') && $userId !== $employee->uuid)
-                                            <form method="POST"
-                                                  class="btn btn-sm p-0"
-                                                  action="{{ route('employees.destroy', $employee->uuid) }}"
-                                                  data-toggle="tooltip"
-                                                  data-placement="top"
-                                                  title="{{ __('page.employees.delete_employee') }}"
-                                            >
-                                                {{ csrf_field() }}
-                                                {{ method_field('DELETE') }}
-                                                <button class="btn btn-sm btn-danger delete-employee">
-                                                    <i class="bi bi-trash"></i>
-                                                </button>
-                                            </form>
+                                            @if($employee->workplaces->count() === 0 && $employee->uniqueItems->count() === 0)
+                                                <form method="POST"
+                                                      class="btn btn-sm p-0"
+                                                      action="{{ route('employees.destroy', $employee->uuid) }}"
+                                                      data-toggle="tooltip"
+                                                      data-placement="top"
+                                                      title="{{ __('page.employees.archive_employee') }}"
+                                                >
+                                                    {{ csrf_field() }}
+                                                    {{ method_field('DELETE') }}
+                                                    <button class="btn btn-sm btn-neutral delete-employee">
+                                                        <i class="bi bi-file-earmark-zip"></i>
+                                                    </button>
+                                                </form>
+                                            @endif
                                         @endif
                                     @endif
                                 </td>
@@ -104,9 +87,16 @@
                         @endforeach
                         </tbody>
                     </table>
+                    @else
+                        <div class="alert alert-info" role="alert">
+                            {{ __('page.employees.not_found') }}
+                        </div>
+                    @endif
                 </div>
             </div>
-            {{ $employees->links() }}
+            <div class="navigation">
+                {{ $employees->links() }}
+            </div>
         </div>
     </main>
 @endsection

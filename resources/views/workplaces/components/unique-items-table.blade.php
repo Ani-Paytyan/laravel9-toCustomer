@@ -7,8 +7,9 @@
             <table class="table table-hover table-nowrap">
                 <thead class="table-light">
                 <tr>
-                    <th scope="col">{{ __('attributes.unique-items.item_name')}}</th>
-                    <th scope="col">{{ __('attributes.unique-items.item_serial_number')}}</th>
+                    <th scope="col">{{ __('attributes.unique-items.name')}}</th>
+                    <th scope="col">{{ __('attributes.unique-items.article')}}</th>
+                    <th scope="col">{{ __('attributes.unique-items.status')}}</th>
                     <th scope="col">{{ __('page.employees.title')}}</th>
                     <th scope="col">{{ __('common.actions')}}</th>
                 </tr>
@@ -16,8 +17,9 @@
                 <tbody class="contact-list">
                 @foreach($uniqueItems as $uniqueItem)
                     <tr>
-                        <td>{{ $uniqueItem->name }}</td>
+                        <td>{{ $uniqueItem->name ?? ($uniqueItem->item ? $uniqueItem->item->name : '' ) }}</td>
                         <td>{{ $uniqueItem->article }}</td>
+                        <td>{{ $uniqueItem->is_online ? '+' : '-' }}</td>
                         <td>
                             <ul>
                                 @foreach($uniqueItem->contacts as $contact)

@@ -1,4 +1,7 @@
-$(document).ready(function() {
+import {swalAlert} from "./general";
+import {sendAjax} from "./general";
+
+$(function () {
     $(".workplace-contacts-add").click(function (e) {
         e.preventDefault();
 
@@ -32,40 +35,4 @@ $(document).ready(function() {
 
         sendAjax("POST", $('.contact-workplaces-form').attr('action'), formData);
     });
-
-
-    function sendAjax(type, url, formData) {
-        $.ajax({
-            type: type,
-            url: url,
-            data: formData,
-            dataType: 'json',
-            success: function (data) {
-                if (data.status == 'success') {
-                    location.reload();
-                } else {
-                    $('#loading').hide();
-                }
-
-                swalAlert(data.status, data.message);
-            },
-            error: function (data) {
-                $('.preloader').hide();
-                console.log(data);
-            }
-        });
-    }
-
-    function swalAlert(status, message, toast = true, position = 'top-right') {
-        Swal.fire({
-            toast: toast,
-            icon: status,
-            title: message,
-            position: position,
-            animation: true,
-            showConfirmButton: false,
-            timer: 2000,
-            timerProgressBar: true,
-        });
-    }
 });

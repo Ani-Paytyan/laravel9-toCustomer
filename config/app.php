@@ -195,9 +195,11 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         App\Providers\IwmsApiProvider::class,
+        App\Providers\ToolMetricaApiProvider::class,
         App\Providers\RepositoryServiceProvider::class,
         RealRashid\SweetAlert\SweetAlertServiceProvider::class,
         Barryvdh\Debugbar\ServiceProvider::class,
+        App\Providers\AppQueryProvider::class,
     ],
 
     /*
@@ -215,8 +217,11 @@ return [
         // 'ExampleClass' => App\Example\ExampleClass::class,
         'Alert' => RealRashid\SweetAlert\Facades\Alert::class,
         'Debugbar' => Barryvdh\Debugbar\Facades\Debugbar::class,
+        'AppVersionHelper' => App\Helpers\AppVersion::class,
     ])->toArray(),
 
     'force_https' => env('FORCE_HTTPS', false),
+
+    'sync_testing' => env('SYNC_TESTING', false),
 
 ];

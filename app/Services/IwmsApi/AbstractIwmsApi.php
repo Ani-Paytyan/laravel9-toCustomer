@@ -29,6 +29,14 @@ abstract class AbstractIwmsApi
         return $this->userToken;
     }
 
+    /**
+     * @return string|null
+     */
+    protected function getSystemIdentification(): ?string
+    {
+        return Config::get('iwms.system');
+    }
+
     protected function getRequestBuilder(): PendingRequest
     {
         $request = Http::baseUrl(config('iwms.api_base_url'));
@@ -44,6 +52,10 @@ abstract class AbstractIwmsApi
         $headers = [
             'Accept' => 'application/json',
         ];
+
+        if ($this->getSystemIdentification()) {
+            $headers['System'] = $this->getSystemIdentification();
+        }
 
         if ($this->getUserToken()) {
             $headers['Authorization'] = 'Bearer ' . $this->getUserToken();

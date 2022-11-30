@@ -35,14 +35,15 @@
                                 <i class="bi bi-eye-fill"></i>
                             </a>
                             @if (Gate::allows('destroy-workplace-contacts'))
-                                <a href="{{ route('workplace-employees.delete', [$workplace->uuid, $workPlaceContact->uuid]) }}"
+                                <button data-href="{{ route('workplace-employees.delete', [$workplace->uuid, $workPlaceContact->uuid]) }}"
                                    class="btn btn-sm btn-neutral destroyContact"
                                    data-toggle="tooltip"
                                    data-placement="top"
+                                   type="button"
                                    title="{{ __('page.contact.delete') }}"
                                 >
                                     <i class="bi bi-trash"></i>
-                                </a>
+                                </button>
                             @endif
                         </td>
                     </tr>

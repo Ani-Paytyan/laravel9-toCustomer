@@ -10,88 +10,100 @@
                 <h4><i class="bi bi-person-workspace"></i> {{ __('page.workplaces.title')}}</h4>
                 @if (Gate::allows('create-workplace'))
                     <div class="create-button">
-                        <a href="{{ route('workplaces.create') }}" class="btn btn-sm btn-success">
+                        <a href="{{ route('workplaces.create') }}" class="btn btn-success">
                             <i class="bi bi-person"></i> {{ __('page.workplaces.create')}}
+                        </a>
+                        <a href="{{ route('workplaces.archive') }}" class="btn btn-sm btn-secondary">
+                            <i class="bi bi-file-earmark-zip"></i> {{ __('page.workplaces.archive')}}
                         </a>
                     </div>
                 @endif
             </div>
+            @include('workplaces.components.filter')
             <div class="card mb-8">
                 <div class="table-responsive">
-                    <table class="table table-hover table-nowrap">
-                        <thead>
-                            <tr>
-                                <th scope="col">{{ __('attributes.user.name')}}</th>
-                                <th scope="col">{{ __('attributes.user.address')}}</th>
-                                <th scope="col">{{ __('attributes.user.city')}}</th>
-                                <th scope="col">{{ __('attributes.workplaces.total-online')}}</th>
-                                <th scope="col">{{ __('common.actions')}}</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                        @foreach($workPlaces as $workPlace)
-                            <tr>
-                                <td>
-                                    <a href="{{ route('workplaces.show', $workPlace->uuid) }}">
-                                        {{ $workPlace->name }}
-                                    </a>
-                                </td>
-                                <td>{{ $workPlace->address }}</td>
-                                <td>{{ $workPlace->city }}</td>
-                                <td>
-                                    {{ $workPlace->uniqueItems ? $workPlace->uniqueItems->count() : 0 }}
-                                    /
-                                    {{ $workPlace->uniqueItems ? $workPlace->uniqueItems->where('is_online', 1)->count() : 0 }}
-                                </td>
-                                <td>
-                                    @if (Gate::allows('create-workplace-working-days'))
-                                        <a href="{{ route('workplace.workdays', $workPlace->uuid) }}"
-                                           class="btn btn-sm btn-neutral"
-                                           data-toggle="tooltip"
-                                           data-placement="top"
-                                           title="{{ __('page.workplaces.work_days') }}"
-                                        >
-                                            <i class="bi bi-calendar-date"></i>
+                    @if($workPlaces->count() > 0)
+                        <table class="table table-hover table-nowrap">
+                            <thead>
+                                <tr>
+                                    <th scope="col">{{ __('attributes.user.name')}}</th>
+                                    <th scope="col">{{ __('attributes.user.address')}}</th>
+                                    <th scope="col">{{ __('attributes.user.city')}}</th>
+                                    <th scope="col">{{ __('attributes.workplaces.total-online')}}</th>
+                                    <th scope="col">{{ __('common.actions')}}</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            @foreach($workPlaces as $workPlace)
+                                <tr>
+                                    <td>
+                                        <a href="{{ route('workplaces.show', $workPlace->uuid) }}">
+                                            {{ $workPlace->name }}
                                         </a>
-                                    @endif
-                                    <a href="{{ route('workplaces.show', $workPlace->uuid) }}"
-                                       class="btn btn-sm btn-neutral"
-                                       data-toggle="tooltip"
-                                       data-placement="top"
-                                       title="{{ __('page.workplace.title') }}"
-                                    >
-                                        <i class="bi bi-eye-fill"></i>
-                                    </a>
-                                    @if (Gate::allows('edit-workplace'))
-                                        <a href="{{ route('workplaces.edit', $workPlace->uuid) }}"
-                                           class="btn btn-sm btn-neutral"
-                                           data-toggle="tooltip"
-                                           data-placement="top"
-                                           title="{{ __('page.workplace.edit') }}"
-                                        >
-                                            <i class="bi bi-pencil"></i>
-                                        </a>
-                                    @endif
-                                    @if (Gate::allows('destroy-workplace'))
-                                        <form method="POST"
-                                              class="btn btn-sm p-0"
-                                              action="{{ route('workplaces.destroy', $workPlace->uuid) }}">
-                                            {{ csrf_field() }}
-                                            {{ method_field('DELETE') }}
-                                            <button class="btn btn-sm btn-danger delete-employee"
-                                                    data-toggle="tooltip"
-                                                    data-placement="top"
-                                                    title="{{ __('page.workplace.delete_workplace') }}"
+                                    </td>
+                                    <td>{{ $workPlace->address }}</td>
+                                    <td>{{ $workPlace->city }}</td>
+                                    <td>
+                                        {{ $workPlace->uniqueItems ? $workPlace->uniqueItems->count() : 0 }}
+                                        /
+                                        {{ $workPlace->uniqueItems ? $workPlace->uniqueItems->where('is_online', 1)->count() : 0 }}
+                                    </td>
+                                    <td>
+                                        @if (Gate::allows('create-workplace-working-days'))
+                                            <a href="{{ route('workplace.workdays', $workPlace->uuid) }}"
+                                               class="btn btn-sm btn-neutral"
+                                               data-toggle="tooltip"
+                                               data-placement="top"
+                                               title="{{ __('page.workplaces.work_days') }}"
                                             >
-                                                <i class="bi bi-trash"></i>
-                                            </button>
-                                        </form>
-                                    @endif
-                                </td>
-                            </tr>
-                        @endforeach
-                        </tbody>
-                    </table>
+                                                <i class="bi bi-calendar-date"></i>
+                                            </a>
+                                        @endif
+                                        <a href="{{ route('workplaces.show', $workPlace->uuid) }}"
+                                           class="btn btn-sm btn-neutral"
+                                           data-toggle="tooltip"
+                                           data-placement="top"
+                                           title="{{ __('page.workplace.title') }}"
+                                        >
+                                            <i class="bi bi-eye-fill"></i>
+                                        </a>
+                                        @if (Gate::allows('edit-workplace'))
+                                            <a href="{{ route('workplaces.edit', $workPlace->uuid) }}"
+                                               class="btn btn-sm btn-neutral"
+                                               data-toggle="tooltip"
+                                               data-placement="top"
+                                               title="{{ __('page.workplace.edit') }}"
+                                            >
+                                                <i class="bi bi-pencil"></i>
+                                            </a>
+                                        @endif
+                                        @if (Gate::allows('destroy-workplace'))
+                                            @if($workPlace->uniqueItems->count() === 0 && $workPlace->contacts->count() === 0)
+                                                <form method="POST"
+                                                      class="btn btn-sm p-0"
+                                                      action="{{ route('workplaces.destroy', $workPlace->uuid) }}">
+                                                    {{ csrf_field() }}
+                                                    {{ method_field('DELETE') }}
+                                                    <button class="btn btn-sm btn-warning delete-employee"
+                                                            data-toggle="tooltip"
+                                                            data-placement="top"
+                                                            title="{{ __('page.workplace.archive_workplace') }}"
+                                                    >
+                                                        <i class="bi bi-file-earmark-zip"></i>
+                                                    </button>
+                                                </form>
+                                            @endif
+                                        @endif
+                                    </td>
+                                </tr>
+                            @endforeach
+                            </tbody>
+                        </table>
+                    @else
+                        <div class="alert alert-info" role="alert">
+                            {{ __('page.workplaces.not_found') }}
+                        </div>
+                    @endif
                 </div>
             </div>
             <div class="navigation">

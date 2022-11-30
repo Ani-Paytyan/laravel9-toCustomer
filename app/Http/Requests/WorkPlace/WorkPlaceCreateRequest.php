@@ -16,6 +16,7 @@ class WorkPlaceCreateRequest extends FormRequest
     {
         return [
             'name' => 'required|string|required|unique:workplaces',
+            'description' => 'max:500',
         ];
     }
 

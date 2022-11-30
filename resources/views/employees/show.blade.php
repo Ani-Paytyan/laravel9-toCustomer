@@ -6,10 +6,7 @@
     <main class="py-6 bg-surface-secondary">
         <div class="container-fluid">
             <div class="p-2 pb-4">
-                <h4><i class="bi bi-file-person"></i> {{ __('page.employees.employee') }} : {{ $employee->getFullNameAttribute() }}</h4>
-                @if ($employee->city)
-                    <p>{{ __('attributes.user.city')}} : {{ $employee->city }}</p>
-                @endif
+                @include('employees.components.info')
             </div>
             <div class="card mb-8">
                 <div class="row card-header align-items-center">

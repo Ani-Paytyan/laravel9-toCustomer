@@ -4,15 +4,18 @@ namespace App\Http\Controllers;
 
 use App\Dto\IwmsApi\WorkPlace\IwmsApiWorkPlaceDto;
 use App\Dto\IwmsApi\WorkPlace\IwmsApiWorkPlaceEditDto;
+use App\Dto\WorkPlace\WorkPlaceSearchDto;
 use App\Http\Requests\WorkPlace\WorkPlaceCreateRequest;
 use App\Http\Requests\WorkPlace\WorkPlaceEditRequest;
 use App\Models\WorkPlace;
 use App\Queries\Employee\EmployeeQueryInterface;
+use App\Queries\Workplace\WorkplaceQueryInterface;
 use App\Services\Facades\IwmsWorkPlaceFacade;
 use DB;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Gate;
@@ -33,11 +36,15 @@ class WorkPlaceController extends Controller
     }
 
     /**
+     * @param Request $request
+     * @param WorkplaceQueryInterface $workplaceQuery
      * @return Application|Factory|View
      */
-    public function index()
+    public function index(Request $request, WorkplaceQueryInterface $workplaceQuery)
     {
-        $workPlaces = WorkPlace::where('company_id', $this->companyId)
+        $dto = WorkPlaceSearchDto::createFromRequest($request, $this->companyId);
+
+        $workPlaces = $workplaceQuery->getSearchWorkplaceQuery($dto)
             ->with('uniqueItems')
             ->orderBy('name', 'ASC')
             ->paginate(20);
@@ -96,7 +103,7 @@ class WorkPlaceController extends Controller
         $iwmsApiWorkPlaceDto = IwmsApiWorkPlaceDto::createFromRequest($request->all(), $this->companyId);
 
         if ($iwmsWorkPlaceFacade->create($iwmsApiWorkPlaceDto)) {
-            return redirect()->route('workplaces.index')->with('toast_success', __('page.workplaces.created_successfully'));
+            return redirect()->route('workplaces.index')->with('toast_success', __('page.workplaces.created_successfully', ['name' => $iwmsApiWorkPlaceDto->getName()]));
         }
 
         return redirect()->route('workplaces.index')->with('toast_error', __('page.workplaces.created_error'));
@@ -141,10 +148,43 @@ class WorkPlaceController extends Controller
     {
         Gate::authorize('destroy-workplace');
 
-        if ($iwmsWorkPlaceFacade->destroy($workplace, $workplace->uuid)) {
-            return redirect()->route('workplaces.index')->with('toast_success', __('page.workplaces.deleted_successfully'));
+        if ($iwmsWorkPlaceFacade->destroy($workplace)) {
+            return redirect()->route('workplaces.index')->with('toast_success', __('page.workplaces.archived_successfully'));
         }
 
-        return redirect()->route('workplaces.index')->with('toast_error', __('page.workplaces.deleted_error'));
+        return redirect()->route('workplaces.index')->with('toast_error', __('page.workplaces.archived_error'));
     }
+
+    /**
+     * @return Application|Factory|View
+     */
+    public function archive()
+    {
+        $workPlaces = WorkPlace::where('company_id', $this->companyId)
+            ->onlyTrashed()
+            ->orderBy('name', 'ASC')
+            ->paginate(20);
+
+        return view('workplaces.archive', compact('workPlaces'));
+    }
+
+    public function archiveWorkPlace(WorkPlace $workPlace)
+    {
+        return view('workplaces.archive-show', compact('workPlace'));
+    }
+
+    /**
+     * @param WorkPlace $workPlace
+     * @param IwmsWorkPlaceFacade $iwmsWorkPlaceFacade
+     * @return RedirectResponse
+     */
+    public function restore(WorkPlace $workPlace, IwmsWorkPlaceFacade $iwmsWorkPlaceFacade): RedirectResponse
+    {
+        if ($iwmsWorkPlaceFacade->restore($workPlace)) {
+            return redirect()->route('workplaces.archive')->with('toast_success', __('page.workplaces.restored_successfully'));
+        }
+
+        return redirect()->route('workplaces.archive')->with('toast_error', __('page.workplaces.restored_error'));
+    }
+
 }

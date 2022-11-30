@@ -50,7 +50,7 @@ $(document).ready(function() {
 
         $.ajax({
             type: "DELETE",
-            url: $(this).attr('href'),
+            url: $(this).attr('data-href'),
             data: formData,
             dataType: 'json',
             success: function (data) {

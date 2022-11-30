@@ -2,15 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\Dto\UniqueItem\UniqueItemSearchDto;
+use App\Models\Item;
 use App\Models\UniqueItem;
 use App\Queries\Employee\EmployeeQueryInterface;
+use App\Queries\UniqueItem\UniqueItemQueryInterface;
 use DB;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class UniqueItemController extends Controller
 {
@@ -31,21 +33,23 @@ class UniqueItemController extends Controller
 
     /**
      * @param Request $request
+     * @param UniqueItemQueryInterface $uniqueItemQuery
      * @return Application|Factory|View
      */
-    public function index(Request $request)
+    public function index(Request $request, UniqueItemQueryInterface $uniqueItemQuery)
     {
-        $uniqueItems = UniqueItem::select('unique_items.*')
-            ->join('items', 'items.uuid', '=', 'unique_items.item_id')
-            ->orderBy('items.name')
-            ->whereHas('workPlace', function (Builder $query) {
-                $query->where('company_id', $this->companyId);
-            });
+        // get all items
+        $items = Item::select('uuid', 'name')
+            ->pluck('name', 'uuid')
+            ->toArray();
 
-        $uniqueItems = ($request->get('limit')) ? $uniqueItems->paginate($request->get('limit'))
-            : $uniqueItems->paginate(self::PAGE);
+        $dto = UniqueItemSearchDto::createFromRequest($request, $this->companyId);
 
-        return view('unique-items.index', compact('uniqueItems'));
+        $uniqueItems = $uniqueItemQuery->getSearchUniqueItemQuery($dto)->with(['item' => function ($query)  {
+            $query->orderBy('items.name', 'asc');
+        }])->paginate($request->get('limit') ?? self::PAGE);
+
+        return view('unique-items.index', compact('items', 'uniqueItems'));
     }
 
     /**

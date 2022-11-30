@@ -217,9 +217,46 @@ class EmployeeController extends Controller
         Gate::authorize('destroy-employee');
 
         if ($iwmsContactFacade->destroy($employee)) {
-            return redirect()->route('employees.index')->with('toast_success', __('page.employees.delete_successfully'));
+            return redirect()->route('employees.index')->with('toast_success', __('page.employees.archived_successfully'));
         }
 
-        return redirect()->route('employees.index')->with('toast_error', __('page.employees.delete_error'));
+        return redirect()->route('employees.index')->with('toast_error', __('page.employees.archived_error'));
+    }
+
+    /**
+     * @return Application|Factory|View
+     */
+    public function archive()
+    {
+        $employees = Contact::where('company_id', $this->companyId)
+            ->onlyTrashed()
+            ->orderBy(DB::raw('ISNULL(first_name), first_name'), 'ASC')
+            ->orderBy(DB::raw('ISNULL(last_name), last_name'), 'ASC')
+            ->paginate(20);
+
+        return view('employees.archive', compact('employees'));
+    }
+
+    /**
+     * @param Contact $employee
+     * @return Application|Factory|View
+     */
+    public function employeeArchive(Contact $employee)
+    {
+        return view('employees.archive-show', compact('employee'));
+    }
+
+    /**
+     * @param Contact $employee
+     * @param IwmsContactFacade $iwmsContactFacade
+     * @return RedirectResponse
+     */
+    public function restore(Contact $employee, IwmsContactFacade $iwmsContactFacade): RedirectResponse
+    {
+        if ($iwmsContactFacade->restore($employee)) {
+            return redirect()->route('employees.archive')->with('toast_success', __('page.employees.restored_successfully'));
+        }
+
+        return redirect()->route('employees.archive')->with('toast_error', __('page.employees.restored_error'));
     }
 }

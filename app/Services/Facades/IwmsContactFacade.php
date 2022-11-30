@@ -75,6 +75,21 @@ class IwmsContactFacade
      * @param Contact $contact
      * @return bool
      */
+    public function restore(Contact $contact): bool
+    {
+        $res = $this->apiContactService->restore($contact->uuid);
+
+        if ($res) {
+            return $this->contactService->restore($contact);
+        }
+
+        return false;
+    }
+
+    /**
+     * @param Contact $contact
+     * @return bool
+     */
     public function destroy(Contact $contact): bool
     {
         $res = $this->apiContactService->destroy($contact->uuid);

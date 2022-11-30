@@ -6,16 +6,19 @@
     <main class="py-6 bg-surface-secondary">
         <div class="container-fluid">
             @include('layout.partials.messages')
-            @if (Gate::allows('invite-employee'))
-                <div>
-                    <h4><i class="bi bi-people"></i> {{ __('page.employees.title')}}</h4>
-                    <div class="create-button">
-                        <a href="{{ route('employees.create') }}" class="btn btn-sm btn-success">
+            <div>
+                <h4><i class="bi bi-people"></i> {{ __('page.employees.title')}}</h4>
+                <div class="create-button">
+                    @if (Gate::allows('invite-employee'))
+                        <a href="{{ route('employees.create') }}" class="btn btn-success">
                             <i class="bi bi-person"></i> {{ __('page.employees.invite_employee')}}
                         </a>
-                    </div>
+                    @endif
+                    <a href="{{ route('employees.archive') }}" class="btn btn-sm btn-secondary">
+                        <i class="bi bi-file-earmark-zip"></i> {{ __('page.employees.archive')}}
+                    </a>
                 </div>
-            @endif
+            </div>
             @include('employees.components.filter')
             <div class="card mb-8">
                 <div class="table-responsive">
@@ -62,19 +65,21 @@
                                             </a>
                                         @endif
                                         @if (Gate::allows('destroy-employee') && $userId !== $employee->uuid)
-                                            <form method="POST"
-                                                  class="btn btn-sm p-0"
-                                                  action="{{ route('employees.destroy', $employee->uuid) }}"
-                                                  data-toggle="tooltip"
-                                                  data-placement="top"
-                                                  title="{{ __('page.employees.delete_employee') }}"
-                                            >
-                                                {{ csrf_field() }}
-                                                {{ method_field('DELETE') }}
-                                                <button class="btn btn-sm btn-danger delete-employee">
-                                                    <i class="bi bi-trash"></i>
-                                                </button>
-                                            </form>
+                                            @if($employee->workplaces->count() === 0 && $employee->uniqueItems->count() === 0)
+                                                <form method="POST"
+                                                      class="btn btn-sm p-0"
+                                                      action="{{ route('employees.destroy', $employee->uuid) }}"
+                                                      data-toggle="tooltip"
+                                                      data-placement="top"
+                                                      title="{{ __('page.employees.archive_employee') }}"
+                                                >
+                                                    {{ csrf_field() }}
+                                                    {{ method_field('DELETE') }}
+                                                    <button class="btn btn-sm btn-neutral delete-employee">
+                                                        <i class="bi bi-file-earmark-zip"></i>
+                                                    </button>
+                                                </form>
+                                            @endif
                                         @endif
                                     @endif
                                 </td>

@@ -12,8 +12,12 @@ return [
     'employees' => [
         'employee' => 'Employee',
         'title' => 'Employees',
+        'archive' => 'Archive',
+        'employees_archive' => 'Employees archive',
+        'restore_employee' => 'Restore Employee',
         'edit_employee' => 'Edit employee',
         'delete_employee' => 'Delete employee',
+        'archive_employee' => 'Archive Employee',
         'invite_employee' => 'Invite employee',
         'invite_successfully' => 'Employee invited successfully',
         'invite_error' => 'Employee not invited',
@@ -24,6 +28,10 @@ return [
         'delete_error' => 'Employee not deleted',
         'delete' => 'Employee delete',
         'not_found' => 'Employees not found',
+        'restored_successfully' => 'Employee restored successfully',
+        'restored_error' => 'Employee not restored',
+        'archived_successfully' => 'Employee archived successfully',
+        'archived_error' => 'Employee not archived',
     ],
     'workplaces' => [
         'title' => 'Work Places',

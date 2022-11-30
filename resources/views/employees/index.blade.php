@@ -89,7 +89,9 @@
                     @endif
                 </div>
             </div>
-            {{ $employees->links() }}
+            <div class="navigation">
+                {{ $employees->links() }}
+            </div>
         </div>
     </main>
 @endsection

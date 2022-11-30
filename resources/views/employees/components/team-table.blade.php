@@ -37,9 +37,7 @@
             </table>
         </div>
     </div>
-    @if ($teams->total() > 10)
-        <div class="navigation">
-            <a href="{{ route('teams.employee-teams', $employee->uuid) }}" class="btn btn-warning">{{ __('common.show_more')}}</a>
-        </div>
-    @endif
+    <div class="navigation">
+        {{ $teams->links() }}
+    </div>
 @endif

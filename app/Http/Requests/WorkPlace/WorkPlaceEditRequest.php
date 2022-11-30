@@ -23,6 +23,7 @@ class WorkPlaceEditRequest extends FormRequest
     {
         return [
             'name' => trans('attributes.user.name'),
+            'description' => 'max:500',
         ];
     }
 

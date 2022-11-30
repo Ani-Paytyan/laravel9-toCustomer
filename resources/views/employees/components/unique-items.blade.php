@@ -39,14 +39,15 @@
                                             <i class="bi bi-eye-fill"></i>
                                         </a>
                                         @if (Gate::allows('destroy-unique-items'))
-                                            <a href="{{ route('employee-unique-items.delete', [$employee->uuid, $uniqueItem->uuid]) }}"
+                                            <button data-href="{{ route('employee-unique-items.delete', [$employee->uuid, $uniqueItem->uuid]) }}"
                                                class="btn btn-sm btn-neutral unique-item-contacts-destroy"
                                                data-toggle="tooltip"
                                                data-placement="top"
+                                               type="button"
                                                title="{{ __('page.unique-item.delete') }}"
                                             >
                                                 <i class="bi bi-trash"></i>
-                                            </a>
+                                            </button>
                                         @endif
                                     </td>
                                 </tr>
@@ -77,7 +78,7 @@
                                 />
                             </div>
                             <div class="col-md-3">
-                                <button class="btn btn-success addUniqueItemToContact">
+                                <button type="button" class="btn btn-success addUniqueItemToContact">
                                     <i class="bi bi-person-plus"></i>
                                     {{ trans('page.unique-item.unique_item_add_btn') }}
                                 </button>

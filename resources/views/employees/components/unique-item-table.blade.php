@@ -39,9 +39,7 @@
             </table>
         </div>
     </div>
-    @if ($workPlaces->total() > 10)
-        <div class="navigation">
-            <a href="{{ route('employee.unique-items', $employee->uuid) }}" class="btn btn-warning">{{ __('common.show_more')}}</a>
-        </div>
-    @endif
+    <div class="navigation">
+        {{ $uniqueItems->links() }}
+    </div>
 @endif

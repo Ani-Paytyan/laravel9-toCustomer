@@ -11,8 +11,11 @@ return [
         'last_name' => 'Last name',
         'phone' => 'Phone',
         'address' => 'Address',
+        'enter_address' => 'Enter address',
         'city' => 'City',
+        'enter_city' => 'Enter city',
         'zip' => 'Zip',
+        'enter_zip' => 'Enter index',
         'id' => 'Id',
         'company_name' => 'Company Name',
     ],
@@ -20,12 +23,23 @@ return [
         'portal_access' => 'Portal Access',
     ],
     'workplaces' => [
-        'number' => 'Number',
-        'total-online' => 'total/online unique items',
+        'number' => 'Marking',
+        'enter_number' => 'Enter marking',
+        'total-online' => 'Total/online unique items',
     ],
     'workplace' => [
         'name' => 'Name',
+        'enter_workplace_name' => 'Enter workplace name',
         'address' => 'Address',
+    ],
+    'workplace_description' => [
+        'title' => 'Description',
+        'enter_title' => 'Enter Workplace description',
+        'text_validation' => [
+            'symbol_count_up' => 'The description may be up to 500 characters.'
+        ],
+        'tooltip_info' => 'This information will be sent to the security company in case of a break-in. Describe the workplace so that it can be easily recognised. If there is any designation on the outside, please indicate it here as well.',
+        'create_success' => 'You created successfully'
     ],
     'team' => [
         'name' => 'Team name',

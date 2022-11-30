@@ -148,10 +148,43 @@ class WorkPlaceController extends Controller
     {
         Gate::authorize('destroy-workplace');
 
-        if ($iwmsWorkPlaceFacade->destroy($workplace, $workplace->uuid)) {
-            return redirect()->route('workplaces.index')->with('toast_success', __('page.workplaces.deleted_successfully'));
+        if ($iwmsWorkPlaceFacade->destroy($workplace)) {
+            return redirect()->route('workplaces.index')->with('toast_success', __('page.workplaces.archived_successfully'));
         }
 
-        return redirect()->route('workplaces.index')->with('toast_error', __('page.workplaces.deleted_error'));
+        return redirect()->route('workplaces.index')->with('toast_error', __('page.workplaces.archived_error'));
     }
+
+    /**
+     * @return Application|Factory|View
+     */
+    public function archive()
+    {
+        $workPlaces = WorkPlace::where('company_id', $this->companyId)
+            ->onlyTrashed()
+            ->orderBy('name', 'ASC')
+            ->paginate(20);
+
+        return view('workplaces.archive', compact('workPlaces'));
+    }
+
+    public function archiveWorkPlace(WorkPlace $workPlace)
+    {
+        return view('workplaces.archive-show', compact('workPlace'));
+    }
+
+    /**
+     * @param WorkPlace $workPlace
+     * @param IwmsWorkPlaceFacade $iwmsWorkPlaceFacade
+     * @return RedirectResponse
+     */
+    public function restore(WorkPlace $workPlace, IwmsWorkPlaceFacade $iwmsWorkPlaceFacade): RedirectResponse
+    {
+        if ($iwmsWorkPlaceFacade->restore($workPlace)) {
+            return redirect()->route('workplaces.archive')->with('toast_success', __('page.workplaces.restored_successfully'));
+        }
+
+        return redirect()->route('workplaces.archive')->with('toast_error', __('page.workplaces.restored_error'));
+    }
+
 }

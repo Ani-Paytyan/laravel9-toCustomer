@@ -10,8 +10,11 @@
                 <h4><i class="bi bi-person-workspace"></i> {{ __('page.workplaces.title')}}</h4>
                 @if (Gate::allows('create-workplace'))
                     <div class="create-button">
-                        <a href="{{ route('workplaces.create') }}" class="btn btn-sm btn-success">
+                        <a href="{{ route('workplaces.create') }}" class="btn btn-success">
                             <i class="bi bi-person"></i> {{ __('page.workplaces.create')}}
+                        </a>
+                        <a href="{{ route('workplaces.archive') }}" class="btn btn-sm btn-secondary">
+                            <i class="bi bi-file-earmark-zip"></i> {{ __('page.workplaces.archive')}}
                         </a>
                     </div>
                 @endif
@@ -75,19 +78,21 @@
                                             </a>
                                         @endif
                                         @if (Gate::allows('destroy-workplace'))
-                                            <form method="POST"
-                                                  class="btn btn-sm p-0"
-                                                  action="{{ route('workplaces.destroy', $workPlace->uuid) }}">
-                                                {{ csrf_field() }}
-                                                {{ method_field('DELETE') }}
-                                                <button class="btn btn-sm btn-danger delete-employee"
-                                                        data-toggle="tooltip"
-                                                        data-placement="top"
-                                                        title="{{ __('page.workplace.delete_workplace') }}"
-                                                >
-                                                    <i class="bi bi-trash"></i>
-                                                </button>
-                                            </form>
+                                            @if($workPlace->uniqueItems->count() === 0 && $workPlace->contacts->count() === 0)
+                                                <form method="POST"
+                                                      class="btn btn-sm p-0"
+                                                      action="{{ route('workplaces.destroy', $workPlace->uuid) }}">
+                                                    {{ csrf_field() }}
+                                                    {{ method_field('DELETE') }}
+                                                    <button class="btn btn-sm btn-warning delete-employee"
+                                                            data-toggle="tooltip"
+                                                            data-placement="top"
+                                                            title="{{ __('page.workplace.archive_workplace') }}"
+                                                    >
+                                                        <i class="bi bi-file-earmark-zip"></i>
+                                                    </button>
+                                                </form>
+                                            @endif
                                         @endif
                                     </td>
                                 </tr>

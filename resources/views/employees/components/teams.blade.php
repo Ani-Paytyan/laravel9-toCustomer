@@ -54,14 +54,15 @@
                                                     <span class="icon-inner"></span>
                                                 </span>
                                         </a>
-                                        <a href="{{ route('team-contacts.destroy', $team->pivot->uuid) }}"
+                                        <button data-href="{{ route('team-contacts.destroy', $team->pivot->uuid) }}"
                                            class="btn btn-sm btn-neutral destroyContact"
                                            data-toggle="tooltip"
                                            data-placement="top"
+                                           type="button"
                                            title="{{ __('page.teams.delete') }}"
                                         >
                                             <i class="bi bi-trash"></i>
-                                        </a>
+                                        </button>
                                     </td>
                                 </tr>
                             @endforeach
@@ -101,7 +102,7 @@
                             />
                         </div>
                         <div class="col-md-3">
-                            <button class="btn btn-success addTeamToContact">
+                            <button type="button" class="btn btn-success addTeamToContact">
                                 <i class="bi bi-person-plus"></i>
                                 {{ trans('page.contact.team_add_btn') }}
                             </button>

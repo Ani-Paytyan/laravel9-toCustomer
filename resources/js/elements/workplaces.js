@@ -1,7 +1,7 @@
 import {swalAlert} from "./general";
 import {sendAjax} from "./general";
 
-$(document).ready(function() {
+$(function () {
     $(".workplace-contacts-add").click(function (e) {
         e.preventDefault();
 

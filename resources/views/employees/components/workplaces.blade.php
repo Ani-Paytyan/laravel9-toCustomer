@@ -41,14 +41,15 @@
                                             <i class="bi bi-eye-fill"></i>
                                         </a>
                                         @if (Gate::allows('destroy-workplace-contacts'))
-                                            <a href="{{ route('employee-workplaces.delete', [$employee->uuid, $workPlace->uuid]) }}"
+                                            <button data-href="{{ route('employee-workplaces.delete', [$employee->uuid, $workPlace->uuid]) }}"
                                                class="btn btn-sm btn-neutral destroyContact"
+                                               type="button"
                                                data-toggle="tooltip"
                                                data-placement="top"
                                                title="{{ __('page.workplace.delete_workplace') }}"
                                             >
                                                 <i class="bi bi-trash"></i>
-                                            </a>
+                                            </button>
                                         @endif
                                     </td>
                                 </tr>
@@ -79,7 +80,7 @@
                                 />
                             </div>
                             <div class="col-md-3">
-                                <button class="btn btn-success addWorkPlaceToContact">
+                                <button type="button" class="btn btn-success addWorkPlaceToContact">
                                     <i class="bi bi-person-plus"></i>
                                     {{ trans('page.workplace.add_workplace_btn') }}
                                 </button>

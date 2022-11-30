@@ -22,10 +22,6 @@ class IwmsApiContactDto
     private ?string $city;
     private ?string $zip;
 
-    private ?string $workplace;
-    private ?string $team;
-    private ?string $uniqueItem;
-
     private bool $isDeleted = false;
 
     /**
@@ -285,60 +281,6 @@ class IwmsApiContactDto
         return $this;
     }
 
-    /**
-     * @return string|null
-     */
-    public function getWorkPlace(): ?string
-    {
-        return $this->workplace;
-    }
-
-    /**
-     * @param string|null $workplace
-     * @return $this
-     */
-    public function setWorkPlace(?string $workplace): self
-    {
-        $this->workplace = $workplace;
-        return $this;
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getTeam(): ?string
-    {
-        return $this->team;
-    }
-
-    /**
-     * @param string|null $team
-     * @return $this
-     */
-    public function setTeam(?string $team): self
-    {
-        $this->team = $team;
-        return $this;
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getUniqueItem(): ?string
-    {
-        return $this->uniqueItem;
-    }
-
-    /**
-     * @param string|null $uniqueItem
-     * @return $this
-     */
-    public function setUniqueItem(?string $uniqueItem): self
-    {
-        $this->uniqueItem = $uniqueItem;
-        return $this;
-    }
-
     public static function createFromApiResponse(array $data): self
     {
         return (new self())
@@ -371,9 +313,6 @@ class IwmsApiContactDto
         return (new self())
             ->setCompanyId($id)
             ->setRole($data['role'])
-            ->setWorkPlace($data['workplace'])
-            ->setTeam($data['team'])
-            ->setUniqueItem($data['uniqueItem'])
             ->setEmail($data['email']);
     }
 }

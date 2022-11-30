@@ -44,11 +44,13 @@
                     <div class="row mb-3 g-2">
                         <div class="col-md">
                             <x-form.select
-                                name="team"
+                                multiple="multiple"
+                                name="team[]"
                                 id="team"
+                                :hide-default-option="true"
                                 label="{{ __('page.teams.title') }}"
                                 placeholder="{{ __('page.teams.title') }}"
-                                class="form-select form-control-muted"
+                                class="form-select form-control-muted select2"
                                 :options="$teamsList"
                                 value="{{ old('team') }}"
                             />
@@ -57,11 +59,13 @@
                     <div class="row mb-3 g-2">
                         <div class="col-md">
                             <x-form.select
-                                name="workplace"
+                                multiple="multiple"
+                                name="workplace[]"
                                 id="workplace"
+                                :hide-default-option="true"
                                 label="{{ __('page.workplaces.title') }}"
                                 placeholder="{{ __('page.workplaces.title') }}"
-                                class="form-select form-control-muted"
+                                class="form-select form-control-muted select2"
                                 :options="$workPlaceList"
                                 value="{{ old('workplace') }}"
                             />
@@ -70,11 +74,13 @@
                     <div class="row mb-3 g-2">
                         <div class="col-md">
                             <x-form.select
-                                name="uniqueItem"
+                                multiple="multiple"
+                                name="uniqueItem[]"
                                 id="uniqueItem"
+                                :hide-default-option="true"
                                 label="{{ __('page.unique-items.title') }}"
                                 placeholder="{{ __('page.unique-items.title') }}"
-                                class="form-select form-control-muted"
+                                class="form-select form-control-muted select2"
                                 :options="$uniqueItems"
                                 value="{{ old('uniqueItem') }}"
                             />

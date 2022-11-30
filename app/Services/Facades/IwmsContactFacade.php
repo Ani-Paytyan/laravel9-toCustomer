@@ -2,8 +2,8 @@
 
 namespace App\Services\Facades;
 
-use App\Dto\Contact\ContactDto;
 use App\Dto\Contact\ContactEditDto;
+use App\Dto\Contact\ContactInviteDto;
 use App\Dto\IwmsApi\Contact\IwmsApiContactDto;
 use App\Dto\IwmsApi\Contact\IwmsApiContactEditDto;
 use App\Models\Contact;
@@ -21,21 +21,30 @@ class IwmsContactFacade
 
     /**
      * @param IwmsApiContactDto $iwmsApiContactDto
+     * @param ContactInviteDto $contactInviteDto
      * @return Contact|bool
      */
-    public function invite(IwmsApiContactDto $iwmsApiContactDto): Contact|bool
+    public function invite(IwmsApiContactDto $iwmsApiContactDto, ContactInviteDto $contactInviteDto): Contact|bool
     {
         // send data to api
         $res = $this->apiContactService->invite($iwmsApiContactDto);
         // if success from api we save data in DB
         if ($res) {
-           $contactDto = (new ContactDto())
-                ->setId($res->getId())
-                ->setCompanyId($res->getCompanyId())
+           $contactDto = $contactInviteDto->setId($res->getId())
                 ->setRole($res->getRole())
+                ->setCompanyId($res->getCompanyId())
                 ->setEmail($res->getEmail());
 
-            return $this->contactService->create($contactDto);
+
+            $employee = $this->contactService->create($contactDto);
+            // if the employee successfully save in the database
+            if ($employee)  {
+                $employee->workplaces()->attach($contactInviteDto->getWorkPlace());
+                $employee->teams()->attach($contactInviteDto->getTeam());
+                $employee->uniqueItems()->attach($contactInviteDto->getUniqueItem());
+
+                return true;
+            }
         }
 
         return false;

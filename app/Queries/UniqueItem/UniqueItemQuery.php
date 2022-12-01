@@ -58,4 +58,11 @@ class UniqueItemQuery implements UniqueItemQueryInterface
 
         return $query;
     }
+
+    public function getAllUniqueItems(string $companyId): Builder
+    {
+        return UniqueItem::whereHas('workPlace', static function (Builder $query) use ($companyId) {
+            $query->where('company_id', $companyId);
+        });
+    }
 }

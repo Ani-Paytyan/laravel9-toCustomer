@@ -20,4 +20,10 @@ interface UniqueItemQueryInterface
      * @return Builder
      */
     public function getSearchUniqueItemQuery(UniqueItemSearchDto $dto): Builder;
+
+    /**
+     * @param string $companyId
+     * @return Builder
+     */
+    public function getAllUniqueItems(string $companyId): Builder;
 }

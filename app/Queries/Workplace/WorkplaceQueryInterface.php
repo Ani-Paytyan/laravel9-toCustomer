@@ -4,6 +4,7 @@ namespace App\Queries\Workplace;
 
 use App\Dto\WorkPlace\WorkPlaceSearchDto;
 use App\Models\Contact;
+use App\Models\WorkPlace;
 use Illuminate\Database\Eloquent\Builder;
 
 interface WorkplaceQueryInterface
@@ -20,4 +21,10 @@ interface WorkplaceQueryInterface
      * @return Builder
      */
     public function getSearchWorkplaceQuery(WorkPlaceSearchDto $dto): Builder;
+
+    /**
+     * @param string $companyId
+     * @return Builder
+     */
+    public function getAllWorkplaces(string $companyId): Builder;
 }

@@ -39,4 +39,13 @@ class TeamQuery implements TeamQueryInterface
 
         return $query;
     }
+
+    /**
+     * @param string $companyId
+     * @return Builder
+     */
+    public function getAllTeams(string $companyId): Builder
+    {
+        return Team::where('company_id', $companyId);
+    }
 }

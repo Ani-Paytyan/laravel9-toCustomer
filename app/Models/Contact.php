@@ -2,8 +2,10 @@
 
 namespace App\Models;
 
+use App\Traits\UuidTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\Pivot;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
@@ -60,6 +62,8 @@ class Contact extends Model
 
     protected $primaryKey = 'uuid';
 
+    public $incrementing = false;
+
     protected $fillable = [
         'uuid',
         'company_id',
@@ -90,20 +94,29 @@ class Contact extends Model
     {
         return $this->belongsToMany(WorkPlace::class, 'work_place_contacts', 'contact_id', 'workplace_id')
             ->withPivot('uuid')
-            ->wherePivot('deleted_at', '=', null);
+            ->wherePivot('deleted_at', '=', null)
+            ->using(new class extends Pivot {
+                use UuidTrait;
+            });
     }
 
     public function uniqueItems()
     {
         return $this->belongsToMany(UniqueItem::class, 'unique_item_contacts', 'contact_id', 'unique_item_id')
             ->withPivot('uuid')
-            ->wherePivot('deleted_at', '=', null);
+            ->wherePivot('deleted_at', '=', null)
+            ->using(new class extends Pivot {
+                use UuidTrait;
+            });
     }
 
     public function teams()
     {
         return $this->belongsToMany(Team::class, 'team_contacts', 'contact_id', 'team_id')
-            ->withPivot('uuid')
-            ->wherePivot('deleted_at', '=', null);
+            ->withPivot('uuid', 'role')
+            ->wherePivot('deleted_at', '=', null)
+            ->using(new class extends Pivot {
+                use UuidTrait;
+            });
     }
 }

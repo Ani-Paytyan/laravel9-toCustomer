@@ -47,4 +47,19 @@ class WorkplaceQuery implements WorkplaceQueryInterface
 
         return $query;
     }
+
+    /**
+     * @param string $companyId
+     * @return Builder
+     */
+    public function getAllWorkplaces(string $companyId): Builder
+    {
+        $query = Workplace::query();
+
+        if ($companyId) {
+            $query->where('company_id', '=', $companyId);
+        }
+
+        return $query;
+    }
 }

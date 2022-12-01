@@ -41,6 +41,51 @@
                             />
                         </div>
                     </div>
+                    <div class="row mb-3 g-2">
+                        <div class="col-md">
+                            <x-form.select
+                                multiple="multiple"
+                                name="team[]"
+                                id="team"
+                                :hide-default-option="true"
+                                label="{{ __('page.teams.title') }}"
+                                placeholder="{{ __('page.teams.title') }}"
+                                class="form-select form-control-muted select2"
+                                :options="$teamsList"
+                                value="{{ old('team') }}"
+                            />
+                        </div>
+                    </div>
+                    <div class="row mb-3 g-2">
+                        <div class="col-md">
+                            <x-form.select
+                                multiple="multiple"
+                                name="workplace[]"
+                                id="workplace"
+                                :hide-default-option="true"
+                                label="{{ __('page.workplaces.title') }}"
+                                placeholder="{{ __('page.workplaces.title') }}"
+                                class="form-select form-control-muted select2"
+                                :options="$workPlaceList"
+                                value="{{ old('workplace') }}"
+                            />
+                        </div>
+                    </div>
+                    <div class="row mb-3 g-2">
+                        <div class="col-md">
+                            <x-form.select
+                                multiple="multiple"
+                                name="uniqueItem[]"
+                                id="uniqueItem"
+                                :hide-default-option="true"
+                                label="{{ __('page.unique-items.title') }}"
+                                placeholder="{{ __('page.unique-items.title') }}"
+                                class="form-select form-control-muted select2"
+                                :options="$uniqueItems"
+                                value="{{ old('uniqueItem') }}"
+                            />
+                        </div>
+                    </div>
                     <button type="submit" class="btn btn-success">{{ trans('common.invite') }}</button>
                 </form>
             </div>

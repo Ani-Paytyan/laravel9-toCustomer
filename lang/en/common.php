@@ -9,4 +9,5 @@ return [
     'create' => 'Create',
     'save' => 'Save',
     'show_more' => 'Show more',
+    'success' => 'Success',
 ];

@@ -30,7 +30,10 @@ Route::group(['middleware' => 'api_auth', 'prefix' => 'v1'], static function () 
     Route::get('user/info', [UserController::class, 'index']);
 
     Route::controller(EmployeeController::class)->group(function () {
+        Route::get('employee', 'index')->name('api.employee.index');
+        Route::get('employee/{employee}', 'show')->name('api.employee.show');
+
         Route::delete('employee/{employee}/archive', 'archive')->name('api.employee.archive');
-        Route::get('employee/{employee}/restore/', 'restore')->name('api.employee.restore')->withTrashed();
+        Route::patch('employee/{employee}/restore/', 'restore')->name('api.employee.restore')->withTrashed();
     });
 });

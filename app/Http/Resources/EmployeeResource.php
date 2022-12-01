@@ -7,9 +7,9 @@ use OpenApi\Annotations as OA;
 
 /**
  * @OA\Schema(
- *     title="User Resource",
+ *     title="Employee Resource",
  *     type="object",
- *     schema="UserResource",
+ *     schema="EmployeeResource",
  *
  *     @OA\Property(
  *         type="string",
@@ -19,25 +19,40 @@ use OpenApi\Annotations as OA;
  *     ),
  *     @OA\Property(
  *         type="string",
- *         property="name",
- *         title="Name",
+ *         property="first_name",
+ *         title="First Name",
  *         example="Name",
  *     ),
- *
+ *     @OA\Property(
+ *         type="string",
+ *         property="last_name",
+ *         title="Last Name",
+ *         example="Last Name",
+ *     ),
+ *     @OA\Property(
+ *         type="string",
+ *         property="phone",
+ *         title="Phone Number",
+ *         example="7774744774",
+ *     ),
+ *     @OA\Property(
+ *         type="string",
+ *         property="address",
+ *         title="Address",
+ *         example="United States",
+ *     ),
  *     @OA\Property(
  *         type="string",
  *         property="email",
  *         title="Email Address",
  *         example="test@example.com",
  *     ),
- *
  *     @OA\Property(
  *         type="string",
  *         property="role",
  *         title="Role",
  *         example="Admin",
  *     ),
- *
  *     @OA\Property(
  *         type="string",
  *         property="companyId",
@@ -46,20 +61,11 @@ use OpenApi\Annotations as OA;
  *     ),
  * )
  */
-class UserResource extends JsonResource
+class EmployeeResource extends JsonResource
 {
-    /**
-     * @param $request
-     * @return array
-     */
-    public function toArray($request): array
+
+    public function toArray($request)
     {
-        return [
-            'id' => $this?->resource?->getId(),
-            'name' => $this?->resource?->getFirstName(),
-            'email' => $this?->resource?->getEmail(),
-            'role' => $this?->resource?->getRole(),
-            'company_id' => $this?->resource?->getCompany()?->getId(),
-        ];
+        return parent::toArray($request);
     }
 }

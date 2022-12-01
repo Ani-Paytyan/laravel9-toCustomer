@@ -15,6 +15,7 @@ class UserController extends Controller
      *     summary="Get user information",
      *     tags={"User information"},
      *     description="Index method of user",
+     *     security={{ "api_auth": {} }},
      *     @OA\Response(
      *         response=200,
      *         description="Success",

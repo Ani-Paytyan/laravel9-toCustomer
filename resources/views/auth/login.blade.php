@@ -31,5 +31,6 @@
                 </button>
             </div>
         </form>
+        <x-language/>
     </div>
 @endsection

@@ -2,11 +2,8 @@ const mix = require('laravel-mix');
 require('dotenv').config();
 
 mix
-    .js('resources/js/app.js', 'public/build/js')
-    .js('resources/js/uniqueItem/unique-item.js', 'public/build/js')
-    .sass('resources/sass/app.scss', 'public/build/css')
-    .version()
   .js('resources/js/app.js', 'public/build/js')
+  .js('resources/js/uniqueItem/unique-item.js', 'public/build/js')
   .sass('resources/scss/app.scss', 'public/build/css')
   .disableSuccessNotifications()
   .version()

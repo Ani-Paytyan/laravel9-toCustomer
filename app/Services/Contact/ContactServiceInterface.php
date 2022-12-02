@@ -12,9 +12,9 @@ interface ContactServiceInterface
 
     /**
      * @param ContactDto $contactDto
-     * @return Contact
+     * @return Contact|bool
      */
-    public function create(ContactDto $contactDto): Contact;
+    public function create(ContactDto $contactDto): Contact|bool;
 
     /**
      * @param ContactEditDto $contactEditDto
@@ -22,6 +22,12 @@ interface ContactServiceInterface
      * @return bool
      */
     public function update(ContactEditDto $contactEditDto, Contact $contact): bool;
+
+    /**
+     * @param Contact $contact
+     * @return bool
+     */
+    public function restore(Contact $contact): bool;
 
     /**
      * @param Contact $contact

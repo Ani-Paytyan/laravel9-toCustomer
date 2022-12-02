@@ -21,6 +21,7 @@ class IwmsApiContactDto
     private ?string $address;
     private ?string $city;
     private ?string $zip;
+
     private bool $isDeleted = false;
 
     /**

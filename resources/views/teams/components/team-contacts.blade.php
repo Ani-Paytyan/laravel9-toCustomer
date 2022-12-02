@@ -24,11 +24,11 @@
                             </td>
                             <td>
                                 <select
-                                    @change="update('{{ route("team-contacts.update", $teamContact->uuid) }}')"
-                                    class="form-control form-control-sm"
-                                    aria-label="{{ __('attributes.user.role') }}"
-                                    :disabled="loading"
-                                    x-ref="role"
+                                        @change="update('{{ route("team-contacts.update", $teamContact->uuid) }}')"
+                                        class="form-control form-control-sm"
+                                        aria-label="{{ __('attributes.user.role') }}"
+                                        :disabled="loading"
+                                        x-ref="role"
                                 >
                                     @foreach($roles as $optValue => $name)
                                         <option value="{{ $optValue }}" @selected($teamContact->role === $optValue)>
@@ -39,18 +39,18 @@
                             </td>
                             <td class="text-nowrap">
                                 <a
-                                    href="{{ route('employees.show', $teamContact->uuid) }}"
-                                    class="btn btn-square"
-                                    title="{{ __('page.employees.employee') }}"
-                                    :class="{ disabled: loading }"
+                                        href="{{ route('employees.show', $teamContact->uuid) }}"
+                                        class="btn btn-square"
+                                        title="{{ __('page.employees.employee') }}"
+                                        :class="{ disabled: loading }"
                                 >
                                     <x-heroicon-o-eye />
                                 </a>
                                 <button
-                                    @click.prevent="destroy('{{ route("team-contacts.destroy", $teamContact->pivot->uuid) }}', '{{ __("Are you sure?") }}')"
-                                    class="btn btn-square text-danger"
-                                    title="{{ __('page.employees.delete') }}"
-                                    :disabled="loading"
+                                        @click.prevent="destroy('{{ route("team-contacts.destroy", $teamContact->pivot->uuid) }}', '{{ __("Are you sure?") }}')"
+                                        class="btn btn-square text-danger"
+                                        title="{{ __('page.employees.delete') }}"
+                                        :disabled="loading"
                                 >
                                     <x-heroicon-o-trash />
                                 </button>

@@ -7,11 +7,11 @@
             <h4 class="mb-0">{{ __('page.workplaces.edit') }}: {{ $workplace->name }}</h4>
         </div>
         <form
-            class="mb-0"
-            method="POST"
-            action="{{ route("workplaces.update", $workplace->uuid) }}"
-            x-data="{ loading: false }"
-            @submit="loading = true"
+                class="mb-0"
+                method="POST"
+                action="{{ route("workplaces.update", $workplace->uuid) }}"
+                x-data="{ loading: false }"
+                @submit="loading = true"
         >
             @csrf
             @method('PUT')
@@ -19,58 +19,70 @@
                 <div class="row">
                     <div class="col-12 mb-3">
                         <x-form.input
-                            name="name"
-                            type="text"
-                            id="name"
-                            required
-                            label="{{ __('attributes.user.name') }}"
-                            placeholder="{{ __('attributes.user.name') }}"
-                            class="form-control-muted"
-                            value="{{ old('name') ?? $workplace->name }}"
+                                name="name"
+                                type="text"
+                                id="name"
+                                required
+                                label="{{ __('attributes.user.name') }}"
+                                placeholder="{{ __('attributes.user.name') }}"
+                                class="form-control-muted"
+                                value="{{ old('name') ?? $workplace->name }}"
                         />
                     </div>
                     <div class="col-md-6 mb-3">
                         <x-form.input
-                            name="address"
-                            type="text"
-                            id="address"
-                            label="{{ __('attributes.user.address') }}"
-                            placeholder="{{ __('attributes.user.address') }}"
-                            class="form-control-muted"
-                            value="{{ old('address') ?? $workplace->address }}"
+                                name="address"
+                                type="text"
+                                id="address"
+                                label="{{ __('attributes.user.address') }}"
+                                placeholder="{{ __('attributes.user.address') }}"
+                                class="form-control-muted"
+                                value="{{ old('address') ?? $workplace->address }}"
                         />
                     </div>
                     <div class="col-md-6 mb-3">
                         <x-form.input
-                            name="zip"
-                            type="text"
-                            id="zip"
-                            label="{{ __('attributes.user.zip') }}"
-                            placeholder="{{ __('attributes.user.zip') }}"
-                            class="form-control-muted"
-                            value="{{ old('zip') ?? $workplace->zip }}"
+                                name="zip"
+                                type="text"
+                                id="zip"
+                                label="{{ __('attributes.user.zip') }}"
+                                placeholder="{{ __('attributes.user.zip') }}"
+                                class="form-control-muted"
+                                value="{{ old('zip') ?? $workplace->zip }}"
                         />
                     </div>
                     <div class="col-md-6 mb-3">
                         <x-form.input
-                            name="city"
-                            type="text"
-                            id="city"
-                            label="{{ __('attributes.user.city') }}"
-                            placeholder="{{ __('attributes.user.city') }}"
-                            class="form-control-muted"
-                            value="{{ old('city') ?? $workplace->city }}"
+                                name="city"
+                                type="text"
+                                id="city"
+                                label="{{ __('attributes.user.city') }}"
+                                placeholder="{{ __('attributes.user.city') }}"
+                                class="form-control-muted"
+                                value="{{ old('city') ?? $workplace->city }}"
                         />
                     </div>
                     <div class="col-md-6 mb-3">
                         <x-form.input
-                            name="number"
-                            type="text"
-                            id="number"
-                            label="{{ __('attributes.workplaces.number') }}"
-                            placeholder="{{ __('attributes.workplaces.number') }}"
-                            class="form-control-muted"
-                            value="{{ old('number') ?? $workplace->number }}"
+                                name="number"
+                                type="text"
+                                id="number"
+                                label="{{ __('attributes.workplaces.number') }}"
+                                placeholder="{{ __('attributes.workplaces.number') }}"
+                                class="form-control-muted"
+                                value="{{ old('number') ?? $workplace->number }}"
+                        />
+                    </div>
+                    <div class="col-md-12 mb-3">
+                        <x-form.textarea
+                                name="description"
+                                type="text"
+                                id="description"
+                                data-bs-toggle="tooltip" data-bs-html="true" title="{{ __('attributes.workplace_description.tooltip_info') }}"
+                                label="{{ __('attributes.workplace_description.title') }}"
+                                placeholder="{{ __('attributes.workplace_description.enter_title') }}"
+                                class="form-control-muted"
+                                value="{{ old('description') ?? $workplace->description }}"
                         />
                     </div>
                 </div>

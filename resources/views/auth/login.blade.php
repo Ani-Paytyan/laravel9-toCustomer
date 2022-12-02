@@ -5,26 +5,27 @@
 @section('content')
     <h1 class="mb-4">{{ trans('page.login.title') }}</h1>
     <form
-        method="post"
-        action="{{ route('auth.login.store') }}"
-        x-data="{ loading: false }"
-        @submit="loading = true"
+            method="post"
+            action="{{ route('auth.login.store') }}"
+            x-data="{ loading: false }"
+            @submit="loading = true"
+            class="mb-3"
     >
         @csrf
         <div class="mb-4">
             <x-form.input
-                name="email"
-                type="email"
-                id="email"
-                label="{{ trans('attributes.user.email') }}"
+                    name="email"
+                    type="email"
+                    id="email"
+                    label="{{ trans('attributes.user.email') }}"
             />
         </div>
         <div class="mb-5">
             <x-form.input
-                name="password"
-                type="password"
-                id="password"
-                label="{{ trans('attributes.user.password') }}"
+                    name="password"
+                    type="password"
+                    id="password"
+                    label="{{ trans('attributes.user.password') }}"
             />
         </div>
         <button type="submit" class="btn btn-primary" :disabled="loading">
@@ -32,4 +33,6 @@
             {{ trans('page.login.sign_in_button') }}
         </button>
     </form>
+
+    <x-language/>
 @endsection

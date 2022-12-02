@@ -31,19 +31,19 @@
                     <x-language />
 
                     <a
-                        class="btn btn-square"
-                        href="#"
-                        data-bs-toggle="modal"
-                        data-bs-target=".supportModal"
-                        title="{{ __('page.support.title') }}"
+                            class="btn btn-square"
+                            href="#"
+                            data-bs-toggle="modal"
+                            data-bs-target=".supportModal"
+                            title="{{ __('page.support.title') }}"
                     >
                         <x-heroicon-o-lifebuoy />
                     </a>
                     @if (Gate::allows('create-working-days'))
                         <a
-                            class="btn btn-square"
-                            href="{{ route('company.workdays') }}"
-                            title="{{ __('page.company.workdays') }}"
+                                class="btn btn-square"
+                                href="{{ route('company.workdays') }}"
+                                title="{{ __('page.company.workdays') }}"
                         >
                             <x-heroicon-o-calendar-days />
                         </a>
@@ -53,9 +53,9 @@
                         <x-heroicon-o-moon x-show="!$store.darkMode.on" />
                     </button>
                     <a
-                        class="btn btn-square"
-                        href="{{ route('dashboard') }}"
-                        title="{{ auth()->user()->getFirstName() }} {{ auth()->user()->getLastName() }}"
+                            class="btn btn-square"
+                            href="{{ route('dashboard') }}"
+                            title="{{ auth()->user()->getFirstName() }} {{ auth()->user()->getLastName() }}"
                     >
                         <x-heroicon-o-user />
                     </a>

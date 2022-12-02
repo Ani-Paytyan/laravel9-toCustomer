@@ -1,8 +1,11 @@
 <?php
 
 use App\Http\Controllers\Api\V1\AuthController;
-use Illuminate\Http\Request;
+use App\Http\Controllers\Api\V1\EmployeeController;
+use App\Http\Controllers\Api\V1\UserController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Api;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -19,10 +22,18 @@ use Illuminate\Support\Facades\Route;
 //    return $request->user();
 //});
 
-Route::group([
-    'middleware' => 'api',
-    'prefix' => 'v1/auth'
-], static function ($router) {
-    Route::post('login', [AuthController::class, 'login'])->name('login');
+Route::group(['middleware' => 'api', 'prefix' => 'v1'], static function () {
+    Route::post('auth/login', [AuthController::class, 'login'])->name('login');
 });
 
+Route::group(['middleware' => 'api_auth', 'prefix' => 'v1'], static function () {
+    Route::get('user/info', [UserController::class, 'index']);
+
+    Route::controller(EmployeeController::class)->group(function () {
+        Route::get('employee', 'index')->name('api.employee.index');
+        Route::get('employee/{employee}', 'show')->name('api.employee.show');
+
+        #Route::delete('employee/{employee}/archive', 'archive')->name('api.employee.archive');
+        #Route::patch('employee/{employee}/restore/', 'restore')->name('api.employee.restore')->withTrashed();
+    });
+});

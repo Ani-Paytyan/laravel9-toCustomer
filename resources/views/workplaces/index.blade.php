@@ -7,12 +7,12 @@
         <div class="card-header d-flex flex-column flex-md-row align-items-md-center justify-content-md-between">
             <h4 class="mb-md-0">{{ __('page.workplaces.title')}}</h4>
             @if (Gate::allows('create-workplace'))
-            <div>
-                <a href="{{ route('workplaces.create') }}" class="btn btn-primary w-100">
-                    <x-heroicon-o-plus />
-                    {{ __('page.workplaces.create') }}
-                </a>
-            </div>
+                <div>
+                    <a href="{{ route('workplaces.create') }}" class="btn btn-primary w-100">
+                        <x-heroicon-o-plus />
+                        {{ __('page.workplaces.create') }}
+                    </a>
+                </div>
             @endif
         </div>
         @if ($workPlaces->isNotEmpty())
@@ -46,47 +46,47 @@
                             <td class="text-nowrap">
                                 @if (Gate::allows('create-workplace-working-days'))
                                     <a
-                                        href="{{ route('workplace.workdays', $workPlace->uuid) }}"
-                                        class="btn btn-square"
-                                        title="{{ __('page.workplaces.work_days') }}"
+                                            href="{{ route('workplace.workdays', $workPlace->uuid) }}"
+                                            class="btn btn-square"
+                                            title="{{ __('page.workplaces.work_days') }}"
                                     >
                                         <x-heroicon-o-calendar-days />
                                     </a>
                                 @endif
                                 <a
-                                    href="{{ route('workplaces.show', $workPlace->uuid) }}"
-                                    class="btn btn-square"
-                                    title="{{ __('page.workplace.title') }}"
+                                        href="{{ route('workplaces.show', $workPlace->uuid) }}"
+                                        class="btn btn-square"
+                                        title="{{ __('page.workplace.title') }}"
                                 >
                                     <x-heroicon-o-eye />
                                 </a>
                                 @if (Gate::allows('edit-workplace'))
                                     <a
-                                        href="{{ route('workplaces.edit', $workPlace->uuid) }}"
-                                        class="btn btn-square"
-                                        title="{{ __('page.workplace.edit') }}"
+                                            href="{{ route('workplaces.edit', $workPlace->uuid) }}"
+                                            class="btn btn-square"
+                                            title="{{ __('page.workplace.edit') }}"
                                     >
                                         <x-heroicon-o-pencil />
                                     </a>
                                 @endif
                                 @if (Gate::allows('destroy-workplace'))
-                                        <form
+                                    <form
                                             class="d-inline-block mb-0"
                                             method="POST"
                                             action="{{ route('workplaces.destroy', $workPlace->uuid) }}"
                                             x-ref="deleteForm"
-                                        >
-                                            @csrf
-                                            @method('DELETE')
-                                            <button
+                                    >
+                                        @csrf
+                                        @method('DELETE')
+                                        <button
                                                 @click.prevent="destroy('{{ __("Are you sure?") }}')"
                                                 class="btn btn-square text-danger"
                                                 title="{{ __('page.workplace.delete_workplace') }}"
                                                 :disabled="loading"
-                                            >
-                                                <x-heroicon-o-trash />
-                                            </button>
-                                        </form>
+                                        >
+                                            <x-heroicon-o-trash />
+                                        </button>
+                                    </form>
                                 @endif
                             </td>
                         </tr>

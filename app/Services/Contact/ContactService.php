@@ -5,6 +5,7 @@ namespace App\Services\Contact;
 use App\Dto\Contact\ContactDto;
 use App\Dto\Contact\ContactEditDto;
 use App\Models\Contact;
+use Illuminate\Support\Facades\Log;
 
 class ContactService implements ContactServiceInterface
 {
@@ -36,14 +37,24 @@ class ContactService implements ContactServiceInterface
         }
     }
 
-    public function create(ContactDto $contactDto): Contact
+    /**
+     * @param ContactDto $contactDto
+     * @return Contact|bool
+     */
+    public function create(ContactDto $contactDto): Contact|bool
     {
-        return Contact::create([
-            'uuid' => $contactDto->getId(),
-            'company_id' => $contactDto->getCompanyId(),
-            'email' => $contactDto->getEmail(),
-            'role' => $contactDto->getRole(),
-        ]);
+        try {
+            return Contact::create([
+                'uuid' => $contactDto->getId(),
+                'company_id' => $contactDto->getCompanyId(),
+                'email' => $contactDto->getEmail(),
+                'role' => $contactDto->getRole(),
+            ]);
+        } catch (\Exception $e) {
+            Log::error($e->getMessage());
+
+            return false;
+        }
     }
 
     public function update(ContactEditDto $contactEditDto, Contact $contact): bool
@@ -62,10 +73,24 @@ class ContactService implements ContactServiceInterface
         ]);
     }
 
+    /**
+     * @param Contact $contact
+     * @return bool
+     */
+    public function restore(Contact $contact): bool
+    {
+        return $contact->restore();
+    }
+
+    /**
+     * @param Contact $contact
+     * @return bool
+     */
     public function destroy(Contact $contact): bool
     {
         // detach all work place contacts
         $contact->workplaces()->detach();
+        $contact->teams()->detach();
 
         return $contact->delete();
     }

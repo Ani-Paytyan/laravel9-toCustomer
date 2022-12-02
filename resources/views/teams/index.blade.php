@@ -33,25 +33,25 @@
                             <td>{{ $team->description }}</td>
                             <td class="text-nowrap">
                                 <a
-                                    href="{{ route('teams.edit', $team->uuid) }}"
-                                    class="btn btn-square"
-                                    title="{{ __('page.teams.edit') }}"
+                                        href="{{ route('teams.edit', $team->uuid) }}"
+                                        class="btn btn-square"
+                                        title="{{ __('page.teams.edit') }}"
                                 >
                                     <x-heroicon-o-pencil />
                                 </a>
                                 <form
-                                    class="d-inline-block mb-0"
-                                    method="POST"
-                                    action="{{ route('teams.destroy', $team->uuid) }}"
-                                    x-ref="deleteForm"
+                                        class="d-inline-block mb-0"
+                                        method="POST"
+                                        action="{{ route('teams.destroy', $team->uuid) }}"
+                                        x-ref="deleteForm"
                                 >
                                     @csrf
                                     @method('DELETE')
                                     <button
-                                        @click.prevent="destroy('{{ __("Are you sure?") }}')"
-                                        class="btn btn-square text-danger"
-                                        title="{{ __('page.teams.delete') }}"
-                                        :disabled="loading"
+                                            @click.prevent="destroy('{{ __("Are you sure?") }}')"
+                                            class="btn btn-square text-danger"
+                                            title="{{ __('page.teams.delete') }}"
+                                            :disabled="loading"
                                     >
                                         <x-heroicon-o-trash />
                                     </button>

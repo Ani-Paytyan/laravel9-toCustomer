@@ -18,7 +18,7 @@
     @include('layout.partials.modal')
     @stack('bodyStart')
     @yield('page')
-{{--    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>--}}
+    {{--    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>--}}
     <script src="{{ mix('build/js/app.js')  }}"></script>
     @stack('bodyEnd')
 </body>

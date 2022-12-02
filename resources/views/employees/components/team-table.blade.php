@@ -18,9 +18,9 @@
                         <td>{{ $team->description }}</td>
                         <td>
                             <a
-                                href="{{ route('teams.edit', $team->uuid) }}"
-                                class="btn btn-square"
-                                title="{{ __('page.teams.title') }}"
+                                    href="{{ route('teams.edit', $team->uuid) }}"
+                                    class="btn btn-square"
+                                    title="{{ __('page.teams.title') }}"
                             >
                                 <x-heroicon-o-eye />
                             </a>

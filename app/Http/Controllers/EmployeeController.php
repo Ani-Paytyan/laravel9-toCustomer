@@ -2,22 +2,25 @@
 
 namespace App\Http\Controllers;
 
+use App\Dto\Contact\ContactInviteDto;
+use App\Dto\Contact\ContactSearchDto;
 use App\Dto\IwmsApi\Contact\IwmsApiContactDto;
 use App\Dto\IwmsApi\Contact\IwmsApiContactEditDto;
 use App\Dto\IwmsApi\IwmsApiUserDto;
 use App\Http\Requests\Employee\EmployeeCreateRequest;
 use App\Http\Requests\Employee\EmployeeEditRequest;
 use App\Models\Contact;
-use App\Models\Team;
 use App\Models\TeamContact;
-use App\Models\WorkPlace;
-use App\Models\UniqueItem;
+use App\Queries\Employee\EmployeeQueryInterface;
+use App\Queries\Team\TeamQueryInterface;
+use App\Queries\UniqueItem\UniqueItemQueryInterface;
+use App\Queries\Workplace\WorkplaceQueryInterface;
 use App\Services\Facades\IwmsContactFacade;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
@@ -39,29 +42,14 @@ class EmployeeController extends Controller
     }
 
     /**
+     * @param Request $request
+     * @param EmployeeQueryInterface $employeeQuery
      * @return Application|Factory|View
      */
-    public function index()
+    public function index(Request $request, EmployeeQueryInterface $employeeQuery)
     {
         $userId = $this->user->getId();
         $statusDeleted = IwmsApiContactDto::STATUS_DELETED;
-
-        $employees = Contact::where('company_id', $this->companyId)
-            ->orderBy(DB::raw('ISNULL(first_name), first_name'), 'ASC')
-            ->orderBy(DB::raw('ISNULL(last_name), last_name'), 'ASC')
-            ->paginate(20);
-
-        return view('employees.index', compact('employees',  'userId', 'statusDeleted'));
-    }
-
-    /**
-     *
-     * Invite a contact view
-     * @return Application|Factory|View
-     */
-    public function create()
-    {
-        Gate::authorize('invite-employee');
 
         $roles = [
             IwmsApiUserDto::ROLE_ADMIN => IwmsApiUserDto::ROLE_ADMIN,
@@ -69,17 +57,71 @@ class EmployeeController extends Controller
             IwmsApiUserDto::ROLE_WORKER => IwmsApiUserDto::ROLE_WORKER,
         ];
 
-        return view('employees.invite', compact('roles'));
+        $statuses = [
+            IwmsApiContactDto::STATUS_ACTIVE => IwmsApiContactDto::STATUS_ACTIVE,
+            IwmsApiContactDto::STATUS_INVITED => IwmsApiContactDto::STATUS_INVITED,
+        ];
+
+        $dto = ContactSearchDto::createFromRequest($request, $this->companyId);
+
+        $employees = $employeeQuery->getSearchContactQuery($dto)
+            ->orderBy(DB::raw('ISNULL(first_name), first_name'), 'ASC')
+            ->orderBy(DB::raw('ISNULL(last_name), last_name'), 'ASC')
+            ->paginate(20);
+
+        return view('employees.index', compact(
+            'employees',
+            'userId',
+            'statusDeleted',
+            'statuses',
+            'roles'
+        ));
+    }
+
+    public function create(
+        WorkplaceQueryInterface $workplaceQuery,
+        UniqueItemQueryInterface $uniqueItemQuery,
+        TeamQueryInterface $teamQuery
+    ) {
+        Gate::authorize('invite-employee');
+        // employees roles
+        $roles = [
+            IwmsApiUserDto::ROLE_ADMIN => IwmsApiUserDto::ROLE_ADMIN,
+            IwmsApiUserDto::ROLE_MANAGER => IwmsApiUserDto::ROLE_MANAGER,
+            IwmsApiUserDto::ROLE_WORKER => IwmsApiUserDto::ROLE_WORKER,
+        ];
+
+        $teamsList = $teamQuery->getAllTeams($this->companyId)
+            ->orderBy('name', 'ASC')
+            ->pluck('name','uuid')
+            ->toArray();
+
+        $workPlaceList = $workplaceQuery->getAllWorkplaces($this->companyId)
+            ->orderBy('name', 'ASC')
+            ->pluck('name','uuid')
+            ->toArray();
+
+        $uniqueItems = $uniqueItemQuery->getAllUniqueItems($this->companyId)
+            ->select('unique_items.*')
+            ->join('items', 'items.uuid', '=', 'unique_items.item_id')
+            ->orderBy('items.name')
+            ->get()
+            ->mapWithKeys(function ($item) {
+                return [
+                    $item->uuid => $item->name ?? ($item->item ? $item->item->name : '') . ' - ' . $item->article
+                ];
+            })->toArray();
+
+        return view('employees.invite', compact('roles', 'teamsList', 'workPlaceList', 'uniqueItems'));
     }
 
     public function show(Contact $employee)
     {
         $workPlaces = $employee->workplaces()->orderBy('name', 'ASC')->paginate(10);
 
-        $uniqueItems = $employee->uniqueItems()
-            ->join('items', 'items.uuid', '=', 'unique_items.item_id')
-            ->orderBy('items.name')
-            ->paginate(10);
+        $uniqueItems = $employee->uniqueItems()->with(['item' => function ($query)  {
+            $query->orderBy('items.name', 'asc');
+        }])->paginate(10);
 
         $teams = $employee->teams()->orderBy('name', 'ASC')->paginate(10);
 
@@ -96,8 +138,9 @@ class EmployeeController extends Controller
         Gate::authorize('invite-employee');
 
         $iwmsApiContactDto = IwmsApiContactDto::createFromRequest($request->all(), $this->companyId);
+        $contactInviteDto = ContactInviteDto::createFromRequest($request->all());
 
-        if ($iwmsContactFacade->invite($iwmsApiContactDto)) {
+        if ($iwmsContactFacade->invite($iwmsApiContactDto, $contactInviteDto)) {
             return redirect()->route('employees.index')->with('toast_success', __('page.employees.invite_successfully'));
         }
 
@@ -106,22 +149,63 @@ class EmployeeController extends Controller
 
     /**
      * @param Contact $employee
+     * @param WorkplaceQueryInterface $workplaceQuery
+     * @param UniqueItemQueryInterface $uniqueItemQuery
+     * @param TeamQueryInterface $teamQuery
      * @return Application|Factory|View
      */
-    public function edit(Contact $employee)
-    {
+    public function edit(
+        Contact $employee,
+        WorkplaceQueryInterface $workplaceQuery,
+        UniqueItemQueryInterface $uniqueItemQuery,
+        TeamQueryInterface $teamQuery
+    ) {
         Gate::authorize('edit-employee');
-
+        // employees roles
         $roles = [
             IwmsApiUserDto::ROLE_ADMIN => IwmsApiUserDto::ROLE_ADMIN,
             IwmsApiUserDto::ROLE_MANAGER => IwmsApiUserDto::ROLE_MANAGER,
             IwmsApiUserDto::ROLE_WORKER => IwmsApiUserDto::ROLE_WORKER,
         ];
-
+        // get teams roles
+        $teamRoles = TeamContact::getRoles();
         // ability to change the role of all contacts of contacts, except for super-admins
         $canEditRole = $employee->role !== IwmsApiUserDto::ROLE_SUPER_ADMIN;
+        // get workplaces
+        $workPlaces = $employee->workplaces()->orderBy('name', 'ASC')->get();
+        $workPlaceList = $workplaceQuery->getNotAssignedToContactQuery($employee, $this->companyId)
+            ->orderBy('name', 'ASC')
+            ->pluck('name','uuid')
+            ->toArray();
 
-        return view('employees.edit', compact('employee', 'roles', 'canEditRole'));
+        // get unique items
+        $uniqueItemContacts = $employee->uniqueItems()->orderBy('name', 'ASC')->get();
+        $uniqueItemList = $uniqueItemQuery->getNotAssignedToContactQuery($employee, $this->companyId)
+            ->orderBy('article', 'ASC')
+            ->get()
+            ->mapWithKeys(function ($item) {
+                return [$item['uuid'] => $item['name'] ?? $item->item->name . ' -  ' . $item['article']];
+            })->toArray();
+
+        // get employee team
+        $teams = $employee->teams()->orderBy('name', 'ASC')->get();
+        $teamsList = $teamQuery->getNotAssignedToContactQuery($employee, $this->companyId)
+            ->orderBy('name', 'ASC')
+            ->pluck('name','uuid')
+            ->toArray();
+
+        return view('employees.edit', compact(
+            'employee',
+            'roles',
+            'canEditRole',
+            'workPlaces',
+            'workPlaceList',
+            'uniqueItemContacts',
+            'uniqueItemList',
+            'teams',
+            'teamRoles',
+            'teamsList'
+        ));
     }
 
     /**
@@ -153,72 +237,61 @@ class EmployeeController extends Controller
         Gate::authorize('destroy-employee');
 
         if ($iwmsContactFacade->destroy($employee)) {
-            return redirect()->route('employees.index')->with('toast_success', __('page.employees.delete_successfully'));
+            return redirect()->route('employees.index')->with('toast_success', __('page.employees.archived_successfully'));
         }
 
-        return redirect()->route('employees.index')->with('toast_error', __('page.employees.delete_error'));
+        return redirect()->route('employees.index')->with('toast_error', __('page.employees.archived_error'));
+    }
+
+    /**
+     * @return Application|Factory|View
+     */
+    public function archive()
+    {
+        $employees = Contact::where('company_id', $this->companyId)
+            ->onlyTrashed()
+            ->orderBy(DB::raw('ISNULL(first_name), first_name'), 'ASC')
+            ->orderBy(DB::raw('ISNULL(last_name), last_name'), 'ASC')
+            ->paginate(20);
+
+        return view('employees.archive', compact('employees'));
     }
 
     /**
      * @param Contact $employee
      * @return Application|Factory|View
      */
-    public function employeeTeams(Contact $employee)
+    public function employeeArchive(Contact $employee)
     {
-        $contactTeams = TeamContact::with('team')->where('contact_id', $employee->uuid)->get();
-        // get all team ids from table TeamUser if isset client
-        $teamsIds = $contactTeams->pluck('team_id')->toArray();
-        $roles = TeamContact::getRoles();
-
-        $teamsList = Team::where('company_id', $this->companyId)
-            ->whereNotIn('uuid', $teamsIds)
-            ->orderBy('name', 'ASC')
-            ->pluck('name','uuid')
-            ->toArray();
-
-        return view('teams.employee-teams', compact('employee','contactTeams', 'roles', 'teamsList'));
+        return view('employees.archive-show', compact('employee'));
     }
 
     /**
      * @param Contact $employee
-     * @return Application|Factory|View
+     * @param IwmsContactFacade $iwmsContactFacade
+     * @return RedirectResponse
      */
-    public function employeeWorkPlaces(Contact $employee)
+    public function restore(Contact $employee, IwmsContactFacade $iwmsContactFacade): RedirectResponse
     {
-        $contactWorkPlaces = $employee->workplaces()->orderBy('name', 'ASC');
+        if ($iwmsContactFacade->restore($employee)) {
+            return redirect()->route('employees.archive')->with('toast_success', __('page.employees.restored_successfully'));
+        }
 
-        $workPlaceList = WorkPlace::where('company_id', $this->companyId)
-            ->whereNotIn('uuid', $contactWorkPlaces->get()->pluck('uuid')->toArray())
-            ->orderBy('name', 'ASC')
-            ->pluck('name','uuid')
-            ->toArray();
-
-        $contactWorkPlaces = $contactWorkPlaces->paginate(10);
-
-        return view('employees.contacts', compact('employee','contactWorkPlaces', 'workPlaceList'));
+        return redirect()->route('employees.archive')->with('toast_error', __('page.employees.restored_error'));
     }
 
     /**
      * @param Contact $employee
-     * @return Application|Factory|View
+     * @param IwmsContactFacade $iwmsContactFacade
+     * @return RedirectResponse
      */
-    public function employeeUniqueItems(Contact $employee)
+    public function remindInvite(Contact $employee, IwmsContactFacade $iwmsContactFacade): RedirectResponse
     {
-        $uniqueItemContacts = $employee->uniqueItems()->orderBy('name', 'ASC');
+        Gate::authorize('invite-employee');
+        if ($iwmsContactFacade->remindInvite($employee->email)) {
+            return redirect()->route('employees.index')->with('toast_success', __('page.employees.invite_successfully'));
+        }
 
-        $uniqueItemList = UniqueItem::whereHas('workPlace', function (Builder $query) {
-                $query->where('company_id', $this->companyId);
-            })
-            ->whereNotIn('uuid', $uniqueItemContacts->get()->pluck('uuid')->toArray())
-            ->orderBy('article', 'ASC')
-            ->select('uuid', 'name', 'article')
-            ->get()
-            ->mapWithKeys(function ($item) {
-                return [$item['uuid'] => $item['name'] ?? $item['article']];
-            })->toArray();
-
-        $uniqueItemContacts = $uniqueItemContacts->paginate(10);
-
-        return view('employees.employee-unique-items', compact('employee','uniqueItemContacts', 'uniqueItemList'));
+        return redirect()->route('employees.index')->with('toast_error', __('page.employees.invite_error'));
     }
 }

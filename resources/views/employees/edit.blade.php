@@ -122,6 +122,9 @@
             </div>
         </form>
     </div>
+    @include('employees.components.workplaces')
+    @include('employees.components.unique-items')
+    @include('employees.components.teams')
 @endsection
 
 

@@ -8,6 +8,7 @@ use Closure;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Config;
 
 class ApiAuth
 {
@@ -33,7 +34,8 @@ class ApiAuth
         }
 
         Auth::setUser($user);
-        AccessTokens::where('token', $token)->update(['last_use_at', now()]);
+        AccessTokens::where('token', '=' , $token)->first()->update(['last_use_at', now()]);
+        Config::set('iwms.current_user_token', $user->getToken());
 
         return $next($request);
     }

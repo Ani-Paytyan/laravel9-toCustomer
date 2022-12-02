@@ -11,6 +11,7 @@ class WorkPlaceDto
     private ?string $zip;
     private ?string $city;
     private ?string $number;
+    private ?string $description;
 
     public function getId(): string
     {
@@ -126,6 +127,24 @@ class WorkPlaceDto
     public function setNumber(?string $number): self
     {
         $this->number = $number;
+        return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    /**
+     * @param string|null $description
+     * @return $this
+     */
+    public function setDescription(?string $description): self
+    {
+        $this->description = $description;
         return $this;
     }
 }

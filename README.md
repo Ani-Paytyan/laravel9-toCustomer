@@ -26,3 +26,14 @@ Link:
 /api/documentation
 </p>
 
+<h3>Swagger :</h3>
+<p>
+Generate:
+
+docker-compose exec app php artisan l5-swagger:generate
+
+Link:
+
+/api/documentation
+</p>
+

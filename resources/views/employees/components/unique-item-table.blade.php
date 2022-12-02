@@ -25,9 +25,9 @@
                         <td>{{ $uniqueItem->is_online ? '+' : '-' }}</td>
                         <td>
                             <a
-                                href="{{ route('unique-items.show', $uniqueItem->uuid) }}"
-                                class="btn btn-square"
-                                title="{{ __('page.unique_item.title') }}"
+                                    href="{{ route('unique-items.show', $uniqueItem->uuid) }}"
+                                    class="btn btn-square"
+                                    title="{{ __('page.unique_item.title') }}"
                             >
                                 <x-heroicon-o-eye />
                             </a>

@@ -23,41 +23,32 @@ class AuthController extends Controller
      *     summary="Api login",
      *     tags={"Login"},
      *     description="Method of login",
-     *     @OA\RequestBody(
-     *         required=true,
-     *         @OA\JsonContent(ref="#/components/schemas/AuthLoginRequest"),
-     *     ),
+     *     @OA\RequestBody(required=true,@OA\JsonContent(ref="#/components/schemas/AuthLoginRequest")),
      *     @OA\Response(
      *         response=200,
      *         description="Success",
      *         @OA\JsonContent(allOf={
      *             @OA\Schema(
-     *              @OA\Property(
-     *                 property="data",
-     *                 type="object",
-     *                 ref="#/components/schemas/UserResource"
-     *             ),
-     *              @OA\Property(
-     *                 property="access_token",
-     *                 type="string",
-     *             ),
-     *              @OA\Property(
-     *                 property="push_token",
-     *                 type="string",
-     *                 example="6KuGyNKfO12E16iQfhprH5A00lrMnNje",
-     *             )),
+     *              @OA\Property(property="data",type="object",ref="#/components/schemas/UserResource"),
+     *              @OA\Property(property="access_token",type="string",),
+     *              @OA\Property(property="push_token",type="string",example="6KuGyNKfO12E16iQfhprH5A00lrMnNje",)
+     *          ),
      *             @OA\Schema(ref="#/components/schemas/BaseResponseSchema"),
      *         })
+     *     ),
+     *     @OA\Response(
+     *          response="400",
+     *          description="Invalid email or password,",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="error",type="string",example="User not found or wrong password."),
+     *              @OA\Property(property="status",type="string",example="400")
+     *          )
      *     ),
      *     @OA\Response(
      *          response="422",
      *          description="Unprocessable Entity",
      *          @OA\JsonContent(
-     *              @OA\Property(
-     *                  property="message",
-     *                  type="string",
-     *                  example="The given data was invalid."
-     *              ),
+     *              @OA\Property(property="message",type="string",example="The given data was invalid."),
      *              @OA\Property(
      *                  property="errors",
      *                  type="object",

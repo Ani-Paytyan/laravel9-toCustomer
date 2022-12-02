@@ -7,6 +7,29 @@
         <div class="card-header">
             <h4 class="mb-0">{{ __('page.unique-items.title') }}</h4>
         </div>
+
+        @include('unique-items.components.filter')
+        <div class="dropdown">
+            <button class="btn btn-link dropdown-toggle" type="button" id="userNavDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                {{ __('attributes.unique-items.item_count')}}
+                {{ $uniqueItems->perPage() }}
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="userNavDropdown">
+                <li class="list-group-item ">
+                    <a class="dropdown-item" href="{{ route('unique-items.index', ['limit' => 25]) }}">25</a>
+                </li>
+                <li  class="list-group-item">
+                    <a class="dropdown-item" href="{{ route('unique-items.index', ['limit' => 50]) }}">50</a>
+                </li>
+                <li class="list-group-item">
+                    <a class="dropdown-item" href="{{ route('unique-items.index', ['limit' => 100]) }}">100</a>
+                </li>
+                <li  class="list-group-item">
+                    <a class="dropdown-item" href="{{ route('unique-items.index', ['limit' => 200]) }}">200</a>
+                </li>
+            </ul>
+        </div>
+
         @if ($uniqueItems->isNotEmpty())
             <div class="table-responsive">
                 <table class="table table-records table-hover">
@@ -42,9 +65,9 @@
                             </td>
                             <td>
                                 <a
-                                    href="{{ route('unique-items.show', $uniqueItem->uuid) }}"
-                                    class="btn btn-square"
-                                    title="{{ __('page.unique-item.title') }}"
+                                        href="{{ route('unique-items.show', $uniqueItem->uuid) }}"
+                                        class="btn btn-square"
+                                        title="{{ __('page.unique-item.title') }}"
                                 >
                                     <x-heroicon-o-eye />
                                 </a>
@@ -66,3 +89,6 @@
         @endif
     </div>
 @endsection
+@push('bodyEnd')
+    <script src="{{ mix('build/js/unique-item.js')  }}"></script>
+@endpush

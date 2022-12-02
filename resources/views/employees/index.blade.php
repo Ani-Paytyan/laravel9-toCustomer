@@ -39,62 +39,71 @@
                             <td>{{ $employee->role }}</td>
                             <td>{{ $employee->status }} </td>
                             <td class="text-nowrap">
+                                @if($employee->status == 'Invited')
+                                    <a
+                                       href="{{ route('employee.remind-invite', $employee->uuid) }}"
+                                       class="btn btn-sm btn-neutral"
+                                       title="{{ __('page.employees.resend_invitation') }}"
+                                    >
+                                        <i class="bi bi-envelope"></i>
+                                    </a>
+                                @endif
                                 @if ($employee->status != $statusDeleted)
                                     <a
-                                        href="{{ route('employee.employee-workplaces', $employee->uuid) }}"
-                                        class="btn btn-square"
-                                        title="{{ __('page.workplaces.title') }}"
+                                            href="{{ route('employee.employee-workplaces', $employee->uuid) }}"
+                                            class="btn btn-square"
+                                            title="{{ __('page.workplaces.title') }}"
                                     >
                                         <x-heroicon-o-computer-desktop />
                                     </a>
 
                                     <a
-                                        href="{{ route('employee.unique-items', $employee->uuid) }}"
-                                        class="btn btn-square"
-                                        title="{{ __('page.unique-items.title') }}"
+                                            href="{{ route('employee.unique-items', $employee->uuid) }}"
+                                            class="btn btn-square"
+                                            title="{{ __('page.unique-items.title') }}"
                                     >
                                         <x-heroicon-o-shopping-bag />
                                     </a>
 
                                     <a
-                                        href="{{ route('teams.employee-teams', $employee->uuid) }}"
-                                        class="btn btn-square"
-                                        title="{{ __('page.teams.title') }}"
+                                            href="{{ route('teams.employee-teams', $employee->uuid) }}"
+                                            class="btn btn-square"
+                                            title="{{ __('page.teams.title') }}"
                                     >
                                         <x-heroicon-o-user-group />
                                     </a>
 
                                     <a
-                                        href="{{ route('employees.show', $employee->uuid) }}"
-                                        class="btn btn-square"
-                                        title="{{ __('page.employees.employee') }}"
+                                            href="{{ route('employees.show', $employee->uuid) }}"
+                                            class="btn btn-square"
+                                            title="{{ __('page.employees.employee') }}"
                                     >
                                         <x-heroicon-o-eye />
                                     </a>
 
                                     @if (Gate::allows('edit-employee'))
                                         <a
-                                            href="{{ route('employees.edit', $employee->uuid) }}"
-                                            class="btn btn-square"
-                                            title="{{ __('page.employees.edit_employee') }}"
+                                                href="{{ route('employees.edit', $employee->uuid) }}"
+                                                class="btn btn-square"
+                                                title="{{ __('page.employees.edit_employee') }}"
                                         >
                                             <x-heroicon-o-pencil />
                                         </a>
                                     @endif
                                     @if (Gate::allows('destroy-employee') && $userId !== $employee->uuid)
                                         <form
-                                            class="d-inline-block mb-0"
-                                            method="POST"
-                                            action="{{ route('employees.destroy', $employee->uuid) }}"
-                                            x-ref="deleteForm"
+                                                class="d-inline-block mb-0"
+                                                method="POST"
+                                                action="{{ route('employees.destroy', $employee->uuid) }}"
+                                                x-ref="deleteForm"
                                         >
                                             @csrf
                                             @method('DELETE')
                                             <button
-                                                @click.prevent="destroy('{{ __("Are you sure?") }}')"
-                                                class="btn btn-square text-danger"
-                                                title="{{ __('page.employees.delete_employee') }}"
-                                                :disabled="loading"
+                                                    @click.prevent="destroy('{{ __("Are you sure?") }}')"
+                                                    class="btn btn-square text-danger"
+                                                    title="{{ __('page.employees.delete_employee') }}"
+                                                    :disabled="loading"
                                             >
                                                 <x-heroicon-o-trash />
                                             </button>

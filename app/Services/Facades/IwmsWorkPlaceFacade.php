@@ -21,9 +21,10 @@ class IwmsWorkPlaceFacade
 
     /**
      * @param IwmsApiWorkPlaceDto $apiWorkPlaceDto
+     * @param $workPlaceDescriptionDto
      * @return WorkPlace|bool
      */
-    public function create(IwmsApiWorkPlaceDto $apiWorkPlaceDto): WorkPlace|bool
+    public function create(IwmsApiWorkPlaceDto $apiWorkPlaceDto, $workPlaceDescriptionDto): WorkPlace|bool
     {
         // send data to api
         $res = $this->apiWorkPlaceService->create($apiWorkPlaceDto);
@@ -36,7 +37,8 @@ class IwmsWorkPlaceFacade
                 ->setAddress($res->getAddress())
                 ->setZip($res->getZip())
                 ->setCity($res->getCity())
-                ->setNumber($res->getNumber());
+                ->setNumber($res->getNumber())
+                ->setDescription($workPlaceDescriptionDto->getDescription());
 
             return $this->workPlaceService->create($workPlaceDto);
         }
@@ -47,9 +49,10 @@ class IwmsWorkPlaceFacade
     /**
      * @param IwmsApiWorkPlaceEditDto $apiWorkPlaceEditDto
      * @param WorkPlace $workplace
+     * @param $workPlaceDescriptionDto
      * @return bool
      */
-    public function update(IwmsApiWorkPlaceEditDto $apiWorkPlaceEditDto, WorkPlace $workplace): bool
+    public function update(IwmsApiWorkPlaceEditDto $apiWorkPlaceEditDto, WorkPlace $workplace, $workPlaceDescriptionDto): bool
     {
         // send data to api
         $res = $this->apiWorkPlaceService->update($apiWorkPlaceEditDto);
@@ -61,7 +64,8 @@ class IwmsWorkPlaceFacade
                 ->setAddress($res->getAddress())
                 ->setZip($res->getZip())
                 ->setCity($res->getCity())
-                ->setNumber($res->getNumber());
+                ->setNumber($res->getNumber())
+                ->setDescription($workPlaceDescriptionDto->getDescription());
 
             return $this->workPlaceService->update($workPlaceEditDto, $workplace);
         }

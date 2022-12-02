@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Dto\IwmsApi\WorkPlace\IwmsApiWorkPlaceDto;
 use App\Dto\IwmsApi\WorkPlace\IwmsApiWorkPlaceEditDto;
+use App\Dto\WorkPlace\WorkPlaceDto;
 use App\Dto\WorkPlace\WorkPlaceSearchDto;
 use App\Http\Requests\WorkPlace\WorkPlaceCreateRequest;
 use App\Http\Requests\WorkPlace\WorkPlaceEditRequest;
@@ -101,8 +102,9 @@ class WorkPlaceController extends Controller
         Gate::authorize('create-workplace');
 
         $iwmsApiWorkPlaceDto = IwmsApiWorkPlaceDto::createFromRequest($request->all(), $this->companyId);
+        $workPlaceDto = (new WorkPlaceDto)->setDescription($request->get('description'));
 
-        if ($iwmsWorkPlaceFacade->create($iwmsApiWorkPlaceDto)) {
+        if ($iwmsWorkPlaceFacade->create($iwmsApiWorkPlaceDto, $workPlaceDto)) {
             return redirect()->route('workplaces.index')->with('toast_success', __('page.workplaces.created_successfully', ['name' => $iwmsApiWorkPlaceDto->getName()]));
         }
 
@@ -131,8 +133,9 @@ class WorkPlaceController extends Controller
         Gate::authorize('edit-workplace');
 
         $iwmsApiWorkPlaceEditDto = IwmsApiWorkPlaceEditDto::createFromRequest($request->all(), $workplace->uuid);
+        $workPlaceDto = (new WorkPlaceDto)->setDescription($request->get('description'));
 
-        if ($iwmsWorkPlaceFacade->update($iwmsApiWorkPlaceEditDto, $workplace)) {
+        if ($iwmsWorkPlaceFacade->update($iwmsApiWorkPlaceEditDto, $workplace, $workPlaceDto)) {
             return redirect()->route('workplaces.index')->with('toast_success', __('page.workplaces.updated_successfully'));
         }
 

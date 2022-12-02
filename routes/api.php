@@ -33,7 +33,7 @@ Route::group(['middleware' => 'api_auth', 'prefix' => 'v1'], static function () 
         Route::get('employee', 'index')->name('api.employee.index');
         Route::get('employee/{employee}', 'show')->name('api.employee.show');
 
-        Route::delete('employee/{employee}/archive', 'archive')->name('api.employee.archive');
-        Route::patch('employee/{employee}/restore/', 'restore')->name('api.employee.restore')->withTrashed();
+        #Route::delete('employee/{employee}/archive', 'archive')->name('api.employee.archive');
+        #Route::patch('employee/{employee}/restore/', 'restore')->name('api.employee.restore')->withTrashed();
     });
 });

@@ -7,9 +7,18 @@
         <div class="container-fluid">
             <div class="p-2 pb-4">
                 <h4>{{ __('page.workplace.title') }}</h4>
-                <p>{{ __('attributes.workplace.name') }} : {{ $workplace->name }}</p>
-                <p>{{ __('attributes.workplace.address') }} : {{ $workplace->address }}</p>
-                <p>{{ __('attributes.user.city') }} : {{ $workplace->city }}</p>
+                @if ($workplace->name)
+                    <p>{{ __('attributes.workplace.name') }} : {{ $workplace->name }}</p>
+                @endif
+                @if ($workplace->address)
+                    <p>{{ __('attributes.workplace.address') }} : {{ $workplace->address }}</p>
+                @endif
+                @if ($workplace->city)
+                    <p>{{ __('attributes.user.city') }} : {{ $workplace->city }}</p>
+                @endif
+                @if ($workplace->description)
+                    <p>{{ __('attributes.workplace_description.title') }} : {{ $workplace->description }}</p>
+                @endif
             </div>
             <div class="card mb-8">
                 <div class="row card-header align-items-center">

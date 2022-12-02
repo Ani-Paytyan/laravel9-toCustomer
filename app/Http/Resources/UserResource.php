@@ -12,10 +12,10 @@ use OpenApi\Annotations as OA;
  *     schema="UserResource",
  *
  *     @OA\Property(
- *         type="integer",
+ *         type="string",
  *         property="id",
  *         title="Id",
- *         example="1",
+ *         example="1276bcff-d002-429d-b522-3c4594914407",
  *     ),
  *     @OA\Property(
  *         type="string",

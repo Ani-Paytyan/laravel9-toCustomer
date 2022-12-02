@@ -55,17 +55,29 @@ use OpenApi\Annotations as OA;
  *     ),
  *     @OA\Property(
  *         type="string",
- *         property="companyId",
- *         title="CompanyId",
+ *         property="company_id",
+ *         title="Company Id",
  *         example="1276bcff-d002-429d-b522-3c4594914407",
  *     ),
  * )
  */
 class EmployeeResource extends JsonResource
 {
-
-    public function toArray($request)
+    /**
+     * @param $request
+     * @return array
+     */
+    public function toArray($request): array
     {
-        return parent::toArray($request);
+        return [
+            'id' => $this->uuid,
+            'first_name' => $this->first_name ?? '',
+            'last_name' => $this->last_name ?? '',
+            'phone' => $this->phone ?? '',
+            'address' => $this->address ?? '',
+            'email' => $this->email ?? '',
+            'role' => $this->role ?? '',
+            'company_id' => $this->company_id ?? '',
+        ];
     }
 }

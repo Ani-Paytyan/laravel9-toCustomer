@@ -24,7 +24,7 @@ use OpenApi\Annotations as OA;
 class EmployeeController extends Controller
 {
     /**
-     * @return EmployeeResource
+     *
      *   @OA\Get(
      *     path="/api/v1/employee",
      *     summary="Employees",
@@ -50,12 +50,12 @@ class EmployeeController extends Controller
      *     )
      * )
      */
-    public function index(): EmployeeResource
+    public function index()
     {
         $user = Auth::user();
         $employees = Contact::where('company_id', $user->getCompany()->getId())->paginate(20);
 
-        return (new EmployeeResource($employees))->additional([
+        return EmployeeResource::collection($employees)->additional([
             'success' => true,
             'status' => 200,
             'message' => trans('common.success'),

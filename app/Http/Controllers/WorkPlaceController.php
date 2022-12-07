@@ -74,7 +74,7 @@ class WorkPlaceController extends Controller
         $workPlaceContacts = $workplace->contacts()
             ->orderBy(DB::raw('ISNULL(first_name), first_name'), 'ASC')
             ->orderBy(DB::raw('ISNULL(last_name), last_name'), 'ASC')
-            ->paginate(10);
+            ->paginate(10, pageName: 'c_page');
 
         // get all contacts Not Assigned To Work Place
         $contactList = $employeeQuery->getNotAssignedToWorkPlaceQuery($workplace, $this->companyId)

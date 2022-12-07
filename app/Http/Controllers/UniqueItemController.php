@@ -62,7 +62,7 @@ class UniqueItemController extends Controller
         $uniqueItemContacts = $uniqueItem->contacts()
             ->orderBy(DB::raw('ISNULL(first_name), first_name'), 'ASC')
             ->orderBy(DB::raw('ISNULL(last_name), last_name'), 'ASC')
-            ->paginate(10);
+            ->paginate(10, pageName: 'c_page');
 
         $contactList = $employeeQuery->getNotAssignedToUniqueItemQuery($uniqueItem, $this->companyId)
             ->orderBy(DB::raw('ISNULL(first_name), first_name'), 'ASC')

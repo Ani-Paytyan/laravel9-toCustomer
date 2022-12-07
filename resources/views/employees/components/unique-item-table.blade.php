@@ -37,11 +37,10 @@
                 </tbody>
             </table>
         </div>
-        @if ($uniqueItems->total() > 10)
-            <div class="card-footer">
-                <a href="{{ route('employee.unique-items', $employee->uuid) }}" class="btn btn-warning">
-                    {{ __('common.show_more')}}
-                </a>
+
+        @if ($uniqueItems->hasPages())
+            <div class="card-footer pb-0">
+                {{ $uniqueItems->links() }}
             </div>
         @endif
     @else

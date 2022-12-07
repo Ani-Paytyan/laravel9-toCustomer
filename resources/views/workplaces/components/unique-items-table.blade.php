@@ -38,8 +38,10 @@
                 </tbody>
             </table>
         </div>
-    </div>
-    <div class="navigation">
-        {{ $uniqueItems->links() }}
+        @if ($uniqueItems->hasPages())
+            <div class="card-footer pb-0">
+                {{ $uniqueItems->links() }}
+            </div>
+        @endif
     </div>
 @endif

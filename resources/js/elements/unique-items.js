@@ -1,5 +1,6 @@
 import {swalAlert} from "./general";
 import {sendAjax} from "./general";
+import $ from 'jquery';
 
 $(document).ready(function() {
     $(".unique-item-contacts-add").click(function (e) {

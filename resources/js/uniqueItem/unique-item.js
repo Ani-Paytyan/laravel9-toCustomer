@@ -1,3 +1,5 @@
+import $ from 'jquery';
+
 $(document).ready(function() {
     $('#checkAll').on('change', function(e) {
         let element =  document.getElementById('checkAll');

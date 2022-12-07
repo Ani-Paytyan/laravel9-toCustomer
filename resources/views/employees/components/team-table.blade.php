@@ -29,11 +29,9 @@
                 @endforeach
             </table>
         </div>
-        @if ($teams->total() > 10)
-            <div class="card-footer">
-                <a href="{{ route('teams.employee-teams', $employee->uuid) }}" class="btn btn-warning">
-                    {{ __('common.show_more')}}
-                </a>
+        @if ($teams->hasPages())
+            <div class="card-footer pb-0">
+                {{ $teams->links() }}
             </div>
         @endif
     @else

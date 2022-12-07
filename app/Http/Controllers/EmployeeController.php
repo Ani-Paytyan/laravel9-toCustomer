@@ -117,13 +117,15 @@ class EmployeeController extends Controller
 
     public function show(Contact $employee)
     {
-        $workPlaces = $employee->workplaces()->orderBy('name', 'ASC')->paginate(10);
+        $workPlaces = $employee->workplaces()->orderBy('name', 'ASC')
+            ->paginate(10, pageName: 'e_page');
 
         $uniqueItems = $employee->uniqueItems()->with(['item' => function ($query)  {
             $query->orderBy('items.name', 'asc');
-        }])->paginate(10);
+        }])->paginate(10, pageName: 'ui_page');
 
-        $teams = $employee->teams()->orderBy('name', 'ASC')->paginate(10);
+        $teams = $employee->teams()->orderBy('name', 'ASC')
+            ->paginate(10, pageName: 't_page');
 
         return view('employees.show', compact('employee', 'workPlaces', 'uniqueItems', 'teams'));
     }

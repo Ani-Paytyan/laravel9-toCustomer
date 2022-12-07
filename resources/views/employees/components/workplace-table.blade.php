@@ -37,11 +37,9 @@
                 </tbody>
             </table>
         </div>
-        @if ($workPlaces->total() > 10)
-            <div class="card-footer">
-                <a href="{{ route('employee.employee-workplaces', $employee->uuid) }}" class="btn btn-warning">
-                    {{ __('common.show_more')}}
-                </a>
+        @if ($workPlaces->hasPages())
+            <div class="card-footer pb-0">
+                {{ $workPlaces->links() }}
             </div>
         @endif
     @else

@@ -5,8 +5,10 @@
     "npm": "8"
   },
   "scripts": {
-    "dev": "mix watch",
+    "dev": "mix",
+    "watch": "mix watch",
     "build": "mix --production",
+    "prod": "mix --production",
     "format": "prettier --write \"resources/**/*.{js,scss}\""
   },
   "dependencies": {

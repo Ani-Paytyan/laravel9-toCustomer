@@ -27,3 +27,7 @@ Route::group(['middleware' => 'api', 'prefix' => 'v1'], static function ($router
 Route::middleware('api_auth')->group(function () {
     Route::get('v1/user/info', [Api\V1\UserController::class, 'index']);
 });
+
+Route::middleware('api_hook')->group(function () {
+    Route::post('hook/unique/{mac}/inside/{inside}', [Api\UniqueItemController::class, 'setItemInside']);
+});

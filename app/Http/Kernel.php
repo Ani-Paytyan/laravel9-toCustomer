@@ -71,6 +71,7 @@ class Kernel extends HttpKernel
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'SetIwmsApiToken' => \App\Http\Middleware\SetIwmsApiToken::class,
+        'api_hook' => \App\Http\Middleware\ApiHook::class,
     ];
 
     protected $middlewarePriority = [

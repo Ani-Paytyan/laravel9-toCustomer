@@ -50,30 +50,6 @@
                                 @endif
                                 @if ($employee->status != $statusDeleted)
                                     <a
-                                            href="{{ route('employee.employee-workplaces', $employee->uuid) }}"
-                                            class="btn btn-square"
-                                            title="{{ __('page.workplaces.title') }}"
-                                    >
-                                        <x-heroicon-o-computer-desktop />
-                                    </a>
-
-                                    <a
-                                            href="{{ route('employee.unique-items', $employee->uuid) }}"
-                                            class="btn btn-square"
-                                            title="{{ __('page.unique-items.title') }}"
-                                    >
-                                        <x-heroicon-o-shopping-bag />
-                                    </a>
-
-                                    <a
-                                            href="{{ route('teams.employee-teams', $employee->uuid) }}"
-                                            class="btn btn-square"
-                                            title="{{ __('page.teams.title') }}"
-                                    >
-                                        <x-heroicon-o-user-group />
-                                    </a>
-
-                                    <a
                                             href="{{ route('employees.show', $employee->uuid) }}"
                                             class="btn btn-square"
                                             title="{{ __('page.employees.employee') }}"

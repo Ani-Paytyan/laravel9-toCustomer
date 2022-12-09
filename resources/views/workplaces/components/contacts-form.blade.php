@@ -1,25 +1,34 @@
-<div class="mt-4 mb-4">
-    <h5>{{ __('page.workplace.add_contact')}}</h5>
-</div>
-<form class="workplace-contacts-form" method="POST" action="{{ route("workplace-employees.store", $workplace->uuid) }}">
-    @csrf
-    @method('POST')
-    <div class="row">
-        <div class="col-md-6">
-            <x-form.select
-                name="contact_id"
-                required
-                id="contact_id"
-                label="{{ __('page.workplace.contact') }}"
-                class="form-select role"
-                :options="$contactList"
-            />
+<div class="card">
+    <div class="card-header">
+        <h4 class="mb-0">{{ __('page.workplace.add_contact')}}</h4>
+    </div>
+    <form
+        class="mb-0"
+        method="POST"
+        x-data="workplaceContactForm('{{ route("workplace-employees.store", $workplace->uuid) }}')"
+        x-bind="form"
+    >
+        @csrf
+        @method('POST')
+        <div class="card-body">
+            <div class="mb-3">
+                <x-form.select
+                    name="contact_id"
+                    required
+                    id="contact_id"
+                    label="{{ __('page.workplace.contact') }}"
+                    :options="$contactList"
+                    x-ref="contact"
+                />
+            </div>
         </div>
-        <div class="col-md-3">
-            <button class="btn btn-success workplace-contacts-add">
-                <i class="bi bi-person-plus"></i>
-                {{ trans('page.workplace.add_contact_btn') }}
+        <div class="card-footer">
+            <button class="btn btn-success" :disabled="loading || disabledSubmit">
+                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" x-show="loading"></span>
+                <x-heroicon-o-plus x-show="!loading" />
+                {{ __('page.workplace.add_contact_btn') }}
             </button>
         </div>
-    </div>
-</form>
+    </form>
+</div>
+

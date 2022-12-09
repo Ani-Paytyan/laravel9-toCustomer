@@ -1,19 +1,19 @@
-@if ($uniqueItems->count() !== 0)
-    <div class="mt-4 mb-4">
-        <h4>{{ __('page.unique-items.title')}} :</h4>
+<div class="card">
+    <div class="card-header">
+        <h4 class="mb-0">{{ __('page.unique-items.title') }}</h4>
     </div>
-    <div class="card mb-8">
+    @if ($uniqueItems->isNotEmpty())
         <div class="table-responsive">
-            <table class="table table-hover table-nowrap">
-                <thead class="table-light">
+            <table class="table table-records table-hover">
+                <thead>
                 <tr>
-                    <th scope="col">{{ __('attributes.unique-items.item_name') }}</th>
-                    <th scope="col">{{ __('attributes.unique-items.item_serial_number') }}</th>
-                    <th scope="col">{{ __('attributes.unique-items.status') }}</th>
-                    <th scope="col">{{ __('common.actions') }}</th>
+                    <th>{{ __('attributes.unique-items.item_name') }}</th>
+                    <th>{{ __('attributes.unique-items.item_serial_number') }}</th>
+                    <th>{{ __('attributes.unique-items.status') }}</th>
+                    <th>{{ __('common.actions') }}</th>
                 </tr>
                 </thead>
-                <tbody class="contact-list">
+                <tbody>
                 @foreach($uniqueItems as $uniqueItem)
                     <tr>
                         <td>
@@ -24,13 +24,12 @@
                         <td>{{ $uniqueItem->article }}</td>
                         <td>{{ $uniqueItem->is_online ? '+' : '-' }}</td>
                         <td>
-                            <a href="{{ route('unique-items.show', $uniqueItem->uuid) }}"
-                               class="btn btn-sm btn-neutral"
-                               data-toggle="tooltip"
-                               data-placement="top"
-                               title="{{ __('page.unique-item.title') }}"
+                            <a
+                                    href="{{ route('unique-items.show', $uniqueItem->uuid) }}"
+                                    class="btn btn-square"
+                                    title="{{ __('page.unique_item.title') }}"
                             >
-                                <i class="bi bi-eye-fill"></i>
+                                <x-heroicon-o-eye />
                             </a>
                         </td>
                     </tr>
@@ -38,8 +37,15 @@
                 </tbody>
             </table>
         </div>
-    </div>
-    <div class="navigation">
-        {{ $uniqueItems->links() }}
-    </div>
-@endif
+
+        @if ($uniqueItems->hasPages())
+            <div class="card-footer pb-0">
+                {{ $uniqueItems->links() }}
+            </div>
+        @endif
+    @else
+        <div class="card-body">
+            <i class="text-muted">{{ __('No unique items') }}</i>
+        </div>
+    @endif
+</div>

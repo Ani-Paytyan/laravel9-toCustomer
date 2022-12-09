@@ -1,37 +1,46 @@
-<div class="mt-4 mb-4">
-    <h5>{{ __('page.contact.add_contact')}}</h5>
-</div>
-<form class="team-contact-form" method="POST" action="{{ route("team-contacts.store") }}">
-    @csrf
-    @method('POST')
-    <input type="hidden" id="team_id" value="{{ $team->uuid }}">
-    <div class="row">
-        <div class="col-md-3">
-            <x-form.select
-                name="contact_id"
-                required
-                id="contact_id"
-                label="{{ __('page.teams.contact') }}"
-                class="form-select role"
-                :options="$contacts"
-            />
+<div class="card">
+    <div class="card-header">
+        <h4 class="mb-0">{{ __('page.contact.add_contact') }}</h4>
+    </div>
+    <form
+        class="mb-0"
+        x-data="teamContactForm('{{ route("team-contacts.store") }}', '{{ $team->uuid }}')"
+        x-bind="form"
+    >
+        @csrf
+        @method('POST')
+        <div class="card-body">
+            <div class="mb-3">
+                <label for="contact_id" class="form-label">
+                    {{ __('page.teams.contact') }}
+                    <span class="text-danger"> *</span>
+                </label>
+                <select id="contact_id" x-ref="contact" required>
+                    <option value="">{{ __('Choose') }}</option>
+                    @foreach($contacts as $optValue => $name)
+                        <option value="{{ $optValue }}">{{ $name }}</option>
+                    @endforeach
+                </select>
+            </div>
+            <div>
+                <label for="contact_role" class="form-label">
+                    {{ __('attributes.user.role') }}
+                    <span class="text-danger"> *</span>
+                </label>
+                <select id="contact_role" x-ref="role" required>
+                    <option value="">{{ __('Choose') }}</option>
+                    @foreach($roles as $optValue => $name)
+                        <option value="{{ $optValue }}">{{ $name }}</option>
+                    @endforeach
+                </select>
+            </div>
         </div>
-        <div class="col-md-3">
-            <x-form.select
-                name="role"
-                required
-                id="contact_role"
-                label="{{ __('attributes.user.role') }}"
-                class="form-select role"
-                :hide-default-option="true"
-                :options="$roles"
-            />
-        </div>
-        <div class="col-md-3">
-            <button class="btn btn-success addContactToTeam">
-                <i class="bi bi-person-plus"></i>
-                {{ trans('page.contact.add_contact_btn') }}
+        <div class="card-footer">
+            <button class="btn btn-success" :disabled="loading">
+                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" x-show="loading"></span>
+                <x-heroicon-o-plus x-show="!loading" />
+                {{ __('page.contact.add_contact_btn') }}
             </button>
         </div>
-    </div>
-</form>
+    </form>
+</div>

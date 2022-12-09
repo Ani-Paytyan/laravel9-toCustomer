@@ -5,7 +5,7 @@
     >
         {{ $label }}
         @if ($required ?? $attributes->get('required') && !($dontMarkLabelRequired ?? false))
-            <small class="text-secondary">*</small>
+            <small class="text-danger">*</small>
         @endif
     </label>
 @endif

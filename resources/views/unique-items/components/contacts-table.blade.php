@@ -42,5 +42,11 @@
                 </tbody>
             </table>
         </div>
+
+        @if ($uniqueItemContacts->hasPages())
+            <div class="card-footer pb-0">
+                {{ $uniqueItemContacts->links() }}
+            </div>
+        @endif
     </div>
 @endif

@@ -1,69 +1,69 @@
-<div class="mt-4 mb-4">
-    <h5>{{ __('page.teams.contacts')}} {{ $team->name }}</h5>
-</div>
-<div class="card mb-8">
-    <div class="table-responsive">
-        <table class="table table-hover table-nowrap">
-            <thead class="table-light">
-            <tr>
-                <th scope="col">{{ __('attributes.user.name')}}</th>
-                <th scope="col">{{ __('attributes.team.description')}}</th>
-                <th scope="col">{{ __('common.actions')}}</th>
-            </tr>
-            </thead>
-            <tbody class="clients-list">
-            @foreach($teamContacts as $teamContact)
-                @if ($teamContact)
-                    <tr>
-                        <td>
-                            <a href="{{ route('employees.show', $teamContact->uuid) }}">
-                                {{ $teamContact->first_name ? $teamContact->getFullNameAttribute() : $teamContact->email }}
-                            </a>
-                        </td>
-                        <td>
-                            <x-form.select
-                                name="role"
-                                required
-                                placeholder="{{ __('attributes.user.role') }}"
-                                class="form-select role"
-                                :hide-default-option="true"
-                                :options="$roles"
-                                value="{{ $teamContact->role }}"
-                            />
-                        </td>
-                        <td>
-                            <a href="{{ route('employees.show', $teamContact->uuid) }}"
-                               class="btn btn-sm btn-neutral"
-                               data-toggle="tooltip"
-                               data-placement="top"
-                               title="{{ __('page.employees.employee') }}"
-                            >
-                                <i class="bi bi-eye-fill"></i>
-                            </a>
-                            <a href="{{ route('team-contacts.update', $teamContact->uuid) }}"
-                               class="btn btn-sm btn-neutral updateContact"
-                               data-toggle="tooltip"
-                               data-placement="top"
-                               title="{{ __('page.employees.update') }}"
-                            >
-                                <span class="icon icon-disk">
-                                    <span class="icon-inner"></span>
-                                </span>
-                            </a>
-                            <button data-href="{{ route('team-contacts.destroy', $teamContact->pivot->uuid) }}"
-                               class="btn btn-sm btn-neutral destroyContact"
-                               data-toggle="tooltip"
-                               data-placement="top"
-                               type="button"
-                               title="{{ __('page.employees.delete') }}"
-                            >
-                                <i class="bi bi-trash"></i>
-                            </button>
-                        </td>
-                    </tr>
-                @endif
-            @endforeach
-            </tbody>
-        </table>
+<div class="card">
+    <div class="card-header">
+        <h4 class="mb-0">{{ __('page.teams.contacts') }}: {{ $team->name }}</h4>
     </div>
+    @if ($teamContacts->isNotEmpty())
+        <div class="table-responsive">
+            <table class="table table-records table-hover">
+                <thead>
+                <tr>
+                    <th width="30%">{{ __('attributes.user.name')}}</th>
+                    <th width="40%">{{ __('attributes.team.description')}}</th>
+                    <th width="30%">{{ __('common.actions')}}</th>
+                </tr>
+                </thead>
+                <tbody class="clients-list">
+                @foreach($teamContacts as $teamContact)
+                    @if ($teamContact)
+                        <tr x-data="teamContactRow">
+                            <td>
+                                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" x-show="loading"></span>
+                                <a href="{{ route('employees.show', $teamContact->uuid) }}">
+                                    {{ $teamContact->first_name ? $teamContact->getFullNameAttribute() : $teamContact->email }}
+                                </a>
+                            </td>
+                            <td>
+                                <select
+                                        @change="update('{{ route("team-contacts.update", $teamContact->uuid) }}')"
+                                        class="form-control form-control-sm"
+                                        aria-label="{{ __('attributes.user.role') }}"
+                                        :disabled="loading"
+                                        x-ref="role"
+                                >
+                                    @foreach($roles as $optValue => $name)
+                                        <option value="{{ $optValue }}" @selected($teamContact->role === $optValue)>
+                                            {{ $name }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </td>
+                            <td class="text-nowrap">
+                                <a
+                                        href="{{ route('employees.show', $teamContact->uuid) }}"
+                                        class="btn btn-square"
+                                        title="{{ __('page.employees.employee') }}"
+                                        :class="{ disabled: loading }"
+                                >
+                                    <x-heroicon-o-eye />
+                                </a>
+                                <button
+                                        @click.prevent="destroy('{{ route("team-contacts.destroy", $teamContact->pivot->uuid) }}', '{{ __("Are you sure?") }}')"
+                                        class="btn btn-square text-danger"
+                                        title="{{ __('page.employees.delete') }}"
+                                        :disabled="loading"
+                                >
+                                    <x-heroicon-o-trash />
+                                </button>
+                            </td>
+                        </tr>
+                    @endif
+                @endforeach
+                </tbody>
+            </table>
+        </div>
+    @else
+        <div class="card-body">
+            <i class="text-muted">{{ __('No contacts') }}</i>
+        </div>
+    @endif
 </div>

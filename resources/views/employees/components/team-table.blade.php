@@ -1,10 +1,10 @@
-@if ($teams->count() !== 0)
-    <div class="mt-4 mb-4">
-        <h4>{{ __('page.teams.title')}} :</h4>
+<div class="card">
+    <div class="card-header">
+        <h4 class="mb-0">{{ __('page.teams.title') }}</h4>
     </div>
-    <div class="card mb-8">
+    @if ($teams->isNotEmpty())
         <div class="table-responsive">
-            <table class="table table-hover table-nowrap">
+            <table class="table table-records table-hover">
                 <thead class="table-light">
                 <tr>
                     <th scope="col">{{ __('attributes.user.name')}}</th>
@@ -12,32 +12,31 @@
                     <th scope="col">{{ __('common.actions')}}</th>
                 </tr>
                 </thead>
-                <tbody class="contact-list">
                 @foreach($teams as $team)
                     <tr>
-                        <td>
-                            <a href="{{ route('teams.edit', $team->uuid) }}">
-                                {{ $team->name }}
-                            </a>
-                        </td>
+                        <td><a href="{{ route('teams.edit', $team->uuid) }}">{{ $team->name }}</a></td>
                         <td>{{ $team->description }}</td>
                         <td>
-                            <a href="{{ route('teams.edit', $team->uuid) }}"
-                               class="btn btn-sm btn-neutral"
-                               data-toggle="tooltip"
-                               data-placement="top"
-                               title="{{ __('page.teams.title') }}"
-                                >
-                                <i class="bi bi-eye-fill"></i>
+                            <a
+                                    href="{{ route('teams.edit', $team->uuid) }}"
+                                    class="btn btn-square"
+                                    title="{{ __('page.teams.title') }}"
+                            >
+                                <x-heroicon-o-eye />
                             </a>
                         </td>
                     </tr>
                 @endforeach
-                </tbody>
             </table>
         </div>
-    </div>
-    <div class="navigation">
-        {{ $teams->links() }}
-    </div>
-@endif
+        @if ($teams->hasPages())
+            <div class="card-footer pb-0">
+                {{ $teams->links() }}
+            </div>
+        @endif
+    @else
+        <div class="card-body">
+            <i class="text-muted">{{ __('No teams') }}</i>
+        </div>
+    @endif
+</div>

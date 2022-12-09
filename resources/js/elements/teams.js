@@ -1,7 +1,7 @@
 import {swalAlert} from "./general";
 import {sendAjax} from "./general";
 
-$(function () {
+$(document).ready(function() {
     $(".updateContact").click(function (e) {
         e.preventDefault();
         $('#loading').show();

@@ -1,34 +1,29 @@
 @extends('layout.dashboard')
-@section('title')
-    {{ __('page.workplace.title') }} {{ $workplace->name }}
-@endsection
+@section('title', __('page.workplace.title') . " $workplace->name")
+
 @section('content')
-    <main class="py-6 bg-surface-secondary">
-        <div class="container-fluid">
-            <div class="p-2 pb-4">
-                <h4>{{ __('page.workplace.title') }}</h4>
-                @if ($workplace->name)
-                    <p>{{ __('attributes.workplace.name') }} : {{ $workplace->name }}</p>
-                @endif
-                @if ($workplace->address)
-                    <p>{{ __('attributes.workplace.address') }} : {{ $workplace->address }}</p>
-                @endif
-                @if ($workplace->city)
-                    <p>{{ __('attributes.user.city') }} : {{ $workplace->city }}</p>
-                @endif
-                @if ($workplace->description)
-                    <p>{{ __('attributes.workplace_description.title') }} : {{ $workplace->description }}</p>
-                @endif
-            </div>
-            <div class="card mb-8">
-                <div class="row card-header align-items-center">
-                    @include('workplaces.components.contacts-table')
-                    @if (Gate::allows('create-workplace-contacts'))
-                        @include('workplaces.components.contacts-form')
-                    @endif
-                    @include('workplaces.components.unique-items-table')
-                </div>
-            </div>
+    <div class="card">
+        <div class="card-header">
+            <h4 class="text-center text-md-left mb-0">{{ __('page.workplace.title') }}</h4>
         </div>
-    </main>
+        <div class="card-body">
+            <p>{{ __('attributes.workplace.name') }} : {{ $workplace->name }}</p>
+            <p>{{ __('attributes.workplace.address') }} : {{ $workplace->address }}</p>
+            <p class="mb-0">{{ __('attributes.user.city') }} : {{ $workplace->city }}</p>
+        </div>
+    </div>
+
+    <div class="mt-4">
+        @include('workplaces.components.contacts-table')
+    </div>
+
+    @if (Gate::allows('create-workplace-contacts'))
+        <div class="mt-4">
+            @include('workplaces.components.contacts-form')
+        </div>
+    @endif
+
+    <div class="mt-4">
+        @include('workplaces.components.unique-items-table')
+    </div>
 @endsection

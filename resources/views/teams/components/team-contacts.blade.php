@@ -24,7 +24,7 @@
                             </td>
                             <td>
                                 <select
-                                        @change="update('{{ route("team-contacts.update", $teamContact->uuid) }}')"
+                                        @change="update('{{ route("team-contacts.update", $teamContact->pivot->uuid) }}')"
                                         class="form-control form-control-sm"
                                         aria-label="{{ __('attributes.user.role') }}"
                                         :disabled="loading"

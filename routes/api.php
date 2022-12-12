@@ -37,3 +37,7 @@ Route::group(['middleware' => 'api_auth', 'prefix' => 'v1'], static function () 
         #Route::patch('employee/{employee}/restore/', 'restore')->name('api.employee.restore')->withTrashed();
     });
 });
+
+Route::middleware('api_hook')->group(function () {
+    Route::post('hook/unique/{mac}/inside/{inside}', [Api\UniqueItemController::class, 'setItemInside']);
+});

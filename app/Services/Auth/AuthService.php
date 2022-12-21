@@ -31,9 +31,10 @@ class AuthService implements AuthServiceInterface
             ->setMac('00:00:5e:00:53:af')
             ->setSystem('system')
         );
+//        AccessTokens::where('token', $iwmsUser->getToken())->update(['user_data'=> serialize($iwmsUser)]);
 
         Session::put('user', serialize($iwmsUser));
-
+$this->createApiToken($iwmsUser);
         return $iwmsUser;
     }
 
@@ -54,7 +55,7 @@ class AuthService implements AuthServiceInterface
         return unserialize($serialized);
     }
 
-    public function createApiToken(IwmsApiUserDto $user, AuthCreateApiTokenDto $dto)
+    public function createApiToken(IwmsApiUserDto $user, AuthCreateApiTokenDto $dto = null)
     {
         $token = unique_random('access_tokens', 'token', 32);
 
@@ -63,7 +64,7 @@ class AuthService implements AuthServiceInterface
             'user_id' => $user->getId(),
             'user_data' => serialize($user),
             'token' => $token,
-            'push_token' => $dto->getPushToken(),
+//            'push_token' => $dto->getPushToken(),
             'last_use_at' => now()
         ]);
     }
@@ -72,7 +73,6 @@ class AuthService implements AuthServiceInterface
     {
         /** @var AccessTokens $accessToken */
         $accessToken = AccessTokens::where('token', $token)->first();
-
         return !$accessToken?->user_data ? null : unserialize($accessToken->user_data);
     }
 }
